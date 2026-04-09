@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>About Us — 7/12 Waale | Story, Process & Founders | Maharashtra Land Experts</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -30,26 +31,24 @@
       --green-glow: rgba(94,186,98,.25);
       --gold-glow: rgba(200,150,58,.35);
     }
-    /* navigation same as original, kept intact */
+    /* navigation — no underline on brand */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       height: 76px; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; background: rgba(247,241,232,0.88);
+      padding: 0 5%; background: rgba(247,241,232,0.92);
       backdrop-filter: blur(24px) saturate(1.6);
       border-bottom: 1px solid rgba(107,68,35,.12);
       transition: box-shadow .4s, background .4s;
     }
-    nav.scrolled { background: rgba(247,241,232,0.97); box-shadow: 0 2px 40px rgba(14,9,5,.10); }
-    .logo-wrap { display: flex; flex-direction: column; line-height: 1; cursor: pointer; }
-    .logo-main { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.75rem; color: var(--soil-mid); letter-spacing: -.5px; }
-    .logo-main span { color: var(--plant-mid); }
-    .logo-sub { font-size: .52rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--soil-warm); margin-top: 2px; }
+    nav.scrolled { background: rgba(247,241,232,0.98); box-shadow: 0 2px 40px rgba(14,9,5,.10); }
+    .logo-wrap { display: flex; flex-direction: column; line-height: 1; cursor: pointer; text-decoration: none; }
+    .logo-main { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.75rem; color: var(--soil-mid); letter-spacing: -.5px; text-decoration: none; }
+    .logo-main span { color: var(--plant-mid); text-decoration: none; }
+    .logo-sub { font-size: .52rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--soil-warm); margin-top: 2px; text-decoration: none; }
     .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-size: .82rem; font-weight: 500; letter-spacing: .4px; color: var(--soil-mid); position: relative; padding-bottom: 4px; transition: color .25s; }
-    .nav-links a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 1.5px; background: linear-gradient(90deg, var(--plant-mid), var(--plant-lime)); transition: width .3s ease; }
+    .nav-links a { font-size: .82rem; font-weight: 500; letter-spacing: .4px; color: var(--soil-mid); text-decoration: none; transition: color .25s; }
     .nav-links a:hover, .nav-links a.active { color: var(--plant-mid); }
-    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-    .btn-nav { background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)) !important; color: white !important; padding: .52rem 1.5rem !important; border-radius: 6px; font-size: .8rem !important; font-weight: 600 !important; box-shadow: 0 3px 18px var(--green-glow); transition: transform .2s, box-shadow .25s !important; }
+    .btn-nav { background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)) !important; color: white !important; padding: .52rem 1.5rem !important; border-radius: 6px; font-size: .8rem !important; font-weight: 600 !important; box-shadow: 0 3px 18px var(--green-glow); transition: transform .2s, box-shadow .25s !important; text-decoration: none; display: inline-block; }
     .btn-nav:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 28px var(--green-glow) !important; }
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
     .hamburger span { width: 22px; height: 2px; background: var(--soil-mid); border-radius: 2px; transition: .3s; display: block; }
@@ -61,90 +60,85 @@
       .nav-links.open { display: flex; }
       .hamburger { display: flex; }
     }
-    /* shared utility */
-    .container { max-width: 1440px; margin: 0 auto; padding: 0 6%; }
+    /* utility */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 6%; }
     .sec-label { display: inline-block; font-size: .62rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--plant-mid); margin-bottom: 1rem; }
     .sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.2; color: var(--soil-deep); }
     .sec-title em { color: var(--plant-mid); font-style: italic; }
-    .reveal, .reveal-left, .reveal-right { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal-left { transform: translateX(-28px); }
-    .reveal-right { transform: translateX(28px); }
+    /* reveal animations */
+    .reveal, .reveal-left, .reveal-right { opacity: 0; transform: translateY(32px); transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s ease; }
+    .reveal-left { transform: translateX(-32px); }
+    .reveal-right { transform: translateX(32px); }
     .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: translate(0,0); }
     .reveal-delay-1 { transition-delay: .1s; }
     .reveal-delay-2 { transition-delay: .2s; }
-    /* Hero section */
+    .reveal-delay-3 { transition-delay: .3s; }
+    /* hero */
     #about-hero { min-height: 70vh; background: linear-gradient(145deg, #0a0603 0%, #120c06 100%); position: relative; display: flex; align-items: center; padding: 120px 5% 80px; overflow: hidden; }
     .hero-content { max-width: 780px; position: relative; z-index: 2; }
     .eyebrow { display: inline-flex; align-items: center; gap: .6rem; background: rgba(94,186,98,.1); border: 1px solid rgba(94,186,98,.25); color: var(--plant-lime); font-size: .65rem; font-weight: 600; letter-spacing: 3px; padding: .42rem 1rem; border-radius: 4px; margin-bottom: 1.8rem; }
     .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--plant-lime); box-shadow: 0 0 8px var(--plant-lime); }
     .hero-content h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 700; color: white; line-height: 1.08; margin-bottom: 1.2rem; }
-    .hero-content h1 em { background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--plant-lime)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: italic; }
+    .hero-content h1 em { background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--plant-lime)); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; }
     .hero-desc { font-size: 1rem; line-height: 1.8; color: rgba(232,201,154,.6); max-width: 560px; }
 
-    /* story of 7/12 name */
-    #name-story-section { background: var(--white); padding: 6rem 5%; }
+    /* story name section */
+    #name-story-section { background: white; padding: 6rem 5%; }
     .name-story-grid { display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; justify-content: space-between; }
     .name-story-text { flex: 1.2; min-width: 280px; }
-    .name-story-card { flex: 1; background: var(--soil-cream); border-radius: 28px; padding: 2.5rem; border: 1px solid rgba(107,68,35,.1); box-shadow: 0 12px 32px rgba(0,0,0,.05); }
-    .name-story-text .sec-title { text-align: left; margin-bottom: 1rem; }
-    .name-story-text p { font-size: .95rem; line-height: 1.85; color: var(--muted, #7A5E3E); margin-bottom: 1rem; }
+    .name-story-card { flex: 1; background: var(--soil-cream); border-radius: 28px; padding: 2.5rem; border: 1px solid rgba(107,68,35,.1); box-shadow: 0 20px 40px rgba(0,0,0,.04); }
     .name-feature { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 700; color: rgba(14,9,5,.06); margin: 1rem 0; line-height: 1; }
-    .name-feature span { color: var(--gold); opacity: 1; text-shadow: 0 0 10px rgba(200,150,58,.3); }
+    .name-feature span { color: #D4AF37; opacity: 1; text-shadow: 0 0 8px rgba(212,175,55,.4); font-weight: 800; } /* improved visibility */
     .saatbara-quote { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 700; font-style: italic; color: var(--soil-mid); margin-bottom: 1rem; }
     .saatbara-quote span { color: var(--plant-mid); }
     .tag-group { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
     .tag { font-size: .65rem; font-weight: 600; letter-spacing: 1px; background: rgba(26,92,36,.08); padding: .3rem .8rem; border-radius: 20px; color: var(--plant-mid); }
 
-    /* Process section - professional steps */
-    #process-section { background: linear-gradient(180deg, #F7F1E8 0%, #ede5d4 100%); padding: 6rem 5%; }
-    .section-header { text-align: center; margin-bottom: 3rem; }
-    .process-steps { max-width: 1100px; margin: 0 auto; }
-    .step-item { display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 2rem; background: white; border-radius: 28px; padding: 1.8rem 2rem; transition: transform .25s, box-shadow .25s; border: 1px solid rgba(107,68,35,.08); box-shadow: 0 4px 14px rgba(0,0,0,.02); }
-    .step-item:hover { transform: translateX(6px); box-shadow: 0 12px 28px rgba(0,0,0,.08); border-color: rgba(26,92,36,.15); }
-    .step-number { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)); -webkit-background-clip: text; background-clip: text; color: transparent; min-width: 58px; font-weight: 800; }
+    /* PROCESS SECTION — inspired by timeline style & scroll reveal */
+    #process-section { background: linear-gradient(180deg, #F7F1E8 0%, #e8dfd0 100%); padding: 6rem 5%; position: relative; overflow: hidden; }
+    .process-steps { max-width: 1000px; margin: 0 auto; position: relative; }
+    .process-step-card { background: white; border-radius: 24px; margin-bottom: 2rem; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1.8rem; transition: all 0.4s ease; border: 1px solid rgba(0,0,0,.05); box-shadow: 0 8px 20px rgba(0,0,0,.02); position: relative; overflow: hidden; }
+    .process-step-card:hover { transform: translateX(10px) scale(1.01); border-color: rgba(26,92,36,.2); box-shadow: 0 20px 35px rgba(0,0,0,.08); }
+    .step-number-circle { width: 70px; height: 70px; background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)); border-radius: 60px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.6rem; flex-shrink: 0; box-shadow: 0 8px 18px var(--green-glow); }
     .step-content { flex: 1; }
-    .step-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; color: var(--soil-deep); margin-bottom: .4rem; }
-    .step-content p { font-size: .85rem; line-height: 1.65; color: #6b4c2c; }
-    .step-arrow { color: var(--gold); font-size: 1.2rem; align-self: center; opacity: 0.7; }
-    @media (max-width: 700px) { .step-item { flex-wrap: wrap; gap: 0.8rem; } .step-number { min-width: 40px; } }
+    .step-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; color: var(--soil-deep); margin-bottom: .3rem; }
+    .step-content p { font-size: .88rem; line-height: 1.65; color: #5a4632; }
+    .step-arrow-icon { color: var(--gold); font-size: 1.6rem; opacity: 0.6; flex-shrink: 0; }
+    @media (max-width: 768px) {
+      .process-step-card { flex-wrap: wrap; gap: 1rem; padding: 1.5rem; }
+      .step-number-circle { width: 55px; height: 55px; font-size: 1.3rem; }
+      .step-content h3 { font-size: 1.3rem; }
+    }
 
-    /* Founder story (original style enhanced) */
-    #founders-section { padding: 6rem 5%; background: white; position: relative; border-top: 1px solid rgba(107,68,35,.07); }
-    .founders-grid { display: flex; flex-wrap: wrap; gap: 4rem; align-items: center; justify-content: center; }
+    /* founders section (kept but refined) */
+    #founders-section { padding: 6rem 5%; background: white; border-top: 1px solid rgba(0,0,0,.03); }
+    .founders-grid { display: flex; flex-wrap: wrap; gap: 4rem; align-items: center; }
     .founders-text { flex: 1; min-width: 280px; }
-    .founders-card { flex: 1; background: var(--soil-cream); border-radius: 28px; padding: 2.5rem; box-shadow: 0 12px 32px rgba(0,0,0,.05); }
+    .founders-card { flex: 1; background: var(--soil-cream); border-radius: 28px; padding: 2.5rem; box-shadow: 0 16px 32px rgba(0,0,0,.05); }
     .founder-row { display: flex; align-items: center; gap: 1rem; background: white; border-radius: 20px; padding: 1rem 1.5rem; margin-bottom: 1rem; border: 1px solid rgba(107,68,35,.07); transition: .2s; }
-    .founder-row:hover { transform: translateX(4px); }
+    .founder-row:hover { transform: translateX(6px); }
     .founder-av { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; color: white; }
     .founder-av.shubham { background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)); }
     .founder-av.veer { background: linear-gradient(135deg, var(--soil-warm), var(--gold)); }
-    .founder-info strong { font-size: 1rem; font-weight: 700; display: block; }
-    .founder-info span { font-size: .75rem; color: #7A5E3E; }
     .founders-card-note { margin-top: 1.5rem; font-style: italic; border-top: 1px solid rgba(0,0,0,.05); padding-top: 1.5rem; color: #4a3724; }
 
-    /* Values shortened but kept */
-    #values { padding: 6rem 5%; background: #fffaf3; }
-    .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 2rem; margin-top: 2rem; }
-    .value-card { background: white; border-radius: 20px; padding: 2rem; border: 1px solid rgba(107,68,35,.07); transition: .3s; }
-    .value-card:hover { transform: translateY(-6px); box-shadow: 0 18px 32px rgba(0,0,0,.05); border-color: var(--plant-lime); }
-    .value-icon { font-size: 2rem; margin-bottom: 1rem; }
-
-    /* CTA */
+    /* cta banner */
     #cta-banner { background: var(--soil-deep); padding: 5rem 5%; text-align: center; position: relative; }
     .cta-inner h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 2.8rem); color: white; }
     .cta-inner h2 em { background: linear-gradient(90deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .btn-gold-solid { background: linear-gradient(135deg, var(--gold), #E8B050); color: var(--soil-deep); padding: 1rem 2rem; border-radius: 40px; font-weight: 700; display: inline-block; margin: 1rem; transition: .2s; }
-    .btn-ghost { border: 1px solid rgba(255,255,255,.3); color: white; padding: 1rem 2rem; border-radius: 40px; display: inline-block; }
+    .btn-gold-solid { background: linear-gradient(135deg, var(--gold), #E8B050); color: var(--soil-deep); padding: 1rem 2rem; border-radius: 40px; font-weight: 700; display: inline-block; margin: 1rem; transition: .2s; text-decoration: none; }
+    .btn-ghost { border: 1px solid rgba(255,255,255,.3); color: white; padding: 1rem 2rem; border-radius: 40px; display: inline-block; text-decoration: none; transition: .2s; }
+    .btn-gold-solid:hover, .btn-ghost:hover { transform: translateY(-3px); }
 
     footer { background: #0a0603; padding: 4rem 5% 2rem; color: rgba(232,201,154,.4); }
     .footer-grid { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; }
-    #scrollTop { position: fixed; bottom: 2rem; right: 2rem; background: var(--plant-mid); color: white; border: none; border-radius: 12px; width: 44px; height: 44px; cursor: pointer; display: none; z-index: 99; }
-    #scrollTop.visible { display: flex; align-items: center; justify-content: center; }
+    #scrollTop { position: fixed; bottom: 2rem; right: 2rem; background: var(--plant-mid); color: white; border: none; border-radius: 12px; width: 44px; height: 44px; cursor: pointer; display: none; z-index: 99; align-items: center; justify-content: center; }
+    #scrollTop.visible { display: flex; }
   </style>
 </head>
 <body>
 <nav id="navbar">
-  <a href="index.html" class="logo-wrap"><div class="logo-main">7/12 <span>Waale</span></div><div class="logo-sub">Plots & Land Experts · Maharashtra</div></a>
+  <a href="index.html" class="logo-wrap" style="text-decoration: none;"><div class="logo-main">7/12 <span>Waale</span></div><div class="logo-sub">Plots & Land Experts · Maharashtra</div></a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html" class="active">About Us</a></li>
@@ -155,7 +149,7 @@
   <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO: story begins -->
 <section id="about-hero">
   <div class="hero-content reveal">
     <div class="eyebrow"><span class="eyebrow-dot"></span>The origin</div>
@@ -178,33 +172,33 @@
       <div class="saatbara-quote">“Saatbara<br><span>clear hai na?”</span></div>
       <p>The 7/12 document is the official land record maintained by Maharashtra's Revenue Department. It includes:</p>
       <div class="tag-group">
-        <span class="tag">Survey Number</span><span class="tag">Ownership Chain</span><span class="tag">Cultivation Details</span><span class="tag">Encumbrances</span><span class="tag">Water Source</span><span class="tag">Area & Type</span>
+        <span class="tag">Survey Number</span><span class="tag">Ownership Chain</span><span class="tag">Cultivation Details</span><span class="tag">Encumbrances</span><span class="tag">Water Source</span>
       </div>
       <p style="margin-top:1.2rem; font-size:.85rem;">We verify each 7/12, cross-check 8A mutation registers, and ensure zero litigation — making every plot we offer legally sound.</p>
     </div>
   </div>
 </section>
 
-<!-- PROCESS SECTION: 7 Steps Proper Consultation → Saatbara within 45 days -->
+<!-- PROCESS SECTION: scroll-reveal cards (7 steps) with smooth animation -->
 <section id="process-section">
-  <div class="section-header">
-    <span class="sec-label">Our Proven Process</span>
-    <h2 class="sec-title">Your Land Journey,<br><em>Mapped with Precision</em></h2>
-    <p style="max-width: 620px; margin: 1rem auto 0; color: #7A5E3E;">From initial consultation to receiving your 7/12 after registration — we walk you through every milestone.</p>
+  <div class="container" style="text-align:center; margin-bottom: 3rem;">
+    <span class="sec-label">Your journey, mapped</span>
+    <h2 class="sec-title">The 7/12 Waale <em>Land Buying Process</em></h2>
+    <p style="max-width: 640px; margin: 1rem auto 0; color:#5a4632;">From consultation to the final 7/12 in your name — every milestone, transparently.</p>
   </div>
   <div class="process-steps">
-    <div class="step-item reveal"><div class="step-number">01</div><div class="step-content"><h3>Proper Consultation / Guidance</h3><p>Deep-dive discussion: budget, purpose, legal awareness. We explain zoning, NA status, and growth potential before you see a single plot.</p></div><div class="step-arrow">↓</div></div>
-    <div class="step-item reveal reveal-delay-1"><div class="step-number">02</div><div class="step-content"><h3>Site Visit</h3><p>On-ground exploration with our team. Visit shortlisted locations, assess neighborhood, infrastructure, and physical plot features.</p></div><div class="step-arrow">↓</div></div>
-    <div class="step-item reveal reveal-delay-2"><div class="step-number">03</div><div class="step-content"><h3>Plot Selection</h3><p>Finalize the ideal plot based on your criteria. We share 7/12 draft copies and preliminary due diligence summary.</p></div><div class="step-arrow">↓</div></div>
-    <div class="step-item reveal"><div class="step-number">04</div><div class="step-content"><h3>Plot Booking</h3><p>Nominal token amount to block the plot. Clear booking receipt and timeline commitment shared.</p></div><div class="step-arrow">↓</div></div>
-    <div class="step-item reveal reveal-delay-1"><div class="step-number">05</div><div class="step-content"><h3>Proper Notice (7, 14, 21 days)</h3><p>Mandatory notice period as per Maharashtra land regulations — we manage all legal announcements and ensure compliance, no hidden surprises.</p></div><div class="step-arrow">↓</div></div>
-    <div class="step-item reveal reveal-delay-2"><div class="step-number">06</div><div class="step-content"><h3>Immediate Registration / Sale Deed</h3><p>Execution of sale deed at the sub-registrar office. Our legal team ensures stamp duty, proper documentation, and biometrics are handled seamlessly.</p></div><div class="step-arrow">↓</div></div>
-    <div class="step-item reveal"><div class="step-number">07</div><div class="step-content"><h3>Saatbara (within 45 days)</h3><p>Post-registration, we follow up with Talathi / revenue department to mutate the land record. You receive the updated 7/12 extract in your name within 45 days. This is our guarantee — complete ownership proof.</p></div><div class="step-arrow">✓</div></div>
+    <div class="process-step-card reveal"><div class="step-number-circle">1</div><div class="step-content"><h3>Proper Consultation / Guidance</h3><p>Deep-dive discussion: budget, legal awareness, NA status, growth corridors. We set expectations before you see any plot.</p></div><div class="step-arrow-icon"><i class="fas fa-arrow-down"></i></div></div>
+    <div class="process-step-card reveal reveal-delay-1"><div class="step-number-circle">2</div><div class="step-content"><h3>Site Visit</h3><p>On-ground exploration with our team. Visit shortlisted locations, assess neighbourhood, infrastructure, and physical plot features.</p></div><div class="step-arrow-icon"><i class="fas fa-arrow-down"></i></div></div>
+    <div class="process-step-card reveal reveal-delay-2"><div class="step-number-circle">3</div><div class="step-content"><h3>Plot Selection</h3><p>Finalize the ideal plot based on your criteria. We share 7/12 draft copies and preliminary due diligence summary.</p></div><div class="step-arrow-icon"><i class="fas fa-arrow-down"></i></div></div>
+    <div class="process-step-card reveal"><div class="step-number-circle">4</div><div class="step-content"><h3>Plot Booking</h3><p>Nominal token amount to block the plot. Clear booking receipt and timeline commitment shared.</p></div><div class="step-arrow-icon"><i class="fas fa-arrow-down"></i></div></div>
+    <div class="process-step-card reveal reveal-delay-1"><div class="step-number-circle">5</div><div class="step-content"><h3>Proper Notice (7, 14, 21 days)</h3><p>Mandatory notice period as per Maharashtra land regulations — we manage all legal announcements, ensuring full compliance and transparency.</p></div><div class="step-arrow-icon"><i class="fas fa-arrow-down"></i></div></div>
+    <div class="process-step-card reveal reveal-delay-2"><div class="step-number-circle">6</div><div class="step-content"><h3>Immediate Registration / Sale Deed</h3><p>Execution of sale deed at the sub-registrar office. Our legal team handles stamp duty, documentation, and biometrics seamlessly.</p></div><div class="step-arrow-icon"><i class="fas fa-arrow-down"></i></div></div>
+    <div class="process-step-card reveal"><div class="step-number-circle">7</div><div class="step-content"><h3>Saatbara (within 45 days)</h3><p>Post-registration, we follow up with Talathi / revenue department to mutate the land record. You receive the updated 7/12 extract in your name within 45 days. This is our guarantee — complete ownership proof.</p></div><div class="step-arrow-icon"><i class="fas fa-check-circle"></i></div></div>
   </div>
-  <div class="process-footnote" style="text-align:center; margin-top:2.5rem; font-size:.8rem; color:#6B4423;">End‑to‑end handholding: from the first call to the final 7/12 in your name.</div>
+  <div style="text-align:center; margin-top: 2rem;"><span style="background: var(--plant-mid); color:white; padding: 0.5rem 1.8rem; border-radius: 30px; font-size: .75rem;">End‑to‑end handholding — from first call to final 7/12</span></div>
 </section>
 
-<!-- FOUNDER STORY (original enhanced) -->
+<!-- FOUNDER STORY -->
 <section id="founders-section">
   <div class="founders-grid">
     <div class="founders-text reveal-left">
@@ -224,17 +218,6 @@
   </div>
 </section>
 
-<!-- VALUES SECTION (condensed but aligned) -->
-<section id="values">
-  <div class="section-header"><span class="sec-label">What We Stand For</span><h2 class="sec-title">Our Core <em>Commitments</em></h2></div>
-  <div class="values-grid">
-    <div class="value-card reveal"><div class="value-icon">📄</div><h3>Paperwork First, Always</h3><p>Verified 7/12, 8A & title chain — no exceptions.</p></div>
-    <div class="value-card reveal reveal-delay-1"><div class="value-icon">🔍</div><h3>Radical Transparency</h3><p>Every document explained in plain language.</p></div>
-    <div class="value-card reveal reveal-delay-2"><div class="value-icon">🌱</div><h3>Long-Term Thinking</h3><p>Growth corridors & infrastructure timelines shared upfront.</p></div>
-    <div class="value-card reveal"><div class="value-icon">🤝</div><h3>People Over Transactions</h3><p>Same team from first call to registration.</p></div>
-  </div>
-</section>
-
 <!-- CTA -->
 <section id="cta-banner">
   <div class="cta-inner reveal"><span class="sec-label" style="color: var(--plant-lime);">Work With Us</span><h2>Ready to Buy Land <em>the Right Way?</em></h2><p>Book a free consultation with 7/12 Waale — get clarity on paperwork, price, and potential.</p>
@@ -245,18 +228,44 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid"><div><div class="logo-main" style="color:#E8C99A;">7/12 <span style="color:#5EBA62;">Waale</span></div><p style="font-size:.8rem; margin-top:.5rem;">Plots & Land Experts · Maharashtra</p><p style="max-width:260px; margin-top:1rem;">Clear titles, verified 7/12 records, and honest guidance.</p></div>
-    <div><h4 style="color:#E8C99A;">Explore</h4><ul style="list-style:none;"><li><a href="index.html" style="color:#a57c4a;">Home</a></li><li><a href="about.html" style="color:#a57c4a;">About Us</a></li><li><a href="mumbai.html" style="color:#a57c4a;">Why Mumbai 3.0</a></li><li><a href="listings.html" style="color:#a57c4a;">Our Plots</a></li></ul></div>
+    <div><h4 style="color:#E8C99A;">Explore</h4><ul style="list-style:none;"><li><a href="index.html" style="color:#a57c4a; text-decoration:none;">Home</a></li><li><a href="about.html" style="color:#a57c4a; text-decoration:none;">About Us</a></li><li><a href="mumbai.html" style="color:#a57c4a; text-decoration:none;">Why Mumbai 3.0</a></li><li><a href="listings.html" style="color:#a57c4a; text-decoration:none;">Our Plots</a></li></ul></div>
     <div><h4 style="color:#E8C99A;">Locations</h4><ul style="list-style:none;"><li>Panvel</li><li>Pen</li><li>Alibaug</li><li>Khopoli</li></ul></div>
   </div>
   <hr style="border-color:rgba(255,255,255,.1); margin:2rem 0 1rem;"><div style="text-align:center; font-size:.7rem;">© 2025 7/12 Waale. All rights reserved.</div>
 </footer>
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
 <script>
   const nav = document.getElementById('navbar'), scrollBtn = document.getElementById('scrollTop');
   window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); scrollBtn.classList.toggle('visible', window.scrollY > 500); });
   function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
-  const observer = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }); }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
-  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+  
+  // Intersection Observer for all reveal elements (cards, sections)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -20px 0px" });
+  
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .process-step-card').forEach(el => observer.observe(el));
+  
+  // Also ensure process cards get individual reveal if needed
+  document.querySelectorAll('.process-step-card').forEach((card, idx) => {
+    card.classList.add('reveal');
+    if(idx > 0) card.classList.add(`reveal-delay-${(idx % 3) + 1}`);
+    observer.observe(card);
+  });
+  
+  // smooth closing mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    });
+  });
 </script>
 </body>
 </html>
