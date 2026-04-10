@@ -852,7 +852,7 @@
       .process-track { grid-template-columns: 1fr 1fr; gap: 2rem; }
       .process-track::before { display: none; }
 
-      /* Mobile nav */
+      /* Mobile nav — compact dropdown */
       .nav-links {
         display: none;
         flex-direction: column;
@@ -860,41 +860,42 @@
         top: 76px;
         left: 0;
         right: 0;
-        bottom: 0;
-        background: rgba(247,241,232,0.98);
+        background: rgba(247,241,232,0.99);
         backdrop-filter: blur(24px) saturate(1.8);
-        padding: 2rem 7% 3rem;
+        padding: .5rem 0 1rem;
         gap: 0;
-        overflow-y: auto;
         border-top: 1px solid rgba(107,68,35,.1);
+        border-bottom: 2px solid rgba(107,68,35,.08);
         align-items: stretch;
         z-index: 499;
+        box-shadow: 0 12px 40px rgba(14,9,5,.15);
       }
       .nav-links.open {
         display: flex;
       }
       .nav-links li {
-        border-bottom: 1px solid rgba(107,68,35,.08);
+        border-bottom: 1px solid rgba(107,68,35,.07);
       }
       .nav-links li:last-child {
         border-bottom: none;
-        margin-top: 1.5rem;
+        padding: .6rem 5% 0;
       }
       .nav-links a {
         display: block;
-        padding: 1.1rem 0;
-        font-size: 1rem;
+        padding: .85rem 5%;
+        font-size: .97rem;
         font-weight: 500;
         color: var(--soil-mid);
       }
       .nav-links a::after { display: none; }
       .nav-links a:hover, .nav-links a.active {
         color: var(--plant-mid);
+        background: rgba(26,92,36,.04);
       }
       .btn-nav {
         display: block !important;
         text-align: center !important;
-        padding: 1rem 1.5rem !important;
+        padding: .85rem 1.5rem !important;
         border-radius: 8px !important;
         font-size: .9rem !important;
       }
@@ -911,6 +912,9 @@
       /* Fix nav positioning for smaller nav height */
       .nav-links {
         top: 68px;
+      }
+      .nav-links li:last-child {
+        padding: .6rem 5% .3rem;
       }
 
       /* Hero */
