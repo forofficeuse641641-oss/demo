@@ -91,11 +91,15 @@
     .btn-nav::after { display: none !important; }
     .btn-nav:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 28px var(--green-glow) !important; }
 
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-    .hamburger span { width: 22px; height: 2px; background: var(--soil-mid); border-radius: 2px; transition: .3s; display: block; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; position: relative; z-index: 510; }
+    .hamburger span { width: 22px; height: 2px; background: var(--soil-mid); border-radius: 2px; transition: transform .3s, opacity .3s; display: block; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* dim overlay when menu open */
+    .nav-overlay { display: none; position: fixed; inset: 0; z-index: 490; background: rgba(14,9,5,.35); backdrop-filter: blur(2px); }
+    .nav-overlay.open { display: block; }
 
     /* ─── HERO ─── */
     #home {
@@ -846,8 +850,20 @@
       .test-grid { grid-template-columns: 1fr 1fr; }
       .process-track { grid-template-columns: 1fr 1fr; gap: 2rem; }
       .process-track::before { display: none; }
-      nav ul { display: none; flex-direction: column; position: absolute; top: 76px; left: 0; right: 0; background: rgba(247,241,232,.97); padding: 1.5rem 7%; border-bottom: 1px solid rgba(107,68,35,.1); gap: 1.2rem; backdrop-filter: blur(20px); }
-      nav ul.open { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 76px; left: 0; right: 0;
+        background: rgba(247,241,232,.98);
+        padding: 1.5rem 7% 2rem;
+        border-bottom: 1px solid rgba(107,68,35,.12);
+        gap: 1.2rem;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px rgba(14,9,5,.1);
+        z-index: 495;
+      }
+      .nav-links.open { display: flex; }
       .hamburger { display: flex; }
     }
     @media(max-width:640px) {
@@ -866,6 +882,9 @@
   </style>
 </head>
 <body>
+
+<!-- dim overlay for mobile nav -->
+<div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
 
 <!-- NAV -->
 <nav id="navbar">
@@ -1266,9 +1285,25 @@
   });
 
   function toggleMenu() {
-    document.getElementById('navLinks').classList.toggle('open');
-    document.getElementById('hamburger').classList.toggle('open');
+    const links   = document.getElementById('navLinks');
+    const burger  = document.getElementById('hamburger');
+    const overlay = document.getElementById('navOverlay');
+    const isOpen  = links.classList.contains('open');
+    if (isOpen) { closeMenu(); }
+    else {
+      links.classList.add('open');
+      burger.classList.add('open');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
   }
+  function closeMenu() {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('navOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
   // intersection observer for scroll reveals
   const io = new IntersectionObserver(entries => {
