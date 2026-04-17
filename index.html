@@ -105,8 +105,7 @@
     #home {
       min-height: 100vh;
       padding: 76px 0 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
       position: relative;
       overflow: hidden;
       background: #0a0603;
@@ -154,6 +153,7 @@
       position: relative; z-index: 2;
       padding: 7rem 5% 5rem 7%;
       display: flex; flex-direction: column; justify-content: center;
+      width: 100%;
     }
 
     .eyebrow {
@@ -256,151 +256,6 @@
       text-transform: uppercase; letter-spacing: 2px; margin-top: .4rem;
     }
 
-    /* ─── HERO RIGHT (card panel) ─── */
-    .hero-right {
-      position: relative; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-      padding: 5rem 7% 5rem 2%;
-      animation: fadeUp .8s .2s ease both;
-    }
-
-    .card-stack { position: relative; width: 100%; max-width: 420px; }
-
-    /* glow behind card */
-    .card-stack::before {
-      content: '';
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%; height: 120%;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(26,92,36,.25) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .feat-card {
-      background: rgba(255,255,255,.06);
-      backdrop-filter: blur(20px) saturate(1.5);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow:
-        0 32px 80px rgba(0,0,0,.5),
-        0 0 0 1px rgba(94,186,98,.08),
-        inset 0 1px 0 rgba(255,255,255,.08);
-    }
-
-    .feat-card-img { position: relative; }
-    .feat-card-img img { width: 100%; height: 255px; object-fit: cover; opacity: .88; }
-    .feat-card-img::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
-      background: linear-gradient(to top, rgba(0,0,0,.55), transparent);
-    }
-
-    .feat-tag {
-      position: absolute; top: 1rem; left: 1rem;
-      background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh));
-      color: var(--white);
-      font-size: .6rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      padding: .3rem .9rem; border-radius: 5px;
-      box-shadow: 0 4px 14px var(--green-glow);
-      z-index: 2;
-    }
-    .feat-verified {
-      position: absolute; top: 1rem; right: 1rem;
-      background: rgba(14,9,5,.65); backdrop-filter: blur(12px);
-      border: 1px solid rgba(94,186,98,.3);
-      color: var(--plant-lime);
-      font-size: .68rem; font-weight: 600;
-      padding: .3rem .85rem; border-radius: 5px;
-      display: flex; align-items: center; gap: .35rem;
-      z-index: 2;
-    }
-    .feat-verified .vdot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: var(--plant-lime);
-      box-shadow: 0 0 6px var(--plant-lime);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    .feat-card-body { padding: 1.6rem 1.8rem 2rem; }
-    .feat-card-body h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem; font-weight: 700;
-      color: rgba(255,255,255,.95); margin-bottom: .5rem;
-    }
-    .feat-meta { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
-    .feat-meta-item {
-      display: flex; align-items: center; gap: .35rem;
-      font-size: .72rem; font-weight: 500;
-      color: rgba(232,201,154,.55);
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.07);
-      padding: .28rem .7rem; border-radius: 4px;
-    }
-    .feat-price-row { display: flex; justify-content: space-between; align-items: center; }
-    .feat-price {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.65rem; font-weight: 700;
-      color: var(--gold);
-      text-shadow: 0 0 20px rgba(200,150,58,.3);
-    }
-    .feat-price small {
-      font-family: 'Outfit', sans-serif;
-      font-size: .7rem; font-weight: 400;
-      color: rgba(232,201,154,.4); margin-left: .4rem;
-    }
-    .btn-enquire {
-      background: linear-gradient(135deg, rgba(200,150,58,.2), rgba(200,150,58,.08));
-      border: 1px solid rgba(200,150,58,.35);
-      color: var(--gold-light);
-      padding: .45rem 1.1rem; border-radius: 6px;
-      font-size: .75rem; font-weight: 600;
-      transition: background .25s, border-color .25s, transform .2s;
-    }
-    .btn-enquire:hover {
-      background: rgba(200,150,58,.25);
-      border-color: var(--gold);
-      transform: translateY(-2px);
-    }
-
-    /* mini plot chips */
-    .mini-plots {
-      display: flex; gap: .8rem; margin-top: 1.5rem;
-    }
-    .mini-chip {
-      flex: 1;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 12px; padding: .9rem 1rem;
-      transition: background .25s, transform .25s, border-color .25s;
-      cursor: default;
-    }
-    .mini-chip:hover {
-      background: rgba(94,186,98,.08);
-      border-color: rgba(94,186,98,.2);
-      transform: translateY(-2px);
-    }
-    .mini-chip .mc-area {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem; font-weight: 700;
-      color: rgba(255,255,255,.85);
-    }
-    .mini-chip .mc-loc {
-      font-size: .68rem; color: rgba(232,201,154,.45);
-      margin-top: .25rem; font-weight: 400;
-    }
-
-    /* location pill */
-    .loc-pill {
-      display: inline-flex; align-items: center; gap: .5rem;
-      background: rgba(200,150,58,.12); border: 1px solid rgba(200,150,58,.25);
-      color: var(--gold-light);
-      font-size: .72rem; font-weight: 500;
-      padding: .45rem 1rem; border-radius: 6px;
-      margin-bottom: 1rem;
-    }
-
     /* ─── MARQUEE ─── */
     .marquee-strip {
       background: linear-gradient(90deg, var(--soil-mid) 0%, var(--plant-deep) 50%, var(--soil-mid) 100%);
@@ -445,46 +300,6 @@
     }
     .section-header { text-align: center; margin-bottom: 4rem; }
 
-    /* ─── WHY US ─── */
-    #why-us { padding: 7rem 7%; background: var(--white); position: relative; overflow: hidden; }
-    #why-us::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--plant-mid), var(--gold), var(--plant-mid), transparent);
-    }
-
-    .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; }
-    .why-card {
-      background: var(--soil-cream);
-      border: 1px solid rgba(107,68,35,.08);
-      border-radius: 16px; padding: 2.2rem 1.8rem;
-      transition: transform .3s, box-shadow .3s, background .3s, border-color .3s;
-      position: relative; overflow: hidden;
-    }
-    .why-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(26,92,36,.04) 0%, transparent 60%);
-      opacity: 0; transition: opacity .3s;
-    }
-    .why-card:hover::before { opacity: 1; }
-    .why-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(26,92,36,.1);
-      background: var(--white);
-      border-color: rgba(26,92,36,.15);
-    }
-    .why-icon {
-      width: 52px; height: 52px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; margin-bottom: 1.4rem;
-      box-shadow: 0 6px 20px var(--green-glow);
-    }
-    .why-card h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem; font-weight: 700; color: var(--soil-deep); margin-bottom: .55rem;
-    }
-    .why-card p { font-size: .84rem; line-height: 1.75; color: var(--muted); }
-
     /* ─── FEATURED PLOTS ─── */
     #plots-preview {
       padding: 7rem 7%;
@@ -526,14 +341,6 @@
     }
 
     .pc-body { padding: 1.5rem 1.6rem 1.8rem; }
-    .pc-tag {
-      display: inline-flex; align-items: center; gap: .35rem;
-      font-size: .62rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-      padding: .25rem .75rem; border-radius: 4px; margin-bottom: .85rem;
-    }
-    .pc-tag.na { background: rgba(26,92,36,.1); color: var(--plant-mid); border: 1px solid rgba(26,92,36,.15); }
-    .pc-tag.agri { background: rgba(200,150,58,.12); color: #8A6010; border: 1px solid rgba(200,150,58,.2); }
-    .pc-tag.open { background: rgba(107,68,35,.1); color: var(--soil-mid); border: 1px solid rgba(107,68,35,.15); }
 
     .pc-body h3 {
       font-family: 'Cormorant Garamond', serif;
@@ -638,83 +445,6 @@
       text-transform: uppercase; letter-spacing: 1.5px;
       margin-top: .6rem; line-height: 1.55;
     }
-
-    /* ─── PROCESS ─── */
-    #process { padding: 7rem 7%; background: var(--white); position: relative; overflow: hidden; }
-    #process::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--gold), var(--plant-mid), var(--gold), transparent);
-    }
-
-    .process-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5rem; position: relative; margin-top: 4rem; }
-    .process-track::before {
-      content: ''; position: absolute; top: 28px; left: 14%; right: 14%; height: 1px;
-      background: linear-gradient(90deg, var(--plant-mist), var(--gold-light), var(--plant-mist));
-      z-index: 0;
-    }
-
-    .pstep { text-align: center; padding: 0 .5rem; position: relative; z-index: 1; }
-    .pstep-num {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--white);
-      border: 2px solid var(--plant-mist);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.6rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem; font-weight: 700; color: var(--plant-mid);
-      box-shadow: 0 4px 20px rgba(14,9,5,.07);
-      transition: background .3s, border-color .3s, box-shadow .3s, color .3s;
-    }
-    .pstep:hover .pstep-num {
-      background: var(--plant-mid); border-color: var(--plant-mid);
-      color: var(--white); box-shadow: 0 6px 28px var(--green-glow);
-    }
-    .pstep h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 700; color: var(--soil-deep); margin-bottom: .5rem; }
-    .pstep p { font-size: .82rem; line-height: 1.72; color: var(--muted); }
-
-    /* ─── TESTIMONIALS ─── */
-    #testimonials {
-      padding: 7rem 7%;
-      background: linear-gradient(180deg, var(--soil-cream) 0%, #e8ddc8 100%);
-    }
-    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3.5rem; }
-    .test-card {
-      background: var(--white); border-radius: 18px;
-      padding: 2.4rem 2rem; position: relative;
-      border: 1px solid rgba(107,68,35,.07);
-      box-shadow: 0 4px 24px rgba(14,9,5,.04);
-      transition: transform .3s, box-shadow .3s;
-      overflow: hidden;
-    }
-    .test-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--plant-mid), var(--gold));
-      transform: scaleX(0); transform-origin: left;
-      transition: transform .4s ease;
-    }
-    .test-card:hover::before { transform: scaleX(1); }
-    .test-card:hover { transform: translateY(-5px); box-shadow: 0 18px 56px rgba(14,9,5,.1); }
-
-    .big-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 7rem; line-height: .7;
-      color: var(--plant-mist);
-      position: absolute; top: 1.2rem; right: 1.5rem;
-      font-weight: 700; pointer-events: none;
-    }
-
-    .stars { color: var(--gold); font-size: .88rem; letter-spacing: 3px; margin-bottom: 1rem; }
-    .test-card p { font-size: .9rem; line-height: 1.8; color: var(--muted); margin-bottom: 1.6rem; position: relative; z-index: 1; }
-    .test-author { display: flex; align-items: center; gap: .9rem; }
-    .test-av {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--plant-mid), var(--soil-warm));
-      display: flex; align-items: center; justify-content: center;
-      color: var(--white); font-weight: 700; font-size: 1rem;
-      font-family: 'Cormorant Garamond', serif; flex-shrink: 0;
-    }
-    .test-author strong { font-size: .88rem; font-weight: 600; color: var(--soil-deep); display: block; }
-    .test-author span { font-size: .73rem; color: var(--muted); }
 
     /* ─── CTA BANNER ─── */
     #cta-banner {
@@ -838,18 +568,11 @@
 
     /* ─── RESPONSIVE ─── */
     @media(max-width:1200px) {
-      .why-grid { grid-template-columns: repeat(2, 1fr); }
       .infra-grid { grid-template-columns: 1fr; gap: 4rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
     }
     @media(max-width:960px) {
-      #home { grid-template-columns: 1fr; }
-      .hero-left { padding: 6rem 7% 4rem; }
-      .hero-right { display: none; }
       .plots-grid { grid-template-columns: 1fr 1fr; }
-      .test-grid { grid-template-columns: 1fr 1fr; }
-      .process-track { grid-template-columns: 1fr 1fr; gap: 2rem; }
-      .process-track::before { display: none; }
       .nav-links {
         display: none;
         flex-direction: column;
@@ -868,16 +591,12 @@
     }
     @media(max-width:640px) {
       .hero-metrics { gap: 1.5rem; flex-wrap: wrap; }
-      .why-grid { grid-template-columns: 1fr; }
       .plots-grid { grid-template-columns: 1fr; }
-      .test-grid { grid-template-columns: 1fr; }
-      .process-track { grid-template-columns: 1fr; }
       .infra-grid { gap: 3rem; }
       .stat-grid { grid-template-columns: 1fr 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
       .hero-btns { flex-direction: column; }
       .cta-btns { flex-direction: column; align-items: center; }
-      .mini-plots { display: none; }
     }
   </style>
 </head>
@@ -928,40 +647,9 @@
     </div>
 
     <div class="hero-metrics">
-      <div class="metric"><div class="num">500<span>+</span></div><div class="lbl">Plots Sold</div></div>
-      <div class="metric"><div class="num">12<span>+</span></div><div class="lbl">Years Exp.</div></div>
+      <div class="metric"><div class="num">130<span>+</span></div><div class="lbl">Plots Sold</div></div>
+      <div class="metric"><div class="num">3<span>+</span></div><div class="lbl">Years Exp.</div></div>
       <div class="metric"><div class="num">100<span>%</span></div><div class="lbl">Clear Titles</div></div>
-      <div class="metric"><div class="num">30<span>+</span></div><div class="lbl">Locations</div></div>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="card-stack">
-      <div class="loc-pill">📍 Panvel Corridor, Raigad</div>
-      <div class="feat-card">
-        <div class="feat-card-img">
-          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80" alt="Agricultural land Maharashtra"/>
-          <span class="feat-tag">Featured</span>
-          <span class="feat-verified"><span class="vdot"></span>7/12 Verified</span>
-        </div>
-        <div class="feat-card-body">
-          <h3>NA Plot — Navi Mumbai Peripheral Zone</h3>
-          <div class="feat-meta">
-            <div class="feat-meta-item">🗺️ 2,400 sq.ft.</div>
-            <div class="feat-meta-item">🛣️ Road-facing</div>
-            <div class="feat-meta-item">📄 Clear Title</div>
-          </div>
-          <div class="feat-price-row">
-            <div class="feat-price">₹ 42 L <small>/ ₹1,750 psf</small></div>
-            <a href="contact.html" class="btn-enquire">Enquire</a>
-          </div>
-        </div>
-      </div>
-      <div class="mini-plots">
-        <div class="mini-chip"><div class="mc-area">1,200 sq.ft.</div><div class="mc-loc">Khopoli, Raigad</div></div>
-        <div class="mini-chip"><div class="mc-area">4,000 sq.ft.</div><div class="mc-loc">Pen, Raigad</div></div>
-        <div class="mini-chip"><div class="mc-area">2,000 sq.ft.</div><div class="mc-loc">Alibaug</div></div>
-      </div>
     </div>
   </div>
 </section>
@@ -986,37 +674,6 @@
   </div>
 </div>
 
-<!-- WHY US -->
-<section id="why-us">
-  <div class="section-header">
-    <span class="sec-label">Why Choose Us</span>
-    <h2 class="sec-title">Land Ownership, <em>Simplified.</em></h2>
-    <p class="sec-desc">From document verification to registration, 7/12 Waale is Maharashtra's most trusted partner for buying plots with complete legal clarity.</p>
-  </div>
-  <div class="why-grid">
-    <div class="why-card reveal">
-      <div class="why-icon">📄</div>
-      <h3>Verified 7/12 & 8A Records</h3>
-      <p>Every listing is authenticated against Maharashtra government revenue records before it reaches you. No surprises, ever.</p>
-    </div>
-    <div class="why-card reveal reveal-delay-1">
-      <div class="why-icon">⚖️</div>
-      <h3>In-House Legal Due Diligence</h3>
-      <p>Our team of lawyers checks mutation entries, title chains, and encumbrances — you invest only when everything is 100% clean.</p>
-    </div>
-    <div class="why-card reveal reveal-delay-2">
-      <div class="why-icon">🌿</div>
-      <h3>Growth-Corridor Expertise</h3>
-      <p>We source plots in infrastructure-backed belts — Panvel, Pen, Alibaug, Khopoli — where land values grow with Maharashtra's future.</p>
-    </div>
-    <div class="why-card reveal reveal-delay-3">
-      <div class="why-icon">🤝</div>
-      <h3>Cradle-to-Registration Support</h3>
-      <p>Site visits, valuation, documentation, and sub-registrar accompaniment — we hold your hand through every step of the journey.</p>
-    </div>
-  </div>
-</section>
-
 <!-- FEATURED PLOTS -->
 <section id="plots-preview">
   <div class="plots-header">
@@ -1024,7 +681,6 @@
       <span class="sec-label">Our Portfolio</span>
       <h2 class="sec-title" style="text-align:left;">Featured Plots &amp; Lands</h2>
     </div>
-    <a href="listings.html" class="btn-primary">View All Listings &rarr;</a>
   </div>
   <div class="plots-grid">
     <div class="plot-card reveal">
@@ -1032,12 +688,11 @@
         <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80" alt="Plot Panvel"/>
       </div>
       <div class="pc-body">
-        <span class="pc-tag na">NA Plot</span>
-        <h3>Residential NA Plot — Panvel</h3>
+        <h3>Investment Plot — Mumbai 3.0</h3>
         <div class="pc-loc">📍 Sector 12, Panvel, Raigad</div>
         <div class="pc-row">
-          <div class="pc-price">₹ 38 L</div>
-          <div class="pc-area">1,800 sq.ft.</div>
+          <div class="pc-price">₹ 3 L / Guntha</div>
+          <div class="pc-area">1,089 Sq Ft</div>
         </div>
       </div>
     </div>
@@ -1046,12 +701,11 @@
         <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80" alt="Land Alibaug"/>
       </div>
       <div class="pc-body">
-        <span class="pc-tag agri">Agricultural</span>
-        <h3>Agri Land Near Alibaug Coast</h3>
+        <h3>Investment Plot — Mumbai 3.0</h3>
         <div class="pc-loc">📍 Revdanda Road, Alibaug</div>
         <div class="pc-row">
-          <div class="pc-price">₹ 65 L</div>
-          <div class="pc-area">10 Guntha</div>
+          <div class="pc-price">₹ 6 L / Guntha</div>
+          <div class="pc-area">1,089 Sq Ft</div>
         </div>
       </div>
     </div>
@@ -1060,12 +714,11 @@
         <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?w=600&q=80" alt="Plot Khopoli"/>
       </div>
       <div class="pc-body">
-        <span class="pc-tag open">Open Plot</span>
-        <h3>Corner Plot — Khopoli Industrial Belt</h3>
+        <h3>Residential Plot — Khopoli-Pali</h3>
         <div class="pc-loc">📍 MIDC Road, Khopoli, Raigad</div>
         <div class="pc-row">
-          <div class="pc-price">₹ 28 L</div>
-          <div class="pc-area">1,200 sq.ft.</div>
+          <div class="pc-price">₹ 1.5 L / Guntha</div>
+          <div class="pc-area">1,089 Sq Ft · ₹40 L/Acre</div>
         </div>
       </div>
     </div>
@@ -1125,75 +778,6 @@
       <div class="stat-box">
         <div class="big">500+</div>
         <div class="sm">Families Who<br>Trust Us</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section id="process">
-  <div class="section-header">
-    <span class="sec-label">How It Works</span>
-    <h2 class="sec-title">Your Plot in <em>4 Simple Steps</em></h2>
-    <p class="sec-desc">A clear, transparent process so you always know exactly where you stand and what comes next.</p>
-  </div>
-  <div class="process-track">
-    <div class="pstep reveal">
-      <div class="pstep-num">01</div>
-      <h3>Share Your Requirement</h3>
-      <p>Tell us your budget, location, and purpose — residential, agricultural, or investment. We shortlist the best-matched plots for you.</p>
-    </div>
-    <div class="pstep reveal reveal-delay-1">
-      <div class="pstep-num">02</div>
-      <h3>Site Visit & 7/12 Review</h3>
-      <p>We arrange guided site visits and walk you through 7/12, 8A, and village map extracts in plain language — no jargon.</p>
-    </div>
-    <div class="pstep reveal reveal-delay-2">
-      <div class="pstep-num">03</div>
-      <h3>Legal Due Diligence</h3>
-      <p>Our legal team verifies title chain, encumbrances, mutations, and NOCs. You proceed only when everything is completely clean.</p>
-    </div>
-    <div class="pstep reveal reveal-delay-3">
-      <div class="pstep-num">04</div>
-      <h3>Registration & Handover</h3>
-      <p>We accompany you to the sub-registrar, handle stamp duty, and ensure a smooth title transfer directly in your name.</p>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="section-header">
-    <span class="sec-label">Client Stories</span>
-    <h2 class="sec-title">What Our Buyers Say</h2>
-    <p class="sec-desc">Over 500 families have trusted 7/12 Waale with their land investment. Here's what a few of them have to say.</p>
-  </div>
-  <div class="test-grid">
-    <div class="test-card reveal">
-      <div class="big-quote">"</div>
-      <div class="stars">★★★★★</div>
-      <p>7/12 Waale made buying our first plot in Panvel completely stress-free. They explained every document clearly and the title was 100% clean. Truly trustworthy people.</p>
-      <div class="test-author">
-        <div class="test-av">M</div>
-        <div><strong>Mahesh Sawant</strong><span>Panvel, Raigad</span></div>
-      </div>
-    </div>
-    <div class="test-card reveal reveal-delay-1">
-      <div class="big-quote">"</div>
-      <div class="stars">★★★★★</div>
-      <p>As an NRI investor, I was worried about land fraud. The team verified everything remotely, sent me all 7/12 extracts, and handled registration without me needing to travel.</p>
-      <div class="test-author">
-        <div class="test-av">P</div>
-        <div><strong>Priya Kulkarni</strong><span>Pune (NRI — UAE)</span></div>
-      </div>
-    </div>
-    <div class="test-card reveal reveal-delay-2">
-      <div class="big-quote">"</div>
-      <div class="stars">★★★★★</div>
-      <p>I bought agricultural land near Alibaug through 7/12 Waale. Their local knowledge is unmatched — they even helped with the mutation entry post-registration.</p>
-      <div class="test-author">
-        <div class="test-av">V</div>
-        <div><strong>Vinod Thakur</strong><span>Thane, Maharashtra</span></div>
       </div>
     </div>
   </div>
