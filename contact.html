@@ -80,7 +80,7 @@
       background: #050302;
     }
 
-    /* Image: fade in + gentle zoom-out on every page load */
+    /* DESKTOP hero image */
     .hero-img-bg {
       position: absolute; inset: 0; z-index: 0;
       background-image: url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/mumbai_hero.png?raw=true');
@@ -90,13 +90,24 @@
       transform: scale(1.07);
       animation: heroBgIn 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.05s forwards;
     }
+    /* PHONE hero image — hidden on desktop */
+    .hero-img-bg-mobile {
+      display: none;
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/phone_hero.png?raw=true');
+      background-size: cover;
+      background-position: center top;
+      opacity: 0;
+      transform: scale(1.07);
+      animation: heroBgIn 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.05s forwards;
+    }
+
     @keyframes heroBgIn {
       0%   { opacity: 0;   transform: scale(1.07); }
       25%  { opacity: .55; }
       100% { opacity: 1;   transform: scale(1);    }
     }
 
-    /* Bottom-to-transparent vignette fades in after image */
     .hero-bg {
       position: absolute; inset: 0; z-index: 1;
       background: linear-gradient(to top,
@@ -126,7 +137,6 @@
       white-space: nowrap;
     }
 
-    /* Big soft glow cloud — two layers for depth */
     .hero-title-wrap::before {
       content: '';
       position: absolute;
@@ -152,7 +162,6 @@
       50%      { transform: translate(-50%,-50%) scale(1.07); filter: blur(52px); }
     }
 
-    /* Tighter hot-spot for the gold core */
     .hero-title-wrap::after {
       content: '';
       position: absolute;
@@ -173,7 +182,6 @@
     .eyebrow { display: none; }
     .eyebrow-dot { display: none; }
 
-    /* Heading slides up and fades in */
     .hero-h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3.2rem, 7vw, 7rem);
@@ -189,7 +197,6 @@
       to   { opacity: 1; transform: translateY(0);    }
     }
 
-    /* "Welcome to" — bright, airy, with white halo */
     .hero-h1 .welcome-line {
       display: block;
       font-size: clamp(1.1rem, 2.4vw, 2rem);
@@ -204,7 +211,6 @@
         0 2px 12px rgba(0,0,0,.65);
     }
 
-    /* "Mumbai 3.0" — vivid gold gradient + stacked drop-shadows */
     .hero-h1 .accent {
       display: block;
       font-style: italic;
@@ -283,6 +289,10 @@
     /* IMAGE BREAK */
     .img-break { height: 420px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .img-break img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    /* Desktop image shown by default */
+    .img-break .img-break-desktop { display: block; }
+    /* Mobile image hidden by default */
+    .img-break .img-break-mobile { display: none; }
     .img-break-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(14,9,5,.72) 0%, rgba(13,36,16,.55) 100%); }
     .img-break-content { position: relative; z-index: 2; text-align: center; padding: 2rem 7%; }
     .big-quote-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 700; color: var(--white); line-height: 1.2; max-width: 860px; }
@@ -404,6 +414,14 @@
       .hero-h1 .welcome-line { letter-spacing: 5px; }
       .hero-title-wrap::before { width: 210%; }
       .hero-title-wrap::after { width: 170%; }
+
+      /* Switch hero images on mobile */
+      .hero-img-bg         { display: none; }
+      .hero-img-bg-mobile  { display: block; }
+
+      /* Switch quote-break images on mobile */
+      .img-break .img-break-desktop { display: none; }
+      .img-break .img-break-mobile  { display: block; }
     }
     @media(max-width:640px) {
       .infra-cards-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -450,7 +468,10 @@
 
 <!-- HERO -->
 <section id="hero">
+  <!-- Desktop hero background -->
   <div class="hero-img-bg"></div>
+  <!-- Mobile hero background -->
+  <div class="hero-img-bg-mobile"></div>
   <div class="hero-bg"></div>
 
   <div class="hero-inner">
@@ -542,7 +563,18 @@
 
 <!-- IMAGE BREAK -->
 <div class="img-break">
-  <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/Picsart_26-04-20_17-23-00-018.png?raw=true" alt="Infrastructure development"/>
+  <!-- Desktop image -->
+  <img
+    class="img-break-desktop"
+    src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/Picsart_26-04-20_17-23-00-018.png?raw=true"
+    alt="Infrastructure development"
+  />
+  <!-- Mobile image -->
+  <img
+    class="img-break-mobile"
+    src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/phone_view_lower.png?raw=true"
+    alt="Infrastructure development"
+  />
   <div class="img-break-overlay"></div>
   <div class="img-break-content">
     <div class="big-quote-text reveal">
