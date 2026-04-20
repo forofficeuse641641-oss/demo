@@ -54,15 +54,15 @@
       box-shadow: 0 2px 40px rgba(14,9,5,.10);
     }
     .logo-wrap { display: flex; flex-direction: column; line-height: 1; cursor: pointer; }
-    .logo-main { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.75rem; color: var(--white); letter-spacing: -.5px; transition: color .45s ease; }
+    .logo-main { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.75rem; color: var(--white); letter-spacing: -.5px; transition: color .45s ease; text-shadow: 0 1px 8px rgba(0,0,0,.55), 0 2px 20px rgba(0,0,0,.35); }
     .logo-main span { color: var(--plant-lime); transition: color .45s ease; }
-    nav.scrolled .logo-main { color: var(--soil-mid); }
+    nav.scrolled .logo-main { color: var(--soil-mid); text-shadow: none; }
     nav.scrolled .logo-main span { color: var(--plant-mid); }
     .logo-sub { font-size: .52rem; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,.65); margin-top: 2px; transition: color .45s ease; }
     nav.scrolled .logo-sub { color: var(--soil-warm); }
     .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-size: .82rem; font-weight: 500; letter-spacing: .4px; color: rgba(255,255,255,.88); position: relative; padding-bottom: 4px; transition: color .25s; }
-    nav.scrolled .nav-links a { color: var(--soil-mid); }
+    .nav-links a { font-size: .82rem; font-weight: 500; letter-spacing: .4px; color: rgba(255,255,255,.88); position: relative; padding-bottom: 4px; transition: color .25s; text-shadow: 0 1px 8px rgba(0,0,0,.55), 0 2px 20px rgba(0,0,0,.35); }
+    nav.scrolled .nav-links a { color: var(--soil-mid); text-shadow: none; }
     .nav-links a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 1.5px; background: linear-gradient(90deg, var(--plant-mid), var(--plant-lime)); transition: width .3s ease; }
     .nav-links a:hover, .nav-links a.active { color: var(--white); }
     nav.scrolled .nav-links a:hover, nav.scrolled .nav-links a.active { color: var(--plant-mid); }
@@ -93,30 +93,39 @@
       background: #050302;
     }
 
-    .hero-img-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background-image: url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/mumbai_hero.png?raw=true');
+    /* ── SLIDESHOW CONTAINER ── */
+    .hero-slideshow {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transform: scale(1.07);
-      animation: heroBgIn 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.05s forwards;
-    }
-    .hero-img-bg-mobile {
-      display: none;
-      position: absolute; inset: 0; z-index: 0;
-      background-image: url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/phone_hero.png?raw=true');
-      background-size: cover;
-      background-position: center top;
-      opacity: 0;
-      transform: scale(1.07);
-      animation: heroBgIn 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.05s forwards;
+      z-index: 0;
+      /* Zoom runs always — no restart, no stutter */
+      animation: slideZoom 12s ease-in-out infinite alternate;
+      /* Fade is a separate transition */
+      transition: opacity 2.2s ease-in-out;
+      will-change: opacity;
     }
 
-    @keyframes heroBgIn {
-      0%   { opacity: 0;   transform: scale(1.07); }
-      25%  { opacity: .55; }
-      100% { opacity: 1;   transform: scale(1);    }
+    /* Stagger zoom phase so slides don't all pulse in sync */
+    .hero-slide:nth-child(2) { animation-delay: -4s; }
+    .hero-slide:nth-child(3) { animation-delay: -8s; }
+
+    .hero-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    @keyframes slideZoom {
+      0%   { transform: scale(1.00); }
+      100% { transform: scale(1.08); }
     }
 
     .hero-bg {
@@ -125,10 +134,8 @@
         rgba(5,3,1,0.88) 0%,
         rgba(8,5,2,0.40) 35%,
         transparent 65%);
-      opacity: 0;
-      animation: fadeSimple 1.8s ease 0.8s forwards;
+      pointer-events: none;
     }
-    @keyframes fadeSimple { to { opacity: 1; } }
 
     .hero-inner {
       position: relative; z-index: 3;
@@ -410,7 +417,6 @@
         flex-direction: column;
         position: fixed;
         top: 76px; left: 0; right: 0;
-        /* ── MOBILE NAV FIX: fully opaque dark background ── */
         background: rgba(10,6,3,0.98);
         padding: 1.5rem 7% 2rem;
         border-bottom: 1px solid rgba(200,150,58,.15);
@@ -420,7 +426,6 @@
         z-index: 495;
       }
       .nav-links.open { display: flex; }
-      /* Override link colours for dark mobile menu */
       .nav-links a {
         color: rgba(232,201,154,.85) !important;
         font-size: .9rem;
@@ -432,7 +437,6 @@
       .nav-links a.active {
         color: var(--plant-lime) !important;
       }
-      /* Enquire Now button inside mobile menu */
       .nav-links .btn-nav {
         background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)) !important;
         border-color: transparent !important;
@@ -454,8 +458,6 @@
       .hero-h1 .welcome-line { letter-spacing: 5px; }
       .hero-title-wrap::before { width: 210%; }
       .hero-title-wrap::after { width: 170%; }
-      .hero-img-bg         { display: none; }
-      .hero-img-bg-mobile  { display: block; }
       .img-break .img-break-desktop { display: none; }
       .img-break .img-break-mobile  { display: block; }
     }
@@ -504,8 +506,13 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-img-bg"></div>
-  <div class="hero-img-bg-mobile"></div>
+  <!-- SLIDESHOW -->
+  <div class="hero-slideshow" id="heroSlideshow">
+    <div class="hero-slide" style="background-image:url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/NMIA.png?raw=true')"></div>
+    <div class="hero-slide" style="background-image:url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/atal_setu.png?raw=true')"></div>
+    <div class="hero-slide" style="background-image:url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/railway.png?raw=true')"></div>
+  </div>
+
   <div class="hero-bg"></div>
 
   <div class="hero-inner">
@@ -516,6 +523,7 @@
       </h1>
     </div>
   </div>
+
 </section>
 
 <!-- MARQUEE -->
@@ -782,6 +790,7 @@
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
 
 <script>
+  // ── NAV SCROLL ──
   const nav = document.getElementById('navbar');
   const scrollBtn = document.getElementById('scrollTop');
 
@@ -811,6 +820,22 @@
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
+  // ── HERO SLIDESHOW ──
+  const SLIDE_DURATION = 7000; // ms per slide
+  const slides = Array.from(document.querySelectorAll('.hero-slide'));
+  let current = 0;
+
+  function nextSlide() {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }
+
+  // Start first slide immediately
+  slides[0].classList.add('active');
+  setInterval(nextSlide, SLIDE_DURATION);
+
+  // ── SCROLL REVEAL ──
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
