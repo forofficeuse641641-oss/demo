@@ -42,13 +42,15 @@
       height: 76px;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 5%;
-      background: rgba(247,241,232,0.88);
-      backdrop-filter: blur(24px) saturate(1.6);
-      border-bottom: 1px solid rgba(107,68,35,.12);
-      transition: box-shadow .4s, background .4s;
+      background: transparent;
+      backdrop-filter: none;
+      border-bottom: 1px solid transparent;
+      transition: background .45s ease, box-shadow .45s ease, border-color .45s ease, backdrop-filter .45s ease;
     }
     nav.scrolled {
       background: rgba(247,241,232,0.97);
+      backdrop-filter: blur(24px) saturate(1.6);
+      border-bottom: 1px solid rgba(107,68,35,.12);
       box-shadow: 0 2px 40px rgba(14,9,5,.10);
     }
 
@@ -56,43 +58,57 @@
     .logo-main {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 700; font-size: 1.75rem;
-      color: var(--soil-mid); letter-spacing: -.5px;
+      color: var(--white); letter-spacing: -.5px;
+      transition: color .45s ease;
     }
-    .logo-main span { color: var(--plant-mid); }
+    .logo-main span { color: var(--plant-lime); transition: color .45s ease; }
+    nav.scrolled .logo-main { color: var(--soil-mid); }
+    nav.scrolled .logo-main span { color: var(--plant-mid); }
     .logo-sub {
       font-size: .52rem; font-weight: 600;
       letter-spacing: 4px; text-transform: uppercase;
-      color: var(--soil-warm); margin-top: 2px;
+      color: rgba(255,255,255,.65); margin-top: 2px;
+      transition: color .45s ease;
     }
+    nav.scrolled .logo-sub { color: var(--soil-warm); }
 
     .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
     .nav-links a {
       font-size: .82rem; font-weight: 500;
-      letter-spacing: .4px; color: var(--soil-mid);
+      letter-spacing: .4px; color: rgba(255,255,255,.88);
       position: relative; padding-bottom: 4px;
       transition: color .25s;
     }
+    nav.scrolled .nav-links a { color: var(--soil-mid); }
     .nav-links a::after {
       content: ''; position: absolute; left: 0; bottom: 0;
       width: 0; height: 1.5px;
       background: linear-gradient(90deg, var(--plant-mid), var(--plant-lime));
       transition: width .3s ease;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--plant-mid); }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    nav.scrolled .nav-links a:hover, nav.scrolled .nav-links a.active { color: var(--plant-mid); }
     .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
     .btn-nav {
-      background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)) !important;
+      background: rgba(255,255,255,.15) !important;
       color: var(--white) !important; padding: .52rem 1.5rem !important;
       border-radius: 6px; font-size: .8rem !important; font-weight: 600 !important;
-      letter-spacing: .4px; box-shadow: 0 3px 18px var(--green-glow);
-      transition: transform .2s, box-shadow .25s !important;
+      letter-spacing: .4px; border: 1px solid rgba(255,255,255,.3) !important;
+      transition: transform .2s, box-shadow .25s, background .45s !important;
+    }
+    nav.scrolled .btn-nav {
+      background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)) !important;
+      border-color: transparent !important;
+      box-shadow: 0 3px 18px var(--green-glow);
     }
     .btn-nav::after { display: none !important; }
-    .btn-nav:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 28px var(--green-glow) !important; }
+    .btn-nav:hover { transform: translateY(-2px) !important; background: rgba(255,255,255,.25) !important; }
+    nav.scrolled .btn-nav:hover { background: linear-gradient(135deg, var(--plant-fresh), var(--plant-mid)) !important; box-shadow: 0 8px 28px var(--green-glow) !important; }
 
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; position: relative; z-index: 510; }
-    .hamburger span { width: 22px; height: 2px; background: var(--soil-mid); border-radius: 2px; transition: transform .3s, opacity .3s; display: block; }
+    .hamburger span { width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s, opacity .3s, background .45s; display: block; }
+    nav.scrolled .hamburger span { background: var(--soil-mid); }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -588,15 +604,41 @@
         flex-direction: column;
         position: fixed;
         top: 76px; left: 0; right: 0;
-        background: rgba(247,241,232,.98);
+        /* ── MOBILE NAV FIX: fully opaque dark background so links are readable over the hero video ── */
+        background: rgba(10,6,3,0.98);
         padding: 1.5rem 7% 2rem;
-        border-bottom: 1px solid rgba(107,68,35,.12);
+        border-bottom: 1px solid rgba(200,150,58,.15);
         gap: 1.2rem;
-        backdrop-filter: blur(20px);
-        box-shadow: 0 8px 32px rgba(14,9,5,.1);
+        backdrop-filter: blur(24px) saturate(1.4);
+        box-shadow: 0 8px 40px rgba(0,0,0,.6);
         z-index: 495;
       }
       .nav-links.open { display: flex; }
+      /* Override link colours for dark mobile menu */
+      .nav-links a {
+        color: rgba(232,201,154,.85) !important;
+        font-size: .9rem;
+        padding: .4rem 0;
+        border-bottom: 1px solid rgba(255,255,255,.04);
+        width: 100%;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--plant-lime) !important;
+      }
+      /* Enquire Now button inside mobile menu */
+      .nav-links .btn-nav {
+        background: linear-gradient(135deg, var(--plant-mid), var(--plant-fresh)) !important;
+        border-color: transparent !important;
+        color: var(--white) !important;
+        margin-top: .4rem;
+        text-align: center;
+        justify-content: center;
+        border-radius: 7px;
+        padding: .75rem 1.5rem !important;
+        border-bottom: none !important;
+        box-shadow: 0 4px 20px var(--green-glow);
+      }
       .hamburger { display: flex; }
       #prices-by-phases { padding: 5rem 5%; }
     }
@@ -657,7 +699,7 @@
       <span class="line-plain">Right Now.</span>
     </h1>
 
-    <p class="hero-desc">7/12 Wale simplifies land and plot ownership, verified 7/12 extracts, clear titles, and a dedicated team that handles every step from site visit to registration.</p>
+    <p class="hero-desc">7/12 Wale simplifies land and plot ownership. verified 7/12 extracts, clear titles, and a dedicated team that handles every step from site visit to registration.</p>
 
     <div class="hero-btns">
       <a href="contact.html" class="btn-primary">Enquire Now &rarr;</a>
@@ -707,7 +749,7 @@
       </div>
       <div class="pc-body">
         <h3>Investment Plot — Mumbai 3.0</h3>
-        <div class="pc-loc">📍 Sector 12, Panvel, Raigad</div>
+        <div class="pc-loc">📍Contact For More Details </div>
         <div class="pc-row">
           <div class="pc-price">₹ 3 L / Guntha</div>
           <div class="pc-area">1,089 Sq Ft</div>
@@ -720,7 +762,7 @@
       </div>
       <div class="pc-body">
         <h3>Investment Plot — Mumbai 3.0</h3>
-        <div class="pc-loc">📍 Revdanda Road, Alibaug</div>
+        <div class="pc-loc">📍Contact For More Details </div>
         <div class="pc-row">
           <div class="pc-price">₹ 6 L / Guntha</div>
           <div class="pc-area">1,089 Sq Ft</div>
@@ -733,7 +775,7 @@
       </div>
       <div class="pc-body">
         <h3>Residential Plot — Khopoli-Pali</h3>
-        <div class="pc-loc">📍 MIDC Road, Khopoli, Raigad</div>
+        <div class="pc-loc">📍Contact For More Details </div>
         <div class="pc-row">
           <div class="pc-price">₹ 1.5 L / Guntha</div>
           <div class="pc-area">1,089 Sq Ft · ₹40 L/Acre</div>
@@ -1007,8 +1049,8 @@
   <div class="phases-inner">
     <div class="phases-header reveal">
       <span class="sec-label">Investment Roadmap</span>
-      <h2>Prices by <em>Phases</em></h2>
-      <p>Watch how land values appreciate with each infrastructure milestone. Early investors in Phase 1 have already seen significant returns — Phase 2 entry is now open.</p>
+      <h2>Prices by <em>Phases of Mumbai 3.0</em></h2>
+      <p>Watch how land values appreciate with each infrastructure milestone. Early investors in Phase 1 have already seen significant returns. Phase 2 entry is now open.</p>
     </div>
 
     <div class="phases-img-wrap reveal reveal-delay-1">
@@ -1021,7 +1063,7 @@
 
     <div class="phases-note reveal reveal-delay-2">
       <div class="phases-note-dot"></div>
-      <p><strong>Note:</strong> Price appreciation is linked to infrastructure completion milestones — NMIA airport, Atal Setu, and the Alibaug–Virar corridor. Contact us for the latest phase pricing and availability.</p>
+      <p><strong>Note:</strong> Price appreciation is linked to infrastructure completion milestones. NMIA airport, Atal Setu, and the Alibaug–Virar corridor. Contact us for the latest phase pricing and availability.</p>
     </div>
   </div>
 </section>
@@ -1034,7 +1076,7 @@
   <div class="cta-inner reveal">
     <span class="sec-label">Get Started Today</span>
     <h2>Ready to Find Your <em>Perfect Plot?</em></h2>
-    <p>Whether you're a first-time buyer or a seasoned investor, our team is ready to guide you. Get a free 7/12 consultation — no obligations, just clarity on your next best move.</p>
+    <p>Whether you're a first-time buyer or a seasoned investor, our team is ready to guide you. Get a free 7/12 consultation, no obligations, just clarity on your next best move.</p>
     <div class="cta-btns">
       <a href="contact.html" class="btn-gold-solid">Book a Free Consultation &rarr;</a>
       <a href="contact.html" class="btn-ghost">Browse All Plots</a>
@@ -1046,7 +1088,7 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="logo-main">7/12 <span>Waale</span></div>
+      <div class="logo-main">7/12 <span>Wale</span></div>
       <span class="footer-sub">Plots & Land Experts · Maharashtra</span>
       <p>We simplify land and plot ownership across Maharashtra, clear 7/12 records, verified titles, and trusted guidance from search to registration.</p>
     </div>
@@ -1075,7 +1117,7 @@
   </div>
   <hr class="footer-divider"/>
   <div class="footer-bottom">
-    <p>© 2025 7/12 Waale. All rights reserved.</p>
+    <p>© 2025 7/12 Wale. All rights reserved.</p>
     <div class="footer-links">
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Use</a>
