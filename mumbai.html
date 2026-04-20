@@ -68,75 +68,85 @@
     .nav-overlay { display: none; position: fixed; inset: 0; z-index: 490; background: rgba(14,9,5,.35); backdrop-filter: blur(2px); }
     .nav-overlay.open { display: block; }
 
-    /* HERO — grid lines removed */
+    /* HERO — centered bottom, no overlay, text glow */
     #hero {
       min-height: 100vh; padding-top: 76px;
-      display: flex; flex-direction: column; justify-content: center;
+      display: flex; flex-direction: column; justify-content: flex-end;
       position: relative; overflow: hidden; background: #0a0603;
     }
     .hero-img-bg {
       position: absolute; inset: 0; z-index: 0;
       background-image: url('https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/DJI_20250623140333_0335_D.jpeg?raw=true');
-      background-size: cover; background-position: center; opacity: .45;
+      background-size: cover; background-position: center; opacity: 1;
     }
-
+    /* Subtle bottom vignette only — no full overlay */
     .hero-bg {
       position: absolute; inset: 0; z-index: 1;
       background:
-        radial-gradient(ellipse 80% 80% at 10% 50%, rgba(61,36,16,.75) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 70% at 90% 20%, rgba(200,150,58,.07) 0%, transparent 55%),
-        radial-gradient(ellipse 80% 100% at 0% 100%, rgba(13,36,16,.6) 0%, transparent 55%),
-        linear-gradient(160deg, rgba(14,9,5,0.65) 0%, rgba(26,12,4,0.55) 35%, rgba(13,26,13,0.6) 100%);
+        linear-gradient(to top, rgba(10,6,3,0.72) 0%, rgba(10,6,3,0.18) 40%, transparent 70%);
     }
-        /* REMOVED: .hero-grid-lines */
-    .orb1 { position: absolute; top: 5%; left: -8%; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(26,92,36,.18) 0%, transparent 65%); animation: float1 12s ease-in-out infinite; pointer-events: none; z-index: 2; }
-    .orb2 { position: absolute; bottom: -10%; right: 0%; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(200,150,58,.10) 0%, transparent 65%); animation: float2 14s ease-in-out infinite; pointer-events: none; z-index: 2; }
-    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(30px,-20px) scale(1.05);} }
-    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-20px,25px) scale(1.08);} }
+    .orb1 { display: none; }
+    .orb2 { display: none; }
 
-    .hero-inner { position: relative; z-index: 3; padding: 6rem 7% 5rem; max-width: 900px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: .6rem; background: rgba(94,186,98,.1); border: 1px solid rgba(94,186,98,.25); color: var(--plant-lime); font-size: .65rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; padding: .42rem 1rem; border-radius: 4px; margin-bottom: 2rem; width: fit-content; animation: fadeUp .7s ease both; }
-    .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--plant-lime); box-shadow: 0 0 8px var(--plant-lime); animation: pulse 2.5s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
-    .hero-h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 6rem); font-weight: 700; line-height: 1.05; color: var(--white); margin-bottom: 1.6rem; animation: fadeUp .7s .1s ease both; }
-    .hero-h1 .accent { display: block; font-style: italic; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--plant-lime)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 24px var(--gold-glow)); }
-    .hero-sub { font-size: clamp(1rem, 1.5vw, 1.22rem); line-height: 1.85; color: rgba(232,201,154,.65); max-width: 620px; margin-bottom: 3rem; animation: fadeUp .7s .2s ease both; font-weight: 400; }
-    .hero-sub strong { color: var(--gold); font-weight: 600; }
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp .7s .3s ease both; }
-    .btn-primary { background: linear-gradient(135deg, var(--plant-mid) 0%, var(--plant-fresh) 100%); color: var(--white); padding: .9rem 2.4rem; border-radius: 7px; font-weight: 600; font-size: .92rem; letter-spacing: .3px; display: inline-flex; align-items: center; gap: .5rem; box-shadow: 0 6px 32px var(--green-glow), 0 0 0 1px rgba(94,186,98,.15); transition: transform .25s, box-shadow .25s; }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 48px var(--green-glow); }
-    .btn-gold-outline { border: 1.5px solid rgba(200,150,58,.45); color: var(--gold-light); padding: .9rem 2.4rem; border-radius: 7px; font-weight: 500; font-size: .92rem; display: inline-flex; align-items: center; gap: .5rem; transition: background .25s, border-color .25s, transform .25s; backdrop-filter: blur(8px); }
-    .btn-gold-outline:hover { background: rgba(200,150,58,.12); border-color: var(--gold); transform: translateY(-3px); }
-    .version-strip { position: relative; z-index: 3; padding: 0 7% 4rem; display: flex; gap: 3rem; flex-wrap: wrap; animation: fadeUp .7s .45s ease both; }
-    .vcard { flex: 1; min-width: 160px; max-width: 220px; padding: 1.4rem 1.6rem; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); transition: background .3s, border-color .3s, transform .3s; }
-    .vcard:hover { background: rgba(94,186,98,.08); border-color: rgba(94,186,98,.2); transform: translateY(-3px); }
-    .vcard .v-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold); line-height: 1; }
-    .vcard .v-title { font-size: .78rem; font-weight: 600; color: rgba(232,201,154,.8); margin: .3rem 0 .25rem; }
-    .vcard .v-desc { font-size: .7rem; color: rgba(232,201,154,.38); line-height: 1.55; }
-
-    /* Hero title glow beam */
-    .hero-glow {
-      position: relative;
-      display: inline-block;
+    .hero-inner {
+      position: relative; z-index: 3;
       width: 100%;
-      margin-top: .8rem;
-      margin-bottom: 2.2rem;
+      padding: 0 0 6rem;
+      display: flex; justify-content: center; align-items: flex-end;
     }
-    .hero-glow::after {
+    .hero-title-wrap {
+      text-align: center;
+      position: relative;
+      white-space: nowrap;
+    }
+    /* Soft radial glow blob behind the text */
+    .hero-title-wrap::before {
       content: '';
-      display: block;
-      margin-top: .55rem;
-      width: 70%;
-      height: 6px;
-      border-radius: 50px;
-      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 45%, var(--plant-lime) 100%);
-      filter: blur(8px);
-      opacity: .85;
-      animation: glowPulse 3s ease-in-out infinite;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 140%; height: 220%;
+      background: radial-gradient(ellipse at center,
+        rgba(200,150,58,.28) 0%,
+        rgba(94,186,98,.14) 40%,
+        transparent 72%);
+      filter: blur(32px);
+      pointer-events: none;
+      z-index: -1;
+      animation: glowBreath 5s ease-in-out infinite;
     }
-    @keyframes glowPulse {
-      0%, 100% { opacity: .7; transform: scaleX(1); filter: blur(8px); }
-      50% { opacity: 1; transform: scaleX(1.04); filter: blur(12px); }
+    @keyframes glowBreath {
+      0%,100% { opacity: .75; transform: translate(-50%,-50%) scale(1); }
+      50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.06); }
+    }
+    .eyebrow { display: none; }
+    .eyebrow-dot { display: none; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+    .hero-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 7vw, 7rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--white);
+      white-space: nowrap;
+      animation: fadeUp .8s .1s ease both;
+    }
+    .hero-h1 .welcome-line {
+      display: block;
+      font-size: clamp(1.2rem, 2.5vw, 2.2rem);
+      font-weight: 400;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.65);
+      margin-bottom: .5rem;
+    }
+    .hero-h1 .accent {
+      display: block;
+      font-style: italic;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light) 50%, var(--plant-lime));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 40px rgba(200,150,58,.55)) drop-shadow(0 0 80px rgba(200,150,58,.25));
     }
 
     /* MARQUEE */
@@ -155,7 +165,7 @@
     .sec-title em { color: var(--plant-mid); font-style: italic; }
     .sec-desc { font-size: .97rem; line-height: 1.85; color: var(--muted); max-width: 620px; margin: 1rem auto 0; }
 
-    /* Left-aligned section header (matching Timeline style) */
+    /* Left-aligned section header */
     .section-header-left { margin-bottom: 4rem; }
     .section-header-left .sec-label { color: var(--plant-mid); }
     .section-header-left h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3vw, 2.9rem); font-weight: 700; line-height: 1.15; color: var(--soil-deep); text-align: left; }
@@ -188,8 +198,6 @@
     .what-img-badge .wb-num { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; color: var(--plant-mid); line-height: 1; letter-spacing: .5px; }
     .what-img-badge .wb-lbl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: .2rem; }
 
-
-
     /* PRESS ARTICLES */
     #press { padding: 6rem 7%; background: var(--white); position: relative; }
     #press::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--plant-mid), var(--gold), var(--plant-mid), transparent); }
@@ -217,7 +225,7 @@
     .press-article-info p strong { color: var(--soil-deep); font-weight: 600; }
     .press-divider { border: none; border-top: 1px solid rgba(107,68,35,.1); margin: 4rem 0; }
 
-    /* IMAGE BREAK — only the first one kept */
+    /* IMAGE BREAK */
     .img-break { height: 420px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .img-break img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .img-break-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(14,9,5,.72) 0%, rgba(13,36,16,.55) 100%); }
@@ -225,13 +233,12 @@
     .big-quote-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 700; color: var(--white); line-height: 1.2; max-width: 860px; }
     .big-quote-text em { font-style: italic; background: linear-gradient(90deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-    /* INFRA CARDS — left-aligned header, no emoji, more image */
+    /* INFRA CARDS */
     #infra-detail { padding: 7rem 7%; background: linear-gradient(180deg, var(--soil-cream) 0%, #ede5d4 100%); position: relative; }
     #infra-detail::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(107,68,35,.2), transparent); }
     .infra-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .infra-card { background: var(--white); border-radius: 18px; overflow: hidden; border: 1px solid rgba(107,68,35,.07); box-shadow: 0 4px 24px rgba(14,9,5,.05); transition: transform .35s, box-shadow .35s; }
     .infra-card:hover { transform: translateY(-6px); box-shadow: 0 20px 56px rgba(14,9,5,.12); }
-    /* Taller image area, no emoji */
     .infra-card-img { position: relative; height: 185px; overflow: hidden; }
     .infra-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
     .infra-card:hover .infra-card-img img { transform: scale(1.06); }
@@ -242,7 +249,6 @@
     .infra-card-tag.sea { background: rgba(14,9,5,.75); color: var(--soil-pale); }
     .infra-card-tag.metro { background: rgba(107,68,35,.85); color: var(--soil-pale); }
     .infra-card-tag.smart { background: rgba(46,125,54,.85); color: var(--white); }
-    /* Reduced top padding to bring white line closer to image */
     .ic-body { padding: .75rem 1.3rem 1.4rem; }
     .ic-body h3 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 700; color: var(--soil-deep); margin-bottom: .35rem; }
     .ic-body p { font-size: .78rem; line-height: 1.6; color: var(--muted); margin-bottom: .75rem; }
@@ -267,11 +273,11 @@
     .wealth-item h4 { font-size: .92rem; font-weight: 600; color: rgba(232,201,154,.9); margin-bottom: .2rem; }
     .wealth-item p { font-size: .82rem; color: rgba(232,201,154,.42); line-height: 1.6; }
     .stat-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-    .sb { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 2rem 1.8rem; transition: background .3s, transform .3s, border-color .3s; position: relative; overflow: hidden; }
+    .sb { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 2rem 1.4rem; transition: background .3s, transform .3s, border-color .3s; position: relative; overflow: hidden; }
     .sb::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity .3s; }
     .sb:hover { background: rgba(255,255,255,.08); transform: translateY(-4px); border-color: rgba(200,150,58,.2); }
     .sb:hover::after { opacity: 1; }
-    .sb .big { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; color: var(--gold); line-height: 1; text-shadow: 0 0 30px rgba(200,150,58,.4); }
+    .sb .big { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; color: var(--gold); line-height: 1; text-shadow: 0 0 30px rgba(200,150,58,.4); word-break: break-word; overflow-wrap: break-word; }
     .sb .sm { font-size: .68rem; font-weight: 500; color: rgba(232,201,154,.42); text-transform: uppercase; letter-spacing: 1.5px; margin-top: .5rem; line-height: 1.55; }
 
     /* CTA BANNER */
@@ -326,8 +332,6 @@
     /* RESPONSIVE */
     @media(max-width:1100px) {
       .what-grid, .wealth-grid { grid-template-columns: 1fr; gap: 3.5rem; }
-      .tl-steps { grid-template-columns: 1fr; gap: 1.5rem; }
-      .tl-steps::before { display: none; }
       .infra-cards-grid { grid-template-columns: 1fr 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
       .footer-brand { grid-column: 1 / -1; }
@@ -340,23 +344,31 @@
       .img-break { height: 300px; }
       .big-quote-text { font-size: 1.6rem !important; }
     }
+    @media(max-width:700px) {
+      .hero-h1 { white-space: normal; text-align: center; }
+      .hero-h1 .welcome-line { letter-spacing: 3px; }
+      .hero-title-wrap::before { width: 180%; }
+    }
     @media(max-width:640px) {
       .infra-cards-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
       .ic-body { padding: .6rem 1rem 1.1rem; }
       .ic-body h3 { font-size: .9rem; }
       .ic-body p { font-size: .75rem; }
       .infra-card-img { height: 130px; }
-      .stat-boxes { grid-template-columns: 1fr 1fr; }
+      /* Fix stat boxes on mobile — stack to single column so numbers don't clip */
+      .stat-boxes { grid-template-columns: 1fr 1fr; gap: .75rem; }
+      .sb { padding: 1.4rem 1rem; }
+      .sb .big { font-size: clamp(1.6rem, 7vw, 2.4rem); }
+      .sb .sm { font-size: .6rem; letter-spacing: 1px; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
       .footer-brand { grid-column: 1 / -1; }
       .footer-col:nth-child(2) { grid-column: 1; }
       .footer-col:nth-child(3) { grid-column: 2; }
-      .hero-btns { flex-direction: column; }
       .cta-btns { flex-direction: column; align-items: center; }
-      .version-strip { gap: 1rem; }
-      .vcard { min-width: 140px; }
       .big-stat-row { gap: 1.5rem; }
-      .tl-step-card { padding: 1.2rem 1.4rem; }
+    }
+    @media(max-width:400px) {
+      .stat-boxes { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -381,42 +393,17 @@
   </div>
 </nav>
 
-<!-- HERO — grid lines removed -->
+<!-- HERO — centered bottom, full image, text glow -->
 <section id="hero">
   <div class="hero-img-bg"></div>
   <div class="hero-bg"></div>
-  <div class="orb1"></div>
-  <div class="orb2"></div>
 
   <div class="hero-inner">
-    <div class="hero-glow">
+    <div class="hero-title-wrap">
       <h1 class="hero-h1">
-        <span style="display:block;color:rgba(255,255,255,.92);">Welcome to</span>
+        <span class="welcome-line">Welcome to</span>
         <span class="accent">Mumbai 3.0</span>
       </h1>
-    </div>
-
-    <div class="hero-btns">
-      <a href="contact.html" class="btn-primary">Explore Plots in the Belt &rarr;</a>
-      <a href="contact.html" class="btn-gold-outline">Book a Free Call</a>
-    </div>
-  </div>
-
-  <div class="version-strip">
-    <div class="vcard">
-      <div class="v-num">1.0</div>
-      <div class="v-title">Original Mumbai</div>
-      <div class="v-desc">South Mumbai, Bandra, Andheri. The founding financial &amp; commercial core.</div>
-    </div>
-    <div class="vcard">
-      <div class="v-num">2.0</div>
-      <div class="v-title">Navi Mumbai</div>
-      <div class="v-desc">CIDCO's planned city. How "too far" became a thriving urban hub.</div>
-    </div>
-    <div class="vcard" style="border-color:rgba(200,150,58,.35);background:rgba(200,150,58,.08);">
-      <div class="v-num" style="color:var(--gold-light);">3.0 ✦</div>
-      <div class="v-title" style="color:rgba(232,201,154,.95);">Uran · Panvel · Pen Belt</div>
-      <div class="v-desc" style="color:rgba(232,201,154,.45);">~124 villages. NMIA, Atal Setu &amp; MMRDA-backed corridors. <span style="color:var(--plant-lime);font-weight:600;">Growth</span> starting now.</div>
     </div>
   </div>
 </section>
@@ -441,7 +428,34 @@
   </div>
 </div>
 
-<!-- PRESS COVERAGE -->
+<!-- WHAT IS MUMBAI 3.0 -->
+<section id="what">
+  <div class="what-grid">
+    <div class="what-text reveal-left">
+      <span class="sec-label">The Big Picture</span>
+      <h2 class="sec-title">What Is <em style="color:var(--plant-mid);">Mumbai 3.0?</em></h2>
+      <div class="what-body">
+        <p><strong style="color:var(--soil-deep);">Mumbai 3.0</strong> is an upcoming planned urban region in the <strong>Mumbai Metropolitan Region (MMR)</strong>, being developed under the Government of Maharashtra and <strong>MMRDA</strong>. Strategically located between Mumbai and Navi Mumbai across the <span class="hl-underline">Uran, Panvel, and Pen belt</span>, covering approximately <strong>124 villages.</strong></p>
+        <p>With major projects like the <strong>Navi Mumbai International Airport (NMIA)</strong>, the <strong>Atal Setu</strong> sea bridge, and upcoming corridors, this region is set to become the next growth hub of MMR, the way Navi Mumbai once evolved from concept to thriving city.</p>
+        <p>At <strong>7/12 Wale</strong>, we offer premium, investment-friendly plots right inside this belt, helping you build a <span class="hl-underline">secure and growing real estate portfolio.</span></p>
+      </div>
+      <div class="big-stat-row">
+        <div class="bstat"><div class="bn">124<span>+</span></div><div class="bl">Villages Covered</div></div>
+        <div class="bstat"><div class="bn">Rs.20L<span>cr</span></div><div class="bl">WEF 2026 Investments</div></div>
+        <div class="bstat"><div class="bn">24</div><div class="bl">MoUs in 3 Days</div></div>
+      </div>
+    </div>
+    <div class="what-img-block reveal-right">
+      <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/MMRDA.jpg?raw=true" alt="MMRDA Mumbai 3.0 Map"/>
+      <div class="what-img-badge">
+        <div class="wb-num">MMRDA</div>
+        <div class="wb-lbl">Detailed Map</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESS COVERAGE — moved below The Big Picture -->
 <section id="press">
   <div class="press-header reveal">
     <span class="sec-label">As Seen In The Press</span>
@@ -471,34 +485,6 @@
   </div>
 </section>
 
-<!-- WHAT IS MUMBAI 3.0 -->
-<section id="what">
-  <div class="what-grid">
-    <div class="what-text reveal-left">
-      <span class="sec-label">The Big Picture</span>
-      <h2 class="sec-title">What Is <em style="color:var(--plant-mid);">Mumbai 3.0?</em></h2>
-      <div class="what-body">
-        <p><strong style="color:var(--soil-deep);">Mumbai 3.0</strong> is an upcoming planned urban region in the <strong>Mumbai Metropolitan Region (MMR)</strong>, being developed under the Government of Maharashtra and <strong>MMRDA</strong>. Strategically located between Mumbai and Navi Mumbai across the <span class="hl-underline">Uran, Panvel, and Pen belt</span>, covering approximately <strong>124 villages.</strong></p>
-        <p>With major projects like the <strong>Navi Mumbai International Airport (NMIA)</strong>, the <strong>Atal Setu</strong> sea bridge, and upcoming corridors, this region is set to become the next growth hub of MMR, the way Navi Mumbai once evolved from concept to thriving city.</p>
-        <p>At <strong>7/12 Wale</strong>, we offer premium, investment-friendly plots right inside this belt, helping you build a <span class="hl-underline">secure and growing real estate portfolio.</span></p>
-      </div>
-      <div class="big-stat-row">
-        <div class="bstat"><div class="bn">124<span>+</span></div><div class="bl">Villages Covered</div></div>
-        <div class="bstat"><div class="bn">Rs.20L<span>cr</span></div><div class="bl">WEF 2026 Investments</div></div>
-        <div class="bstat"><div class="bn">24</div><div class="bl">MoUs in 3 Days</div></div>
-      </div>
-    </div>
-    <div class="what-img-block reveal-right">
-      <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/MMRDA.jpg?raw=true" alt="MMRDA Mumbai 3.0 Map"/>
-      <div class="what-img-badge">
-        <div class="wb-num">MMRDA</div>
-        <div class="wb-lbl">Detailed Map</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
 <!-- IMAGE BREAK -->
 <div class="img-break">
   <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=70" alt="Infrastructure development"/>
@@ -511,7 +497,7 @@
   </div>
 </div>
 
-<!-- INFRASTRUCTURE DEEP DIVE — left-aligned header, no emojis -->
+<!-- INFRASTRUCTURE DEEP DIVE -->
 <section id="infra-detail">
   <div class="section-header-left reveal">
     <span class="sec-label">The Infrastructure Thesis</span>
@@ -631,7 +617,7 @@
     </div>
     <div class="stat-boxes reveal-right">
       <div class="sb">
-        <div class="big">Rs.20L<span style="font-size:1.5rem;">cr</span></div>
+        <div class="big">₹20L<span style="font-size:1.2rem;">cr</span></div>
         <div class="sm">WEF 2026 Investments Secured by MMRDA</div>
       </div>
       <div class="sb">
