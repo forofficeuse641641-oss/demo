@@ -55,22 +55,12 @@
     }
 
     .logo-wrap { display: flex; flex-direction: column; line-height: 1; cursor: pointer; }
-    .logo-main {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700; font-size: 1.75rem;
-      color: var(--white); letter-spacing: -.5px;
-      transition: color .45s ease;
+    .logo-img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      display: block;
     }
-    .logo-main span { color: var(--plant-lime); transition: color .45s ease; }
-    nav.scrolled .logo-main { color: var(--soil-mid); }
-    nav.scrolled .logo-main span { color: var(--plant-mid); }
-    .logo-sub {
-      font-size: .52rem; font-weight: 600;
-      letter-spacing: 4px; text-transform: uppercase;
-      color: rgba(255,255,255,.65); margin-top: 2px;
-      transition: color .45s ease;
-    }
-    nav.scrolled .logo-sub { color: var(--soil-warm); }
 
     .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
     .nav-links a {
@@ -643,6 +633,7 @@
       .phases-img-wrap { border-radius: 12px; }
       .phases-img-wrap img { border-radius: 12px; }
       .phases-note { margin-top: 1.2rem; padding: .75rem 1rem; }
+      .logo-img { height: 38px; }
     }
   </style>
 </head>
@@ -653,8 +644,11 @@
 <!-- NAV -->
 <nav id="navbar">
   <a href="index.html" class="logo-wrap">
-    <div class="logo-main">7/12 <span>Wale</span></div>
-    <div class="logo-sub">Plots & Land Experts · Maharashtra</div>
+    <img
+      src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/brandname.png?raw=true"
+      alt="7/12 Wale — Plots & Land Experts, Maharashtra"
+      class="logo-img"
+    />
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html" class="active">Home</a></li>
@@ -734,7 +728,7 @@
   <div class="plots-grid">
     <div class="plot-card reveal">
       <div class="plot-card-img-wrap">
-        <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/3lakh.jpg?raw=true" alt="Plot Panvel"/>
+        <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/3lakh_new.jpeg?raw=true" alt="Plot Panvel"/>
       </div>
       <div class="pc-body">
         <h3>Investment Plot — Mumbai 3.0</h3>
@@ -747,7 +741,7 @@
     </div>
     <div class="plot-card reveal reveal-delay-1">
       <div class="plot-card-img-wrap">
-        <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/6lakh.jpg?raw=true" alt="Land Alibaug"/>
+        <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/6lakh_new.PNG?raw=true" alt="Land Alibaug"/>
       </div>
       <div class="pc-body">
         <h3>Investment Plot — Mumbai 3.0</h3>
@@ -760,7 +754,7 @@
     </div>
     <div class="plot-card reveal reveal-delay-2">
       <div class="plot-card-img-wrap">
-        <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/3lakh.jpg?raw=true" alt="Plot Khopoli"/>
+        <img src="https://github.com/qwuitty-prog/7-12-Waale/blob/main/assets/khopoli_plot.jpeg?raw=true" alt="Plot Khopoli"/>
       </div>
       <div class="pc-body">
         <h3>Residential Plot — Khopoli-Pali</h3>
