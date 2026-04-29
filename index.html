@@ -1291,7 +1291,9 @@
     .hero-float-badge {
       width: 90px; height: 90px;
       right: 1.5rem;
-      top: 62%;  /* was 30% — pushed down to clear the eyebrow/location text */
+      top: auto !important;
+      bottom: 9rem;
+      animation: floatIn 1s 1.2s forwards !important;
     }
     .badge-inner { font-size: 1rem; }
     .badge-inner strong { font-size: 1.3rem; }
