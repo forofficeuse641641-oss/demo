@@ -64,6 +64,7 @@
     justify-content: space-between;
     padding: 1.2rem 4rem;
     transition: background 0.4s, backdrop-filter 0.4s;
+    overflow: hidden;
   }
   nav.scrolled {
     background: rgba(13, 74, 74, 0.95);
@@ -76,9 +77,11 @@
     text-decoration: none;
   }
   .nav-logo img {
-    height: 64px;
+    height: 128px;
     width: auto;
     filter: drop-shadow(0 2px 8px rgba(232,86,10,0.4));
+    margin-top: -32px;
+    margin-bottom: -32px;
   }
   .nav-links {
     display: flex;
@@ -1091,8 +1094,9 @@
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    overflow: hidden;
   }
-  .footer-logo { height: 50px; width: auto; opacity: 0.85; }
+  .footer-logo { height: 100px; width: auto; opacity: 0.85; margin-top: -25px; margin-bottom: -25px; }
   .footer-copy {
     font-size: 0.8rem;
     color: rgba(255,255,255,0.3);
