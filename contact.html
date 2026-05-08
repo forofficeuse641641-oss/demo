@@ -96,7 +96,7 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 20;
+      z-index: 10;
       width: 280px;
       top: 50%;
       transform: translate(-50%, -50%);
@@ -325,12 +325,11 @@
     #projects {
       background: #0C0C0C;
       position: relative;
-      z-index: 20;
-      /* padding-bottom = 100vh so card 4 stays fully pinned before footer scrolls in */
-      padding: 5rem 1.25rem 20vh;
+      z-index: 10;
+      padding: 5rem 1.25rem 0;
     }
-    @media (min-width: 640px) { #projects { padding: 6rem 2rem 20vh; } }
-    @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 20vh; } }
+    @media (min-width: 640px) { #projects { padding: 6rem 2rem 0; } }
+    @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 0; } }
 
     .projects-h2 {
       font-size: clamp(3rem, 12vw, 160px);
@@ -343,48 +342,32 @@
     }
     @media (min-width: 768px) { .projects-h2 { margin-bottom: 6rem; } }
 
-    /* ─────────────────────────────────────────────────────────────
-       CARD STACK FIX
-       Mobile: each sticky wrap is 56px tall (the offset step).
-       We need enough scroll distance so card 4 fully enters view
-       before the section ends. Formula:
-         4 cards × (card visible height) + extra travel for burial
-       We use 70vh per card on mobile + a buffer, 120vh on desktop.
-    ───────────────────────────────────────────────────────────────*/
     .cards-stack {
       position: relative;
-      /* Mobile: 4 × 70vh gives enough travel for all cards to stack */
-      height: calc(4 * 70vh);
       perspective: 1400px;
       perspective-origin: 50% 0%;
     }
-    @media (min-width: 640px) {
-      /* Desktop: generous 120vh per card so last card isn't rushed */
-      .cards-stack { height: calc(4 * 120vh); }
-    }
 
+    /* ── FIX 1: tighter card gaps — reduce padding-top offsets ── */
+    /* Mobile: sticky offsets keep cards close together */
     .card-sticky-wrap {
       position: sticky;
+      height: 35vh;
       display: flex;
       align-items: flex-start;
-      /* Mobile card "body" height — enough to show content */
-      height: 56px; /* just the sticky header height; card overflows visually */
     }
-    @media (min-width: 640px) {
-      .card-sticky-wrap { height: 100vh; }
-    }
+    @media (min-width: 640px) { .card-sticky-wrap { height: 100vh; } }
 
-    /* Mobile sticky tops — 56px steps so cards peek above each other */
-    .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 14px;  z-index: 10; }
-    .card-sticky-wrap:nth-child(2) { top: 56px;  padding-top: 70px;  z-index: 20; }
-    .card-sticky-wrap:nth-child(3) { top: 112px; padding-top: 126px; z-index: 30; }
-    .card-sticky-wrap:nth-child(4) { top: 168px; padding-top: 182px; z-index: 40; }
+    .card-sticky-wrap:nth-child(1) { top: 0;    padding-top: 8px;  z-index: 10; }
+    .card-sticky-wrap:nth-child(2) { top: 40px; padding-top: 48px; z-index: 20; }
+    .card-sticky-wrap:nth-child(3) { top: 80px; padding-top: 88px; z-index: 30; }
+    .card-sticky-wrap:nth-child(4) { top: 120px; padding-top: 128px; z-index: 40; }
 
     @media (min-width: 640px) {
-      .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 18px; }
-      .card-sticky-wrap:nth-child(2) { top: 64px;  padding-top: 82px; }
-      .card-sticky-wrap:nth-child(3) { top: 128px; padding-top: 146px; }
-      .card-sticky-wrap:nth-child(4) { top: 192px; padding-top: 210px; }
+      .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 10px; }
+      .card-sticky-wrap:nth-child(2) { top: 44px;  padding-top: 54px; }
+      .card-sticky-wrap:nth-child(3) { top: 88px;  padding-top: 98px; }
+      .card-sticky-wrap:nth-child(4) { top: 132px; padding-top: 142px; }
     }
 
     .project-card {
@@ -395,25 +378,12 @@
       padding: 1rem;
       will-change: transform;
       height: auto;
-      /* Never clip — let content define height on all screen sizes */
-      overflow: visible;
+      overflow: hidden;
     }
     @media (min-width: 640px) {
-      .project-card {
-        border-radius: 40px;
-        padding: 1.25rem;
-        /* Cards 1–3 fill the viewport; card 4 (last) must not be clipped */
-        height: calc(100vh - 22px);
-        overflow: hidden;
-      }
+      .project-card { border-radius: 40px; padding: 1.25rem; height: calc(100vh - 22px); }
     }
     @media (min-width: 768px) { .project-card { border-radius: 50px; padding: 1.75rem; } }
-
-    /* Last card: never constrain height or clip content */
-    .card-sticky-wrap:last-child .project-card {
-      height: auto !important;
-      overflow: visible !important;
-    }
 
     .card-top-row {
       display: flex;
@@ -484,6 +454,16 @@
     .card-img-sm2 { height: clamp(90px, 22vw, 260px); }
     .card-img-lg  { height: clamp(170px, 42vw, 450px); }
 
+    /* ── spacer after cards-stack so footer clears the last card ── */
+    .cards-stack-spacer {
+      height: 100vh;
+    }
+    @media (max-width: 639px) {
+      /* Mobile cards are 35vh tall; last card sticks at top:120px.
+         Spacer only needs to cover that last card height + a little breathing room. */
+      .cards-stack-spacer { height: 40vh; }
+    }
+
     /* ── FOOTER ── */
     footer {
       background: #0C0C0C;
@@ -495,7 +475,7 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
       position: relative;
-      z-index: 10;
+      z-index: 50;
     }
 
     /* ── FADE-IN ANIMATIONS ── */
@@ -680,6 +660,10 @@
       </div>
 
     </div><!-- /cards-stack -->
+
+    <!-- FIX 2: spacer pushes footer below the last sticky card -->
+    <div class="cards-stack-spacer"></div>
+
   </section>
 
   <!-- ══════════════════ FOOTER ══════════════════ -->
@@ -779,7 +763,7 @@
   window.addEventListener('scroll', updateMarquee, { passive: true });
   updateMarquee();
 
-  // ── PORTRAIT MARQUEE — auto-scroll ──
+  // ── PORTRAIT MARQUEE — CSS animation loop ──
   const portraitRow = document.getElementById('portrait-row');
   if (portraitRow) {
     const cardWidth = window.innerWidth >= 1024 ? 260 : window.innerWidth >= 640 ? 220 : 180;
@@ -858,10 +842,6 @@
   }
 
   // ── CARD STACKING ──
-  // The 4th card was getting cut off because burial was calculated
-  // relative to card travel distances that ended too soon.
-  // Fix: use the card's own offsetTop relative to the stack section
-  // instead of stickyWraps[j].offsetTop, which stays 0 for sticky elements.
   const cardEls = [
     document.getElementById('card-0'),
     document.getElementById('card-1'),
@@ -872,14 +852,27 @@
   const TILT_PER_LAYER = 3;
   const SCALE_PER_LAYER = 0.018;
 
+  // ── FIX: set cards-stack height dynamically based on actual layout ──
+  function setStackHeight() {
+    const stackEl = document.getElementById('cards-stack');
+    if (!stackEl) return;
+    // Each card needs enough scroll distance to fully enter; last card gets full viewport
+    const isMobile = window.innerWidth < 640;
+    if (isMobile) {
+      // Mobile: 4 cards × 35vh; last card sticky at 120px; minimal extra travel
+      stackEl.style.height = 'calc(4 * 35vh + 10vh)';
+    } else {
+      // Desktop: each card at 100vh, staggered tops + travel room
+      stackEl.style.height = 'calc(4 * 100vh + 20vh)';
+    }
+  }
+  setStackHeight();
+  window.addEventListener('resize', setStackHeight);
+
   function updateCards() {
     const stackEl = document.getElementById('cards-stack');
     if (!stackEl) return;
-    const stackRect = stackEl.getBoundingClientRect();
-    // How far the user has scrolled into the stack section
-    const scrolled = -stackRect.top;
-    const stackHeight = stackEl.offsetHeight;
-    const segmentHeight = stackHeight / stickyWraps.length;
+    const scrolled = -stackEl.getBoundingClientRect().top;
 
     stickyWraps.forEach((wrap, i) => {
       const card = cardEls[i];
@@ -887,10 +880,9 @@
 
       let burial = 0;
       for (let j = i + 1; j < stickyWraps.length; j++) {
-        // Each subsequent card starts stacking at its segment boundary
-        const jSegmentStart = j * segmentHeight;
-        const travelDist = segmentHeight;
-        const prog = Math.max(0, Math.min(1, (scrolled - jSegmentStart + travelDist * 0.5) / (travelDist * 0.7)));
+        const jTop = stickyWraps[j].offsetTop;
+        const travelDist = stickyWraps[j].offsetHeight;
+        const prog = Math.max(0, Math.min(1, (scrolled - jTop + travelDist * 0.5) / (travelDist * 0.7)));
         burial += prog;
       }
 
