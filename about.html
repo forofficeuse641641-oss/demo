@@ -57,15 +57,24 @@
     @media (min-width: 768px) { .hero-h1-wrap { margin-top: -1.25rem; } }
 
     .hero-h1 {
-      font-size: clamp(1.4rem, 7vw, 999px);
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: -0.03em;
       line-height: 1;
-      white-space: nowrap;
       width: 100%;
+      /* Two-line layout on all screens, sized to fit viewport width */
+      font-size: clamp(2.2rem, 11.5vw, 999px);
+      white-space: normal;
+      word-break: break-word;
+      padding: 0 0.5rem;
     }
-    @media (min-width: 640px) { .hero-h1 { font-size: 9vw; } }
+    @media (min-width: 640px) {
+      .hero-h1 {
+        font-size: clamp(3rem, 10vw, 999px);
+        white-space: nowrap;
+        padding: 0;
+      }
+    }
     @media (min-width: 768px) { .hero-h1 { font-size: 10vw; } }
     @media (min-width: 1024px) { .hero-h1 { font-size: 11vw; } }
     @media (min-width: 1280px) { .hero-h1 { font-size: 10vw; } }
@@ -95,13 +104,13 @@
     .hero-portrait-wrap {
       position: absolute;
       left: 50%;
-      transform: translateX(-50%);
       z-index: 10;
-      width: 280px;
+      /* Mobile: centered in hero */
+      width: 240px;
       top: 50%;
-      transform: translate(-50%, -50%);
-      padding: 60px;
-      margin: -60px;
+      transform: translate(-50%, -46%);
+      padding: 40px;
+      margin: -40px;
     }
     @media (min-width: 640px) {
       .hero-portrait-wrap {
@@ -327,9 +336,11 @@
       position: relative;
       z-index: 10;
       padding: 5rem 1.25rem 0;
+      /* Enough bottom padding to buffer contact section */
+      padding-bottom: 20vh;
     }
-    @media (min-width: 640px) { #projects { padding: 6rem 2rem 0; } }
-    @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 0; } }
+    @media (min-width: 640px) { #projects { padding: 6rem 2rem 40vh; } }
+    @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 40vh; } }
 
     .projects-h2 {
       font-size: clamp(3rem, 12vw, 160px);
@@ -348,8 +359,6 @@
       perspective-origin: 50% 0%;
     }
 
-    /* ── FIX 1: tighter card gaps — reduce padding-top offsets ── */
-    /* Mobile: sticky offsets keep cards close together */
     .card-sticky-wrap {
       position: sticky;
       height: 35vh;
@@ -460,7 +469,6 @@
       position: relative;
       overflow: hidden;
       padding: 0;
-      /* visually divided: rounded top like services section but inverted color */
       border-top: 1px solid rgba(215,226,234,0.08);
     }
 
@@ -487,7 +495,13 @@
     @media (min-width: 640px) { .contact-inner { padding: 6rem 2rem 5rem; gap: 3.5rem; } }
     @media (min-width: 768px) { .contact-inner { padding: 7rem 2.5rem 5rem; gap: 4rem; } }
 
-    .contact-top { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .contact-top {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
 
     .contact-h2 {
       font-size: clamp(2.8rem, 11vw, 120px);
@@ -507,7 +521,6 @@
       text-align: center;
     }
 
-    /* contact grid — same divider aesthetic as services list */
     .contact-grid {
       width: 100%;
     }
@@ -607,15 +620,16 @@
     </nav>
 
     <div class="hero-h1-wrap">
-      <h1 class="hero-h1 hero-heading fade-init" data-delay="0.15" data-y="40" data-x="0">Inkwell Media</h1>
+      <h1 class="hero-h1 hero-heading fade-init" data-delay="0.15" data-y="40" data-x="0">Best Media Agency</h1>
     </div>
 
-    <!-- Portrait -->
+    <!-- Logo / Portrait -->
     <div class="hero-portrait-wrap" id="portrait">
       <img
-        src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
-        alt="Jack portrait"
+        src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/orangelogo.png?raw=true"
+        alt="Inkwell Media Logo"
         id="portrait-img"
+        style="width: 200%; margin-left: -50%;"
       />
     </div>
 
@@ -673,7 +687,7 @@
 
     <div class="cards-stack" id="cards-stack">
 
-      <!-- Card 1 -->
+      <!-- Card 1 — Content Creation -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-0">
           <div class="card-top-row">
@@ -696,7 +710,7 @@
         </div>
       </div>
 
-      <!-- Card 2 -->
+      <!-- Card 2 — Performance Marketing -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-1">
           <div class="card-top-row">
@@ -719,7 +733,7 @@
         </div>
       </div>
 
-      <!-- Card 3 -->
+      <!-- Card 3 — Web Development -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-2">
           <div class="card-top-row">
@@ -732,17 +746,17 @@
           </div>
           <div class="card-images">
             <div class="card-col1">
-              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85" alt="" loading="lazy" />
-              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85" alt="" loading="lazy" />
+              <img class="card-img card-img-sm1" src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80&fit=crop" alt="Web design on screen" loading="lazy" />
+              <img class="card-img card-img-sm2" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80&fit=crop" alt="Code editor" loading="lazy" />
             </div>
             <div class="card-col2">
-              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85" alt="" loading="lazy" />
+              <img class="card-img card-img-lg" src="https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800&q=80&fit=crop" alt="Web development workspace" loading="lazy" />
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Card 4 -->
+      <!-- Card 4 — Social Media Management -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-3">
           <div class="card-top-row">
@@ -755,11 +769,11 @@
           </div>
           <div class="card-images">
             <div class="card-col1">
-              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85" alt="" loading="lazy" />
-              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85" alt="" loading="lazy" />
+              <img class="card-img card-img-sm1" src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=600&q=80&fit=crop" alt="Social media apps" loading="lazy" />
+              <img class="card-img card-img-sm2" src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80&fit=crop" alt="Social media analytics" loading="lazy" />
             </div>
             <div class="card-col2">
-              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85" alt="" loading="lazy" />
+              <img class="card-img card-img-lg" src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80&fit=crop" alt="Social media strategy" loading="lazy" />
             </div>
           </div>
         </div>
@@ -985,17 +999,13 @@
   const TILT_PER_LAYER = 3;
   const SCALE_PER_LAYER = 0.018;
 
-  // ── FIX: set cards-stack height dynamically based on actual layout ──
   function setStackHeight() {
     const stackEl = document.getElementById('cards-stack');
     if (!stackEl) return;
-    // Each card needs enough scroll distance to fully enter; last card gets full viewport
     const isMobile = window.innerWidth < 640;
     if (isMobile) {
-      // Mobile: 4 cards × 35vh; last card sticky at 120px; minimal extra travel
       stackEl.style.height = 'calc(4 * 35vh + 10vh)';
     } else {
-      // Desktop: each card at 100vh, staggered tops + travel room
       stackEl.style.height = 'calc(4 * 100vh + 20vh)';
     }
   }
@@ -1082,7 +1092,6 @@
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Orbs — slow drifting glows matching the purple/pink brand palette
     const ORBS = [
       { x: 0.15, y: 0.3,  r: 0.22, color: 'rgba(182,0,168,0.07)',  dx: 0.00012, dy: 0.00008  },
       { x: 0.75, y: 0.6,  r: 0.28, color: 'rgba(118,33,176,0.06)', dx: -0.0001, dy: 0.00006  },
@@ -1090,7 +1099,6 @@
       { x: 0.88, y: 0.15, r: 0.15, color: 'rgba(182,0,168,0.05)',  dx: -0.00008,dy: 0.0001   },
     ];
 
-    // Tiny floating particles
     const particles = Array.from({ length: 38 }, () => ({
       x: Math.random(), y: Math.random(),
       r: Math.random() * 1.2 + 0.4,
@@ -1102,7 +1110,6 @@
     function drawContact() {
       ctx.clearRect(0, 0, W, H);
 
-      // Orbs
       ORBS.forEach(o => {
         o.x += o.dx; o.y += o.dy;
         if (o.x < -0.1 || o.x > 1.1) o.dx *= -1;
@@ -1116,7 +1123,6 @@
         ctx.fill();
       });
 
-      // Particles
       particles.forEach(p => {
         p.x += p.dx; p.y += p.dy;
         if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
@@ -1130,7 +1136,6 @@
       requestAnimationFrame(drawContact);
     }
 
-    // Only animate when contact section is in view (perf)
     const contactSec = document.getElementById('contact');
     let contactVisible = false;
     const contactObs = new IntersectionObserver(entries => {
