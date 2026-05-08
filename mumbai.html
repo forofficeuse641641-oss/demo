@@ -204,7 +204,6 @@
       background: rgba(12,12,12,0.65);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      /* Enhanced glow: top inset highlight + strong bottom glow in brand magenta/purple + outer ambient ring */
       box-shadow:
         0 0 0 1px rgba(182,0,168,0.18),
         0 4px 18px rgba(182,0,168,0.45),
@@ -245,11 +244,12 @@
       margin-top: 0.15rem;
     }
 
+    /* ── HERO PORTRAIT — Mobile: centered + floating ── */
     .hero-portrait-wrap {
       position: absolute;
       left: 50%;
       z-index: 10;
-      width: 488px;
+      width: 244px;
       top: 50%;
       transform: translate(-50%, -48%);
       padding: 40px;
@@ -261,7 +261,7 @@
         top: auto;
         left: 57%;
         transform: translateX(-50%);
-        bottom: 0;
+        bottom: 3rem;
         padding: 80px;
         margin: -80px;
       }
@@ -288,15 +288,18 @@
       to   { opacity: 1;    transform: translate(-50%, -50%) scale(1.18); }
     }
 
+    /* Mobile: always float. Desktop: float unless magnetic JS takes over */
     .hero-portrait-wrap img {
       width: 100%;
       display: block;
-      transition: transform 0.3s ease-out;
       position: relative;
       z-index: 1;
       animation: logoFloat 5s ease-in-out infinite;
     }
-    .hero-portrait-wrap img.is-magnetic { animation: none; }
+    /* Only desktop portrait gets magnetic treatment */
+    @media (min-width: 640px) {
+      .hero-portrait-wrap img.is-magnetic { animation: none; }
+    }
     @keyframes logoFloat {
       0%, 100% { transform: translateY(0px); }
       50%       { transform: translateY(-9px); }
@@ -341,6 +344,9 @@
       gap: 0.75rem;
       will-change: transform;
       margin-bottom: 0.75rem;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      contain: layout style;
     }
     .marquee-img {
       width: 420px;
@@ -348,6 +354,7 @@
       border-radius: 1rem;
       object-fit: cover;
       flex-shrink: 0;
+      transform: translateZ(0);
     }
 
     /* ── ABOUT ── */
@@ -511,6 +518,20 @@
     @media (min-width: 640px) { #projects { padding: 6rem 2rem 40vh; } }
     @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 40vh; } }
 
+    /* FIX: "What We Do" heading container — no clipping, enough horizontal padding */
+    .projects-heading-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-bottom: 4rem;
+      /* Use padding instead of overflow hidden so the O is never cut */
+      padding: 0 0.5rem;
+      overflow: visible;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
     .projects-h2 {
       font-size: clamp(3rem, 12vw, 160px);
       font-weight: 900;
@@ -518,9 +539,11 @@
       line-height: 1;
       letter-spacing: -0.03em;
       text-align: center;
-      margin-bottom: 4rem;
+      /* No overflow hidden, no clipping */
+      overflow: visible;
+      /* Prevent the text itself from getting clipped by its own bounding box */
+      padding-right: 0.04em;
     }
-    @media (min-width: 768px) { .projects-h2 { margin-bottom: 6rem; } }
 
     .cards-stack {
       position: relative;
@@ -854,7 +877,12 @@
 
   <!-- ══════════════════ PROJECTS ══════════════════ -->
   <section id="projects">
-    <h2 class="projects-h2 hero-heading fade-init" data-delay="0" data-y="40" data-x="0">What We Do</h2>
+    <!-- FIX: dedicated wrapper with overflow:visible and padding so "DO" isn't clipped -->
+    <div class="projects-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
+      <h2 class="projects-h2 hero-heading">What We Do</h2>
+      <!-- Slightly larger exclamation: clamp goes from 4rem→12vw→14rem -->
+      <img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/exclamation.png?raw=true" alt="" style="height:clamp(4rem,12vw,14rem);width:auto;display:block;flex-shrink:0;" />
+    </div>
 
     <div class="cards-stack" id="cards-stack">
 
@@ -997,6 +1025,9 @@
 <script>
 (function() {
 
+  // ── DETECT MOBILE ──
+  const isMobile = () => window.innerWidth < 640;
+
   // ── MARQUEE SETUP (16:9) ──
   const row1Images = [
     'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
@@ -1031,7 +1062,7 @@
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-976.mp4',
   ];
 
-  // ── SCROLL-DRIVEN MARQUEE ──
+  // Build marquee rows with tripled images for seamless loop
   function buildRow(el, imgs) {
     const tripled = [...imgs, ...imgs, ...imgs];
     tripled.forEach(src => {
@@ -1051,15 +1082,93 @@
   const r1 = document.getElementById('row1');
   const r2 = document.getElementById('row2');
 
-  function updateMarquee() {
-    const sectionTop = marqueeSec.getBoundingClientRect().top + window.scrollY;
-    const offset = (window.scrollY - sectionTop + window.innerHeight) * 0.65;
-    r1.style.transform = `translateX(${offset - 400}px)`;
-    r2.style.transform = `translateX(${-(offset - 400)}px)`;
-  }
-  window.addEventListener('scroll', updateMarquee, { passive: true });
-  updateMarquee();
+  // ── MARQUEE: Mobile = auto-loop (time-based), Desktop = scroll-driven ──
+  const MARQUEE_PX_PER_SEC = 60; // mobile auto-scroll speed
 
+  // Single-set width for seamless wrap (img width + gap)
+  const IMG_W = 420;
+  const IMG_GAP = 12; // 0.75rem gap
+  const singleSetWidth16 = row1Images.length * (IMG_W + IMG_GAP);
+
+  // Mobile auto-loop state
+  let mobileR1Offset = 0;
+  let mobileR2Offset = 0;
+  let mobileMarqueeLastTs = null;
+  let mobileMarqueeRaf = null;
+
+  function animateMobileMarquee(ts) {
+    if (mobileMarqueeLastTs !== null) {
+      const delta = ts - mobileMarqueeLastTs;
+      const step = MARQUEE_PX_PER_SEC * (delta / 1000);
+
+      // row1: left to right (positive direction = moves right, so offset increases then wraps)
+      mobileR1Offset += step;
+      if (mobileR1Offset >= singleSetWidth16) mobileR1Offset -= singleSetWidth16;
+
+      // row2: right to left (offset decreases)
+      mobileR2Offset -= step;
+      if (Math.abs(mobileR2Offset) >= singleSetWidth16) mobileR2Offset += singleSetWidth16;
+
+      r1.style.transform = `translate3d(${mobileR1Offset}px,0,0)`;
+      r2.style.transform = `translate3d(${mobileR2Offset}px,0,0)`;
+    }
+    mobileMarqueeLastTs = ts;
+    mobileMarqueeRaf = requestAnimationFrame(animateMobileMarquee);
+  }
+
+  // Desktop scroll-driven state
+  let marqueeSectionTop = marqueeSec.offsetTop;
+  window.addEventListener('resize', () => { marqueeSectionTop = marqueeSec.offsetTop; }, { passive: true });
+
+  let marqueeScrollY = window.scrollY;
+  let marqueeRafPending = false;
+
+  function applyDesktopMarquee() {
+    marqueeRafPending = false;
+    const offset = (marqueeScrollY - marqueeSectionTop + window.innerHeight) * 0.65;
+    const v1 = offset - 400;
+    const v2 = -(offset - 400);
+    r1.style.transform = `translate3d(${v1}px,0,0)`;
+    r2.style.transform = `translate3d(${v2}px,0,0)`;
+  }
+
+  function onScrollDesktopMarquee() {
+    marqueeScrollY = window.scrollY;
+    if (!marqueeRafPending) {
+      marqueeRafPending = true;
+      requestAnimationFrame(applyDesktopMarquee);
+    }
+  }
+
+  // Setup marquee based on viewport, re-check on resize
+  let marqueeMode = null; // 'mobile' | 'desktop'
+
+  function setupMarquee() {
+    const mobile = isMobile();
+    if (mobile && marqueeMode !== 'mobile') {
+      // Switch to mobile auto-loop
+      marqueeMode = 'mobile';
+      window.removeEventListener('scroll', onScrollDesktopMarquee);
+      if (!mobileMarqueeRaf) {
+        mobileMarqueeLastTs = null;
+        mobileMarqueeRaf = requestAnimationFrame(animateMobileMarquee);
+      }
+    } else if (!mobile && marqueeMode !== 'desktop') {
+      // Switch to desktop scroll-driven
+      marqueeMode = 'desktop';
+      if (mobileMarqueeRaf) {
+        cancelAnimationFrame(mobileMarqueeRaf);
+        mobileMarqueeRaf = null;
+      }
+      window.addEventListener('scroll', onScrollDesktopMarquee, { passive: true });
+      applyDesktopMarquee();
+    }
+  }
+
+  setupMarquee();
+  window.addEventListener('resize', setupMarquee, { passive: true });
+
+  // ── PORTRAIT MARQUEE (9:16) — always time-based ──
   function buildPortraitRow(el, videos) {
     const tripled = [...videos, ...videos, ...videos];
     tripled.forEach(src => {
@@ -1082,7 +1191,6 @@
 
   buildPortraitRow(document.getElementById('portrait-row'), portraitVideos);
 
-  // ── PORTRAIT MARQUEE — time-based animation ──
   const portraitRow = document.getElementById('portrait-row');
   if (portraitRow) {
     const cardWidth = window.innerWidth >= 1024 ? 260 : window.innerWidth >= 640 ? 220 : 180;
@@ -1178,8 +1286,8 @@
   function setStackHeight() {
     const stackEl = document.getElementById('cards-stack');
     if (!stackEl) return;
-    const isMobile = window.innerWidth < 640;
-    if (isMobile) {
+    const mobile = window.innerWidth < 640;
+    if (mobile) {
       stackEl.style.height = 'calc(4 * 35vh + 10vh)';
     } else {
       stackEl.style.height = 'calc(4 * 100vh + 20vh)';
@@ -1218,15 +1326,18 @@
   window.addEventListener('scroll', updateCards, { passive: true });
   updateCards();
 
-  // ── MAGNETIC PORTRAIT — reacts to cursor anywhere in #hero ──
+  // ── MAGNETIC PORTRAIT — Desktop only ──
   const heroSection = document.getElementById('hero');
   const portraitImg = document.getElementById('portrait-img');
   const STRENGTH = 8;
 
-  if (heroSection && portraitImg) {
+  if (heroSection && portraitImg && !isMobile()) {
     let isActive = false;
 
     heroSection.addEventListener('mousemove', (e) => {
+      // Only apply on desktop
+      if (isMobile()) return;
+
       const rect = heroSection.getBoundingClientRect();
       const dx = e.clientX - (rect.left + rect.width / 2);
       const dy = e.clientY - (rect.top + rect.height / 2);
@@ -1240,6 +1351,7 @@
     });
 
     heroSection.addEventListener('mouseleave', () => {
+      if (isMobile()) return;
       portraitImg.classList.remove('is-magnetic');
       portraitImg.style.transition = 'transform 0.6s ease-in-out';
       portraitImg.style.transform = 'translate3d(0, 0, 0)';
