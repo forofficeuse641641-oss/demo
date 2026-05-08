@@ -62,7 +62,6 @@
       letter-spacing: -0.03em;
       line-height: 1;
       width: 100%;
-      /* Two-line layout on all screens, sized to fit viewport width */
       font-size: clamp(2.2rem, 11.5vw, 999px);
       white-space: normal;
       word-break: break-word;
@@ -105,7 +104,6 @@
       position: absolute;
       left: 50%;
       z-index: 10;
-      /* Mobile: centered in hero */
       width: 240px;
       top: 50%;
       transform: translate(-50%, -46%);
@@ -253,6 +251,7 @@
       will-change: transform;
     }
 
+    /* Video cards in the portrait marquee */
     .portrait-card {
       width: 180px;
       height: 320px;
@@ -260,6 +259,7 @@
       object-fit: cover;
       flex-shrink: 0;
       display: block;
+      background: #111;
     }
     @media (min-width: 640px) {
       .portrait-card { width: 220px; height: 390px; }
@@ -336,7 +336,6 @@
       position: relative;
       z-index: 10;
       padding: 5rem 1.25rem 0;
-      /* Enough bottom padding to buffer contact section */
       padding-bottom: 20vh;
     }
     @media (min-width: 640px) { #projects { padding: 6rem 2rem 40vh; } }
@@ -854,18 +853,19 @@
     'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
   ];
 
-  const portraitImages = [
-    'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
-    'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
-    'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
-    'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
-    'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
-    'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
-    'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
-    'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
-    'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
-    'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
-    'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
+  // ── PORTRAIT MARQUEE — your 11 videos (raw GitHub URLs) ──
+  const portraitVideos = [
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-63.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-123.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-437.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-666.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-697.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-714.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-820.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-852.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-948.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-969.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-976.mp4',
   ];
 
   function buildRow(el, imgs) {
@@ -883,18 +883,44 @@
   buildRow(document.getElementById('row1'), row1Images);
   buildRow(document.getElementById('row2'), row2Images);
 
-  function buildPortraitRow(el, imgs) {
-    const tripled = [...imgs, ...imgs, ...imgs];
+  // Build portrait row using <video> elements instead of <img>
+  function buildPortraitRow(el, videos) {
+    // Triple the set so the seamless loop has enough content
+    const tripled = [...videos, ...videos, ...videos];
     tripled.forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.className = 'portrait-card';
-      img.loading = 'lazy';
-      img.alt = '';
-      el.appendChild(img);
+      const video = document.createElement('video');
+      video.src = src;
+      video.className = 'portrait-card';
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      // Lazy-load: use IntersectionObserver so off-screen videos don't load
+      video.preload = 'none';
+      el.appendChild(video);
     });
+
+    // Lazy-play: start loading/playing only when near viewport
+    const ioOptions = { rootMargin: '200px' };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const v = entry.target;
+        if (entry.isIntersecting) {
+          if (v.preload === 'none') {
+            v.preload = 'auto';
+            v.load();
+          }
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      });
+    }, ioOptions);
+
+    el.querySelectorAll('video').forEach(v => io.observe(v));
   }
-  buildPortraitRow(document.getElementById('portrait-row'), portraitImages);
+
+  buildPortraitRow(document.getElementById('portrait-row'), portraitVideos);
 
   // ── SCROLL-DRIVEN MARQUEE ──
   const marqueeSec = document.getElementById('marquee');
@@ -915,7 +941,7 @@
   if (portraitRow) {
     const cardWidth = window.innerWidth >= 1024 ? 260 : window.innerWidth >= 640 ? 220 : 180;
     const gap = 12;
-    const singleSetWidth = portraitImages.length * (cardWidth + gap);
+    const singleSetWidth = portraitVideos.length * (cardWidth + gap);
 
     let portraitOffset = 0;
     const PORTRAIT_SPEED = 1.2;
