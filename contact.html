@@ -327,6 +327,8 @@
       position: relative;
       z-index: 10;
       padding: 5rem 1.25rem 0;
+      /* extend the section's painted area so it covers contact heading scrolling beneath */
+      margin-bottom: -1px;
     }
     @media (min-width: 640px) { #projects { padding: 6rem 2rem 0; } }
     @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 0; } }
@@ -454,28 +456,135 @@
     .card-img-sm2 { height: clamp(90px, 22vw, 260px); }
     .card-img-lg  { height: clamp(170px, 42vw, 450px); }
 
-    /* ── spacer after cards-stack so footer clears the last card ── */
-    .cards-stack-spacer {
-      height: 100vh;
-    }
-    @media (max-width: 639px) {
-      /* Mobile cards are 35vh tall; last card sticks at top:120px.
-         Spacer only needs to cover that last card height + a little breathing room. */
-      .cards-stack-spacer { height: 40vh; }
+    /* ── CONTACT ── */
+    #contact {
+      background: #0C0C0C;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+      border-top: 1px solid rgba(215,226,234,0.08);
+      /* Cards section is z-index:10, contact must be below so cards cover the heading */
+      z-index: 1;
     }
 
-    /* ── FOOTER ── */
-    footer {
-      background: #0C0C0C;
-      text-align: center;
-      padding: 5rem 1.25rem 4rem;
-      color: rgba(215,226,234,0.4);
-      font-size: 0.85rem;
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+    #contact-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .contact-inner {
       position: relative;
-      z-index: 50;
+      z-index: 1;
+      max-width: 64rem;
+      margin: 0 auto;
+      padding: 5rem 1.25rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+    }
+    @media (min-width: 640px) { .contact-inner { padding: 6rem 2rem 5rem; gap: 3.5rem; } }
+    @media (min-width: 768px) { .contact-inner { padding: 7rem 2.5rem 5rem; gap: 4rem; } }
+
+    .contact-top { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+    .contact-h2 {
+      font-size: clamp(2.8rem, 11vw, 120px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .contact-sub {
+      color: #D7E2EA;
+      font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+      font-weight: 300;
+      opacity: 0.55;
+      max-width: 360px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* contact grid — same divider aesthetic as services list */
+    .contact-grid {
+      width: 100%;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.4rem 0;
+      border-top: 1px solid rgba(215,226,234,0.1);
+      text-decoration: none;
+      transition: background 0.2s;
+      border-radius: 8px;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    .contact-item:last-child { border-bottom: 1px solid rgba(215,226,234,0.1); }
+    @media (min-width: 640px) { .contact-item { padding: 1.75rem 0.5rem; } }
+
+    .contact-item:hover .contact-item-value {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+    .contact-item:hover .contact-item-arrow {
+      opacity: 1;
+      transform: translateX(2px) translateY(-2px);
+    }
+    .contact-item:hover {
+      background: rgba(215,226,234,0.03);
+    }
+
+    .contact-item-label {
+      color: #D7E2EA;
+      font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 300;
+      opacity: 0.4;
+      min-width: 90px;
+      flex-shrink: 0;
+    }
+    @media (min-width: 640px) { .contact-item-label { min-width: 120px; } }
+
+    .contact-item-value {
+      color: #D7E2EA;
+      font-size: clamp(0.9rem, 2vw, 1.35rem);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex: 1;
+      opacity: 0.85;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .contact-item-arrow {
+      color: #D7E2EA;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      opacity: 0.3;
+      transition: opacity 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .contact-cta { display: flex; justify-content: center; }
+
+    .contact-footer-line {
+      color: rgba(215,226,234,0.2);
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(215,226,234,0.06);
+      width: 100%;
     }
 
     /* ── FADE-IN ANIMATIONS ── */
@@ -661,19 +770,46 @@
 
     </div><!-- /cards-stack -->
 
-    <!-- FIX 2: spacer pushes footer below the last sticky card -->
-    <div class="cards-stack-spacer"></div>
-
   </section>
 
-  <!-- ══════════════════ FOOTER ══════════════════ -->
-  <footer id="contact">
-    <p style="color:#D7E2EA;font-size:clamp(1rem,3vw,2rem);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.5rem;">
-      Let&apos;s work together
-    </p>
-    <a href="mailto:hello@inkwellmedia.co" class="contact-btn" style="display:inline-block;">Contact Us</a>
-    <p style="margin-top:3rem;opacity:0.4;font-size:0.8rem;">© 2025 Inkwell Media. All rights reserved.</p>
-  </footer>
+  <!-- ══════════════════ CONTACT ══════════════════ -->
+  <section id="contact">
+    <canvas id="contact-canvas"></canvas>
+    <div class="contact-inner">
+      <div class="contact-top fade-init" data-delay="0" data-y="40" data-x="0">
+        <h2 class="contact-h2 hero-heading">Get In Touch</h2>
+        <p class="contact-sub">Ready to craft something unforgettable? Drop us a line — we respond fast.</p>
+      </div>
+      <div class="contact-grid fade-init" data-delay="0.15" data-y="30" data-x="0">
+        <a href="mailto:hello@inkwellmedia.co" class="contact-item">
+          <span class="contact-item-label">Email</span>
+          <span class="contact-item-value">hello@inkwellmedia.co</span>
+          <span class="contact-item-arrow">↗</span>
+        </a>
+        <a href="https://www.instagram.com/inkwellmediaa/" target="_blank" class="contact-item">
+          <span class="contact-item-label">Instagram</span>
+          <span class="contact-item-value">@inkwellmediaa</span>
+          <span class="contact-item-arrow">↗</span>
+        </a>
+        <a href="https://wa.me/919172695325" target="_blank" class="contact-item">
+          <span class="contact-item-label">WhatsApp</span>
+          <span class="contact-item-value">+91 91726 95325</span>
+          <span class="contact-item-arrow">↗</span>
+        </a>
+        <a href="https://www.youtube.com/@InkwellMediaProduction" target="_blank" class="contact-item">
+          <span class="contact-item-label">YouTube</span>
+          <span class="contact-item-value">@InkwellMediaProduction</span>
+          <span class="contact-item-arrow">↗</span>
+        </a>
+      </div>
+      <div class="contact-cta fade-init" data-delay="0.3" data-y="20" data-x="0">
+        <a href="mailto:hello@inkwellmedia.co" class="contact-btn">Start a Project</a>
+      </div>
+      <div class="contact-footer-line">
+        <span>© 2025 Inkwell Media. All rights reserved.</span>
+      </div>
+    </div>
+  </section>
 
 </div><!-- /main-wrapper -->
 
@@ -934,6 +1070,77 @@
         }
       }
     });
+  }
+
+  // ── CONTACT CANVAS — floating orbs / particles ──
+  const canvas = document.getElementById('contact-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resizeCanvas() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Orbs — slow drifting glows matching the purple/pink brand palette
+    const ORBS = [
+      { x: 0.15, y: 0.3,  r: 0.22, color: 'rgba(182,0,168,0.07)',  dx: 0.00012, dy: 0.00008  },
+      { x: 0.75, y: 0.6,  r: 0.28, color: 'rgba(118,33,176,0.06)', dx: -0.0001, dy: 0.00006  },
+      { x: 0.5,  y: 0.85, r: 0.18, color: 'rgba(190,76,0,0.05)',   dx: 0.00007, dy: -0.00009 },
+      { x: 0.88, y: 0.15, r: 0.15, color: 'rgba(182,0,168,0.05)',  dx: -0.00008,dy: 0.0001   },
+    ];
+
+    // Tiny floating particles
+    const particles = Array.from({ length: 38 }, () => ({
+      x: Math.random(), y: Math.random(),
+      r: Math.random() * 1.2 + 0.4,
+      opacity: Math.random() * 0.25 + 0.05,
+      dx: (Math.random() - 0.5) * 0.00015,
+      dy: (Math.random() - 0.5) * 0.00015,
+    }));
+
+    function drawContact() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Orbs
+      ORBS.forEach(o => {
+        o.x += o.dx; o.y += o.dy;
+        if (o.x < -0.1 || o.x > 1.1) o.dx *= -1;
+        if (o.y < -0.1 || o.y > 1.1) o.dy *= -1;
+        const grd = ctx.createRadialGradient(o.x*W, o.y*H, 0, o.x*W, o.y*H, o.r * Math.min(W,H));
+        grd.addColorStop(0, o.color);
+        grd.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.beginPath();
+        ctx.arc(o.x*W, o.y*H, o.r * Math.min(W,H), 0, Math.PI*2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+      });
+
+      // Particles
+      particles.forEach(p => {
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+        if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x*W, p.y*H, p.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(215,226,234,${p.opacity})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(drawContact);
+    }
+
+    // Only animate when contact section is in view (perf)
+    const contactSec = document.getElementById('contact');
+    let contactVisible = false;
+    const contactObs = new IntersectionObserver(entries => {
+      contactVisible = entries[0].isIntersecting;
+      if (contactVisible) drawContact();
+    }, { threshold: 0.01 });
+    contactObs.observe(contactSec);
   }
 
 })();
