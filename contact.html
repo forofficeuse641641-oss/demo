@@ -117,7 +117,7 @@
       letter-spacing: -0.03em;
       line-height: 1;
       width: 100%;
-      font-size: clamp(2rem, 10.5vw, 999px);
+      font-size: clamp(3.2rem, 14vw, 999px);
       white-space: normal;
       word-break: break-word;
       padding: 0 0.5rem;
@@ -174,17 +174,17 @@
       position: absolute;
       z-index: 12;
       display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      top: 4rem;
-      right: 1.25rem;
+      flex-direction: row;
+      gap: 0.6rem;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
     }
     @media (min-width: 640px) {
       .hero-kpis {
         flex-direction: row;
         gap: 0.75rem;
-        top: auto;
-        right: auto;
         bottom: 3rem;
         left: 50%;
         transform: translateX(-50%);
@@ -200,11 +200,16 @@
       justify-content: center;
       padding: 0.5rem 0.9rem;
       border-radius: 9999px;
-      border: 1px solid rgba(215,226,234,0.16);
-      background: rgba(12,12,12,0.6);
+      border: 1px solid rgba(215,226,234,0.22);
+      background: rgba(12,12,12,0.65);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 0 20px rgba(182,0,168,0.12), inset 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow:
+        0 0 0 1px rgba(182,0,168,0.18),
+        0 4px 18px rgba(182,0,168,0.45),
+        0 8px 40px rgba(118,33,176,0.35),
+        0 16px 60px rgba(182,0,168,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.08);
       will-change: transform;
       animation: kpiLevitate 4s ease-in-out infinite;
       min-width: 84px;
@@ -243,9 +248,9 @@
       position: absolute;
       left: 50%;
       z-index: 10;
-      width: 195px;
+      width: 244px;
       top: 50%;
-      transform: translate(-50%, -44%);
+      transform: translate(-50%, -48%);
       padding: 40px;
       margin: -40px;
     }
@@ -255,7 +260,7 @@
         top: auto;
         left: 57%;
         transform: translateX(-50%);
-        bottom: 0;
+        bottom: 3rem;
         padding: 80px;
         margin: -80px;
       }
@@ -335,6 +340,9 @@
       gap: 0.75rem;
       will-change: transform;
       margin-bottom: 0.75rem;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      contain: layout style;
     }
     .marquee-img {
       width: 420px;
@@ -342,6 +350,7 @@
       border-radius: 1rem;
       object-fit: cover;
       flex-shrink: 0;
+      transform: translateZ(0);
     }
 
     /* ── ABOUT ── */
@@ -512,9 +521,10 @@
       line-height: 1;
       letter-spacing: -0.03em;
       text-align: center;
-      margin-bottom: 4rem;
+      margin-bottom: 0;
+      /* FIX: ensure text is never clipped */
+      overflow: visible;
     }
-    @media (min-width: 768px) { .projects-h2 { margin-bottom: 6rem; } }
 
     .cards-stack {
       position: relative;
@@ -848,7 +858,12 @@
 
   <!-- ══════════════════ PROJECTS ══════════════════ -->
   <section id="projects">
-    <h2 class="projects-h2 hero-heading fade-init" data-delay="0" data-y="40" data-x="0">What We Do</h2>
+    <!-- FIX: overflow:visible prevents text crop; padding gives breathing room on both sides -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:4rem;overflow:visible;padding:0 1.5rem;" class="fade-init" data-delay="0" data-y="40" data-x="0">
+      <h2 class="projects-h2 hero-heading">What We Do</h2>
+      <!-- FIX: increased exclamation size from clamp(2.5rem,8vw,9rem) to clamp(3.5rem,10vw,12rem) -->
+      <img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/exclamation.png?raw=true" alt="" style="height:clamp(3.5rem,10vw,12rem);width:auto;display:block;flex-shrink:0;" />
+    </div>
 
     <div class="cards-stack" id="cards-stack">
 
@@ -1000,10 +1015,6 @@
     'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
     'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
     'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
-    'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
-    'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
-    'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
-    'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
   ];
   const row2Images = [
     'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif',
@@ -1013,9 +1024,6 @@
     'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif',
     'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif',
     'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif',
-    'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif',
-    'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif',
-    'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
   ];
 
   const portraitVideos = [
@@ -1032,6 +1040,7 @@
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-976.mp4',
   ];
 
+  // ── SCROLL-DRIVEN MARQUEE (GPU-composited, no layout thrash) ──
   function buildRow(el, imgs) {
     const tripled = [...imgs, ...imgs, ...imgs];
     tripled.forEach(src => {
@@ -1046,6 +1055,35 @@
 
   buildRow(document.getElementById('row1'), row1Images);
   buildRow(document.getElementById('row2'), row2Images);
+
+  const marqueeSec = document.getElementById('marquee');
+  const r1 = document.getElementById('row1');
+  const r2 = document.getElementById('row2');
+
+  let marqueeSectionTop = marqueeSec.offsetTop;
+  window.addEventListener('resize', () => { marqueeSectionTop = marqueeSec.offsetTop; }, { passive: true });
+
+  let marqueeScrollY = window.scrollY;
+  let marqueeRafPending = false;
+
+  function applyMarquee() {
+    marqueeRafPending = false;
+    const offset = (marqueeScrollY - marqueeSectionTop + window.innerHeight) * 0.65;
+    const v1 = offset - 400;
+    const v2 = -(offset - 400);
+    r1.style.transform = `translate3d(${v1}px,0,0)`;
+    r2.style.transform = `translate3d(${v2}px,0,0)`;
+  }
+
+  window.addEventListener('scroll', () => {
+    marqueeScrollY = window.scrollY;
+    if (!marqueeRafPending) {
+      marqueeRafPending = true;
+      requestAnimationFrame(applyMarquee);
+    }
+  }, { passive: true });
+
+  applyMarquee();
 
   function buildPortraitRow(el, videos) {
     const tripled = [...videos, ...videos, ...videos];
@@ -1068,20 +1106,6 @@
   }
 
   buildPortraitRow(document.getElementById('portrait-row'), portraitVideos);
-
-  // ── SCROLL-DRIVEN MARQUEE ──
-  const marqueeSec = document.getElementById('marquee');
-  const r1 = document.getElementById('row1');
-  const r2 = document.getElementById('row2');
-
-  function updateMarquee() {
-    const sectionTop = marqueeSec.getBoundingClientRect().top + window.scrollY;
-    const offset = (window.scrollY - sectionTop + window.innerHeight) * 0.65;
-    r1.style.transform = `translateX(${offset - 400}px)`;
-    r2.style.transform = `translateX(${-(offset - 400)}px)`;
-  }
-  window.addEventListener('scroll', updateMarquee, { passive: true });
-  updateMarquee();
 
   // ── PORTRAIT MARQUEE — time-based animation ──
   const portraitRow = document.getElementById('portrait-row');
@@ -1229,7 +1253,6 @@
 
     heroSection.addEventListener('mousemove', (e) => {
       const rect = heroSection.getBoundingClientRect();
-      // Offset from hero center, so left edge = negative, right edge = positive
       const dx = e.clientX - (rect.left + rect.width / 2);
       const dy = e.clientY - (rect.top + rect.height / 2);
 
