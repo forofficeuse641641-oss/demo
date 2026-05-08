@@ -96,7 +96,7 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 20;
+      z-index: 10;
       width: 280px;
       top: 50%;
       transform: translate(-50%, -50%);
@@ -325,12 +325,11 @@
     #projects {
       background: #0C0C0C;
       position: relative;
-      z-index: 20;
-      /* padding-bottom = 100vh so card 4 stays fully pinned before footer scrolls in */
-      padding: 5rem 1.25rem 20vh;
+      z-index: 10;
+      padding: 5rem 1.25rem 0;
     }
-    @media (min-width: 640px) { #projects { padding: 6rem 2rem 20vh; } }
-    @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 20vh; } }
+    @media (min-width: 640px) { #projects { padding: 6rem 2rem 0; } }
+    @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 0; } }
 
     .projects-h2 {
       font-size: clamp(3rem, 12vw, 160px);
@@ -343,27 +342,33 @@
     }
     @media (min-width: 768px) { .projects-h2 { margin-bottom: 6rem; } }
 
-    /* ── CARD STACK ── */
     .cards-stack {
       position: relative;
-      /* 4 cards × 100vh + 100vh bottom buffer = 5 screens of scroll */
-      height: calc(5 * 100vh);
       perspective: 1400px;
       perspective-origin: 50% 0%;
     }
 
+    /* ── FIX 1: tighter card gaps — reduce padding-top offsets ── */
+    /* Mobile: sticky offsets keep cards close together */
     .card-sticky-wrap {
       position: sticky;
-      height: 100vh;
+      height: 35vh;
       display: flex;
       align-items: flex-start;
     }
+    @media (min-width: 640px) { .card-sticky-wrap { height: 100vh; } }
 
-    /* Staggered tops — each card peeks 64px lower than the previous */
-    .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 18px;  z-index: 10; }
-    .card-sticky-wrap:nth-child(2) { top: 64px;  padding-top: 82px;  z-index: 20; }
-    .card-sticky-wrap:nth-child(3) { top: 128px; padding-top: 146px; z-index: 30; }
-    .card-sticky-wrap:nth-child(4) { top: 192px; padding-top: 210px; z-index: 40; }
+    .card-sticky-wrap:nth-child(1) { top: 0;    padding-top: 8px;  z-index: 10; }
+    .card-sticky-wrap:nth-child(2) { top: 40px; padding-top: 48px; z-index: 20; }
+    .card-sticky-wrap:nth-child(3) { top: 80px; padding-top: 88px; z-index: 30; }
+    .card-sticky-wrap:nth-child(4) { top: 120px; padding-top: 128px; z-index: 40; }
+
+    @media (min-width: 640px) {
+      .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 10px; }
+      .card-sticky-wrap:nth-child(2) { top: 44px;  padding-top: 54px; }
+      .card-sticky-wrap:nth-child(3) { top: 88px;  padding-top: 98px; }
+      .card-sticky-wrap:nth-child(4) { top: 132px; padding-top: 142px; }
+    }
 
     .project-card {
       width: 100%;
@@ -372,19 +377,13 @@
       background: #0C0C0C;
       padding: 1rem;
       will-change: transform;
-      height: calc(100vh - 22px);
+      height: auto;
       overflow: hidden;
     }
     @media (min-width: 640px) {
-      .project-card { border-radius: 40px; padding: 1.25rem; }
+      .project-card { border-radius: 40px; padding: 1.25rem; height: calc(100vh - 22px); }
     }
     @media (min-width: 768px) { .project-card { border-radius: 50px; padding: 1.75rem; } }
-
-    /* Last card: auto height so images never get clipped */
-    .card-sticky-wrap:last-child .project-card {
-      height: auto !important;
-      overflow: visible !important;
-    }
 
     .card-top-row {
       display: flex;
@@ -455,6 +454,17 @@
     .card-img-sm2 { height: clamp(90px, 22vw, 260px); }
     .card-img-lg  { height: clamp(170px, 42vw, 450px); }
 
+    /* ── FIX 2: spacer after cards-stack so footer clears the last card ── */
+    .cards-stack-spacer {
+      /* On desktop each sticky card peeks out ~132px from top;
+         last card (card 4) is at top:132px + its full card height (100vh - 22px).
+         We add generous padding so the footer sits well below. */
+      height: 100vh;
+    }
+    @media (max-width: 639px) {
+      .cards-stack-spacer { height: 50vh; }
+    }
+
     /* ── FOOTER ── */
     footer {
       background: #0C0C0C;
@@ -466,7 +476,7 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
       position: relative;
-      z-index: 10;
+      z-index: 50;
     }
 
     /* ── FADE-IN ANIMATIONS ── */
@@ -651,6 +661,10 @@
       </div>
 
     </div><!-- /cards-stack -->
+
+    <!-- FIX 2: spacer pushes footer below the last sticky card -->
+    <div class="cards-stack-spacer"></div>
+
   </section>
 
   <!-- ══════════════════ FOOTER ══════════════════ -->
@@ -750,7 +764,7 @@
   window.addEventListener('scroll', updateMarquee, { passive: true });
   updateMarquee();
 
-  // ── PORTRAIT MARQUEE — auto-scroll ──
+  // ── PORTRAIT MARQUEE — CSS animation loop ──
   const portraitRow = document.getElementById('portrait-row');
   if (portraitRow) {
     const cardWidth = window.innerWidth >= 1024 ? 260 : window.innerWidth >= 640 ? 220 : 180;
@@ -839,12 +853,27 @@
   const TILT_PER_LAYER = 3;
   const SCALE_PER_LAYER = 0.018;
 
+  // ── FIX: set cards-stack height dynamically based on actual layout ──
+  function setStackHeight() {
+    const stackEl = document.getElementById('cards-stack');
+    if (!stackEl) return;
+    // Each card needs enough scroll distance to fully enter; last card gets full viewport
+    const isMobile = window.innerWidth < 640;
+    if (isMobile) {
+      // Mobile: 4 cards × 35vh each + some extra travel
+      stackEl.style.height = 'calc(4 * 35vh + 60vh)';
+    } else {
+      // Desktop: each card at 100vh, staggered tops + travel room
+      stackEl.style.height = 'calc(4 * 100vh + 20vh)';
+    }
+  }
+  setStackHeight();
+  window.addEventListener('resize', setStackHeight);
+
   function updateCards() {
     const stackEl = document.getElementById('cards-stack');
     if (!stackEl) return;
-    // How many px the top of the stack is above the viewport top
     const scrolled = -stackEl.getBoundingClientRect().top;
-    const vh = window.innerHeight;
 
     stickyWraps.forEach((wrap, i) => {
       const card = cardEls[i];
@@ -852,9 +881,9 @@
 
       let burial = 0;
       for (let j = i + 1; j < stickyWraps.length; j++) {
-        // Card j slides in at scroll position j * vh
-        const jStart = j * vh;
-        const prog = Math.max(0, Math.min(1, (scrolled - jStart + vh * 0.5) / (vh * 0.7)));
+        const jTop = stickyWraps[j].offsetTop;
+        const travelDist = stickyWraps[j].offsetHeight;
+        const prog = Math.max(0, Math.min(1, (scrolled - jTop + travelDist * 0.5) / (travelDist * 0.7)));
         burial += prog;
       }
 
