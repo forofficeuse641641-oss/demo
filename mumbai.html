@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jack — 3D Creator</title>
+  <title>Inkwell Media</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -57,7 +57,7 @@
     @media (min-width: 768px) { .hero-h1-wrap { margin-top: -1.25rem; } }
 
     .hero-h1 {
-      font-size: 14vw;
+      font-size: clamp(1.4rem, 7vw, 999px);
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: -0.03em;
@@ -65,9 +65,10 @@
       white-space: nowrap;
       width: 100%;
     }
-    @media (min-width: 640px) { .hero-h1 { font-size: 15vw; } }
-    @media (min-width: 768px) { .hero-h1 { font-size: 16vw; } }
-    @media (min-width: 1024px) { .hero-h1 { font-size: 17.5vw; } }
+    @media (min-width: 640px) { .hero-h1 { font-size: 9vw; } }
+    @media (min-width: 768px) { .hero-h1 { font-size: 10vw; } }
+    @media (min-width: 1024px) { .hero-h1 { font-size: 11vw; } }
+    @media (min-width: 1280px) { .hero-h1 { font-size: 10vw; } }
 
     .hero-bottom {
       display: flex;
@@ -91,15 +92,16 @@
     @media (min-width: 640px) { .hero-desc { max-width: 220px; } }
     @media (min-width: 768px) { .hero-desc { max-width: 260px; } }
 
-    /* Portrait */
     .hero-portrait-wrap {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 10;
+      z-index: 20;
       width: 280px;
       top: 50%;
       transform: translate(-50%, -50%);
+      padding: 60px;
+      margin: -60px;
     }
     @media (min-width: 640px) {
       .hero-portrait-wrap {
@@ -107,6 +109,8 @@
         top: auto;
         transform: translateX(-50%);
         bottom: 0;
+        padding: 80px;
+        margin: -80px;
       }
     }
     @media (min-width: 768px) { .hero-portrait-wrap { width: 440px; } }
@@ -116,6 +120,8 @@
       width: 100%;
       display: block;
       transition: transform 0.3s ease-out;
+      position: relative;
+      z-index: 1;
     }
 
     /* ── CONTACT BUTTON ── */
@@ -143,7 +149,7 @@
     @media (min-width: 768px) { .contact-btn { padding: 1rem 3rem; font-size: 1rem; } }
     .contact-btn:hover { transform: translateY(-2px); box-shadow: 0px 8px 20px rgba(181,1,167,0.4), inset 4px 4px 12px #7721B1; }
 
-    /* ── MARQUEE ── */
+    /* ── MARQUEE (16:9 horizontal) ── */
     #marquee {
       background: #0C0C0C;
       padding: 6rem 0 2.5rem;
@@ -209,23 +215,49 @@
       font-weight: 500;
       text-align: center;
       line-height: 1.65;
-      width: 100%;
-      max-width: 560px;
-      font-size: clamp(0.85rem, 3.5vw, 1.35rem);
-      word-break: break-word;
+      width: min(88vw, 560px);
+      font-size: clamp(0.9rem, 3.8vw, 1.35rem);
+      word-break: normal;
       overflow-wrap: break-word;
+      hyphens: none;
       white-space: normal;
     }
 
     .about-text-block {
       position: relative;
-      max-width: 560px;
-      width: 100%;
-      padding: 0 1rem;
+      width: min(88vw, 560px);
     }
 
+    .char { opacity: 0.2; transition: opacity 0.1s; display: inline; }
     .char-wrap { display: inline; }
-    .char { opacity: 0.2; transition: opacity 0.1s; }
+
+    /* ── PORTRAIT MARQUEE (9:16 vertical) ── */
+    #portrait-marquee {
+      background: #0C0C0C;
+      padding: 4rem 0;
+      overflow: hidden;
+    }
+
+    .portrait-row {
+      display: flex;
+      gap: 0.75rem;
+      will-change: transform;
+    }
+
+    .portrait-card {
+      width: 180px;
+      height: 320px;
+      border-radius: 1.25rem;
+      object-fit: cover;
+      flex-shrink: 0;
+      display: block;
+    }
+    @media (min-width: 640px) {
+      .portrait-card { width: 220px; height: 390px; }
+    }
+    @media (min-width: 1024px) {
+      .portrait-card { width: 260px; height: 462px; }
+    }
 
     /* ── SERVICES ── */
     #services {
@@ -249,10 +281,7 @@
     @media (min-width: 640px) { .services-h2 { margin-bottom: 5rem; } }
     @media (min-width: 768px) { .services-h2 { margin-bottom: 7rem; } }
 
-    .services-list {
-      max-width: 64rem;
-      margin: 0 auto;
-    }
+    .services-list { max-width: 64rem; margin: 0 auto; }
 
     .service-item {
       display: flex;
@@ -295,14 +324,13 @@
     /* ── PROJECTS ── */
     #projects {
       background: #0C0C0C;
-      border-radius: 40px 40px 0 0;
-      margin-top: -2.5rem;
       position: relative;
-      z-index: 10;
-      padding: 5rem 1.25rem 0;
+      z-index: 20;
+      /* padding-bottom = 100vh so card 4 stays fully pinned before footer scrolls in */
+      padding: 5rem 1.25rem 20vh;
     }
-    @media (min-width: 640px) { #projects { border-radius: 50px 50px 0 0; margin-top: -3rem; padding: 6rem 2rem 0; } }
-    @media (min-width: 768px) { #projects { border-radius: 60px 60px 0 0; margin-top: -3.5rem; padding: 8rem 2.5rem 0; } }
+    @media (min-width: 640px) { #projects { padding: 6rem 2rem 20vh; } }
+    @media (min-width: 768px) { #projects { padding: 8rem 2.5rem 20vh; } }
 
     .projects-h2 {
       font-size: clamp(3rem, 12vw, 160px);
@@ -315,50 +343,27 @@
     }
     @media (min-width: 768px) { .projects-h2 { margin-bottom: 6rem; } }
 
-    /* ── CARD STACKING ──
-       Each card has a DIFFERENT sticky top offset — the gap between them
-       is the "peek strip" that stays permanently visible above each new card.
-
-       Card 1 → top:0       always at very top of viewport
-       Card 2 → top:56px    card 1's top 56px always shows above card 2
-       Card 3 → top:112px   cards 1+2 each show a 56px strip
-       Card 4 → top:168px   three strips visible above card 4
-
-       JS adds rotateX + scale so buried cards tilt back in 3D.
-    */
+    /* ── CARD STACK ── */
     .cards-stack {
       position: relative;
-      /* Mobile: shorter scroll distance per card (50vh each) */
-      height: calc(4 * 35vh + 100vw);
+      /* 4 cards × 100vh + 100vh bottom buffer = 5 screens of scroll */
+      height: calc(5 * 100vh);
       perspective: 1400px;
       perspective-origin: 50% 0%;
-    }
-    @media (min-width: 640px) {
-      .cards-stack { height: 500vh; }
     }
 
     .card-sticky-wrap {
       position: sticky;
-      /* Mobile: wrap is just tall enough to trigger the next card after a short scroll */
-      height: 35vh;
+      height: 100vh;
       display: flex;
       align-items: flex-start;
     }
-    @media (min-width: 640px) {
-      .card-sticky-wrap { height: 100vh; }
-    }
 
-    .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 14px;  z-index: 10; }
-    .card-sticky-wrap:nth-child(2) { top: 56px;  padding-top: 70px;  z-index: 20; }
-    .card-sticky-wrap:nth-child(3) { top: 112px; padding-top: 126px; z-index: 30; }
-    .card-sticky-wrap:nth-child(4) { top: 168px; padding-top: 182px; z-index: 40; }
-
-    @media (min-width: 640px) {
-      .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 18px; }
-      .card-sticky-wrap:nth-child(2) { top: 64px;  padding-top: 82px; }
-      .card-sticky-wrap:nth-child(3) { top: 128px; padding-top: 146px; }
-      .card-sticky-wrap:nth-child(4) { top: 192px; padding-top: 210px; }
-    }
+    /* Staggered tops — each card peeks 64px lower than the previous */
+    .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 18px;  z-index: 10; }
+    .card-sticky-wrap:nth-child(2) { top: 64px;  padding-top: 82px;  z-index: 20; }
+    .card-sticky-wrap:nth-child(3) { top: 128px; padding-top: 146px; z-index: 30; }
+    .card-sticky-wrap:nth-child(4) { top: 192px; padding-top: 210px; z-index: 40; }
 
     .project-card {
       width: 100%;
@@ -367,20 +372,18 @@
       background: #0C0C0C;
       padding: 1rem;
       will-change: transform;
-      /* Mobile: fit content, no forced viewport height */
-      height: auto;
+      height: calc(100vh - 22px);
       overflow: hidden;
     }
     @media (min-width: 640px) {
-      .project-card {
-        border-radius: 40px;
-        padding: 1.25rem;
-        /* Desktop: fill viewport so card looks substantial */
-        height: calc(100vh - 22px);
-      }
+      .project-card { border-radius: 40px; padding: 1.25rem; }
     }
-    @media (min-width: 768px) {
-      .project-card { border-radius: 50px; padding: 1.75rem; }
+    @media (min-width: 768px) { .project-card { border-radius: 50px; padding: 1.75rem; } }
+
+    /* Last card: auto height so images never get clipped */
+    .card-sticky-wrap:last-child .project-card {
+      height: auto !important;
+      overflow: visible !important;
     }
 
     .card-top-row {
@@ -437,28 +440,14 @@
     @media (min-width: 640px) { .live-btn { padding: 0.75rem 2rem; font-size: 0.875rem; } }
     .live-btn:hover { background: rgba(215, 226, 234, 0.1); }
 
-    .card-images {
-      display: flex;
-      gap: 0.4rem;
-    }
+    .card-images { display: flex; gap: 0.4rem; }
     @media (min-width: 640px) { .card-images { gap: 0.75rem; } }
 
-    .card-col1 {
-      width: 40%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+    .card-col1 { width: 40%; display: flex; flex-direction: column; gap: 0.4rem; }
     @media (min-width: 640px) { .card-col1 { gap: 0.75rem; } }
-
     .card-col2 { width: 60%; }
 
-    .card-img {
-      width: 100%;
-      object-fit: cover;
-      border-radius: 25px;
-      display: block;
-    }
+    .card-img { width: 100%; object-fit: cover; border-radius: 25px; display: block; }
     @media (min-width: 640px) { .card-img { border-radius: 35px; } }
     @media (min-width: 768px) { .card-img { border-radius: 45px; } }
 
@@ -470,12 +459,14 @@
     footer {
       background: #0C0C0C;
       text-align: center;
-      padding: 3rem 1.25rem;
+      padding: 5rem 1.25rem 4rem;
       color: rgba(215,226,234,0.4);
       font-size: 0.85rem;
       font-weight: 300;
       letter-spacing: 0.05em;
       text-transform: uppercase;
+      position: relative;
+      z-index: 10;
     }
 
     /* ── FADE-IN ANIMATIONS ── */
@@ -486,7 +477,6 @@
     }
     .fade-init.visible { opacity: 1; transform: translateY(0) translateX(0); }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0C0C0C; }
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
@@ -498,14 +488,11 @@
   <!-- ══════════════════ HERO ══════════════════ -->
   <section id="hero">
     <nav class="fade-init" data-delay="0" data-x="0" data-y="-20">
-      <a href="#about">About</a>
-      <a href="#services">Price</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+      <span></span>
     </nav>
 
     <div class="hero-h1-wrap">
-      <h1 class="hero-h1 hero-heading fade-init" data-delay="0.15" data-y="40" data-x="0">Hi, i&apos;m jack</h1>
+      <h1 class="hero-h1 hero-heading fade-init" data-delay="0.15" data-y="40" data-x="0">Inkwell Media</h1>
     </div>
 
     <!-- Portrait -->
@@ -519,13 +506,13 @@
 
     <div class="hero-bottom">
       <p class="hero-desc fade-init" data-delay="0.35" data-y="20" data-x="0">
-        a 3d creator driven by crafting striking and unforgettable projects
+        a media company driven by crafting striking and unforgettable brands
       </p>
-      <a href="#contact" class="contact-btn fade-init" data-delay="0.5" data-y="20" data-x="0">Contact Me</a>
+      <a href="#contact" class="contact-btn fade-init" data-delay="0.5" data-y="20" data-x="0">Contact Us</a>
     </div>
   </section>
 
-  <!-- ══════════════════ MARQUEE ══════════════════ -->
+  <!-- ══════════════════ MARQUEE (16:9) ══════════════════ -->
   <section id="marquee">
     <div id="row1" class="marquee-row"></div>
     <div id="row2" class="marquee-row"></div>
@@ -533,7 +520,6 @@
 
   <!-- ══════════════════ ABOUT ══════════════════ -->
   <section id="about">
-    <!-- Decorative corners -->
     <img class="about-deco fade-init" data-delay="0.1" data-x="-80" data-y="0"
       src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png"
       alt="" style="width:clamp(80px,12vw,210px);top:4%;left:max(1%,4px);" />
@@ -551,64 +537,24 @@
       alt="" style="width:clamp(90px,13vw,220px);bottom:8%;right:max(3%,8px);" />
 
     <div class="about-content">
-      <h2 class="about-h2 hero-heading fade-init" data-delay="0" data-y="40" data-x="0">About me</h2>
+      <h2 class="about-h2 hero-heading fade-init" data-delay="0" data-y="40" data-x="0">About us</h2>
 
       <div class="about-text-block" id="about-text-el">
-        <p class="about-text" id="about-animated-text">
-          With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let&apos;s build something incredible together!
-        </p>
+        <p class="about-text" id="about-animated-text">With more than five years of experience in media and marketing, we focus on content, growth, and digital presence. We truly enjoy working with businesses that aim to stand out and present their best image. Let&apos;s build something incredible together!</p>
       </div>
 
-      <a href="#contact" class="contact-btn">Contact Me</a>
+      <a href="#contact" class="contact-btn">Contact Us</a>
     </div>
   </section>
 
-  <!-- ══════════════════ SERVICES ══════════════════ -->
-  <section id="services">
-    <h2 class="services-h2 fade-init" data-delay="0" data-y="40" data-x="0">Services</h2>
-
-    <div class="services-list">
-      <div class="service-item fade-init" data-delay="0" data-y="30" data-x="0">
-        <span class="service-num">01</span>
-        <div class="service-info">
-          <span class="service-name">3D Modeling</span>
-          <span class="service-desc">Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.</span>
-        </div>
-      </div>
-      <div class="service-item fade-init" data-delay="0.1" data-y="30" data-x="0">
-        <span class="service-num">02</span>
-        <div class="service-info">
-          <span class="service-name">Rendering</span>
-          <span class="service-desc">High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.</span>
-        </div>
-      </div>
-      <div class="service-item fade-init" data-delay="0.2" data-y="30" data-x="0">
-        <span class="service-num">03</span>
-        <div class="service-info">
-          <span class="service-name">Motion Design</span>
-          <span class="service-desc">Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.</span>
-        </div>
-      </div>
-      <div class="service-item fade-init" data-delay="0.3" data-y="30" data-x="0">
-        <span class="service-num">04</span>
-        <div class="service-info">
-          <span class="service-name">Branding</span>
-          <span class="service-desc">Crafting cohesive visual identities — from logos to full brand systems — that communicate a clear and memorable presence.</span>
-        </div>
-      </div>
-      <div class="service-item fade-init" data-delay="0.4" data-y="30" data-x="0">
-        <span class="service-num">05</span>
-        <div class="service-info">
-          <span class="service-name">Web Design</span>
-          <span class="service-desc">Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.</span>
-        </div>
-      </div>
-    </div>
+  <!-- ══════════════════ PORTRAIT MARQUEE (9:16) ══════════════════ -->
+  <section id="portrait-marquee">
+    <div id="portrait-row" class="portrait-row"></div>
   </section>
 
   <!-- ══════════════════ PROJECTS ══════════════════ -->
   <section id="projects">
-    <h2 class="projects-h2 hero-heading fade-init" data-delay="0" data-y="40" data-x="0">Project</h2>
+    <h2 class="projects-h2 hero-heading fade-init" data-delay="0" data-y="40" data-x="0">What We Do</h2>
 
     <div class="cards-stack" id="cards-stack">
 
@@ -618,18 +564,18 @@
           <div class="card-top-row">
             <span class="card-num">01</span>
             <div class="card-meta">
-              <span class="card-category">Client</span>
-              <span class="card-title">Nextlevel Studio</span>
+              <span class="card-category">Service</span>
+              <span class="card-title">Content Creation</span>
             </div>
-            <a href="#" class="live-btn">Live Project</a>
+            <a href="#contact" class="live-btn">Get Started</a>
           </div>
           <div class="card-images">
             <div class="card-col1">
-              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85" alt="Nextlevel 1" loading="lazy" />
-              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85" alt="Nextlevel 2" loading="lazy" />
+              <img class="card-img card-img-sm1" src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?w=600&q=80&fit=crop" alt="" loading="lazy" />
+              <img class="card-img card-img-sm2" src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&q=80&fit=crop" alt="" loading="lazy" />
             </div>
             <div class="card-col2">
-              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85" alt="Nextlevel 3" loading="lazy" />
+              <img class="card-img card-img-lg" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80&fit=crop" alt="" loading="lazy" />
             </div>
           </div>
         </div>
@@ -641,18 +587,18 @@
           <div class="card-top-row">
             <span class="card-num">02</span>
             <div class="card-meta">
-              <span class="card-category">Personal</span>
-              <span class="card-title">Aura Brand Identity</span>
+              <span class="card-category">Service</span>
+              <span class="card-title">Performance Marketing</span>
             </div>
-            <a href="#" class="live-btn">Live Project</a>
+            <a href="#contact" class="live-btn">Get Started</a>
           </div>
           <div class="card-images">
             <div class="card-col1">
-              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85" alt="Aura 1" loading="lazy" />
-              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85" alt="Aura 2" loading="lazy" />
+              <img class="card-img card-img-sm1" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&fit=crop" alt="" loading="lazy" />
+              <img class="card-img card-img-sm2" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80&fit=crop" alt="" loading="lazy" />
             </div>
             <div class="card-col2">
-              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85" alt="Aura 3" loading="lazy" />
+              <img class="card-img card-img-lg" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80&fit=crop" alt="" loading="lazy" />
             </div>
           </div>
         </div>
@@ -664,18 +610,18 @@
           <div class="card-top-row">
             <span class="card-num">03</span>
             <div class="card-meta">
-              <span class="card-category">Client</span>
-              <span class="card-title">Solaris Digital</span>
+              <span class="card-category">Service</span>
+              <span class="card-title">Web Development</span>
             </div>
-            <a href="#" class="live-btn">Live Project</a>
+            <a href="#contact" class="live-btn">Get Started</a>
           </div>
           <div class="card-images">
             <div class="card-col1">
-              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85" alt="Solaris 1" loading="lazy" />
-              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85" alt="Solaris 2" loading="lazy" />
+              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85" alt="" loading="lazy" />
+              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85" alt="" loading="lazy" />
             </div>
             <div class="card-col2">
-              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85" alt="Solaris 3" loading="lazy" />
+              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85" alt="" loading="lazy" />
             </div>
           </div>
         </div>
@@ -687,18 +633,18 @@
           <div class="card-top-row">
             <span class="card-num">04</span>
             <div class="card-meta">
-              <span class="card-category">Personal</span>
-              <span class="card-title">Lumina Motion</span>
+              <span class="card-category">Service</span>
+              <span class="card-title">Social Media Management</span>
             </div>
-            <a href="#" class="live-btn">Live Project</a>
+            <a href="#contact" class="live-btn">Get Started</a>
           </div>
           <div class="card-images">
             <div class="card-col1">
-              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85" alt="Lumina 1" loading="lazy" />
-              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85" alt="Lumina 2" loading="lazy" />
+              <img class="card-img card-img-sm1" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85" alt="" loading="lazy" />
+              <img class="card-img card-img-sm2" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85" alt="" loading="lazy" />
             </div>
             <div class="card-col2">
-              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85" alt="Lumina 3" loading="lazy" />
+              <img class="card-img card-img-lg" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85" alt="" loading="lazy" />
             </div>
           </div>
         </div>
@@ -712,15 +658,16 @@
     <p style="color:#D7E2EA;font-size:clamp(1rem,3vw,2rem);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.5rem;">
       Let&apos;s work together
     </p>
-    <a href="mailto:jack@example.com" class="contact-btn" style="display:inline-block;">Contact Me</a>
-    <p style="margin-top:3rem;opacity:0.4;font-size:0.8rem;">© 2025 Jack. All rights reserved.</p>
+    <a href="mailto:hello@inkwellmedia.co" class="contact-btn" style="display:inline-block;">Contact Us</a>
+    <p style="margin-top:3rem;opacity:0.4;font-size:0.8rem;">© 2025 Inkwell Media. All rights reserved.</p>
   </footer>
 
 </div><!-- /main-wrapper -->
 
 <script>
 (function() {
-  // ── MARQUEE SETUP ──
+
+  // ── MARQUEE SETUP (16:9) ──
   const row1Images = [
     'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
     'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
@@ -747,6 +694,20 @@
     'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
   ];
 
+  const portraitImages = [
+    'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
+    'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
+    'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
+    'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
+    'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
+    'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
+    'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
+    'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
+    'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
+    'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
+    'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
+  ];
+
   function buildRow(el, imgs) {
     const tripled = [...imgs, ...imgs, ...imgs];
     tripled.forEach(src => {
@@ -762,6 +723,19 @@
   buildRow(document.getElementById('row1'), row1Images);
   buildRow(document.getElementById('row2'), row2Images);
 
+  function buildPortraitRow(el, imgs) {
+    const tripled = [...imgs, ...imgs, ...imgs];
+    tripled.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'portrait-card';
+      img.loading = 'lazy';
+      img.alt = '';
+      el.appendChild(img);
+    });
+  }
+  buildPortraitRow(document.getElementById('portrait-row'), portraitImages);
+
   // ── SCROLL-DRIVEN MARQUEE ──
   const marqueeSec = document.getElementById('marquee');
   const r1 = document.getElementById('row1');
@@ -769,12 +743,33 @@
 
   function updateMarquee() {
     const sectionTop = marqueeSec.getBoundingClientRect().top + window.scrollY;
-    const offset = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
-    r1.style.transform = `translateX(${offset - 200}px)`;
-    r2.style.transform = `translateX(${-(offset - 200)}px)`;
+    const offset = (window.scrollY - sectionTop + window.innerHeight) * 0.65;
+    r1.style.transform = `translateX(${offset - 400}px)`;
+    r2.style.transform = `translateX(${-(offset - 400)}px)`;
   }
   window.addEventListener('scroll', updateMarquee, { passive: true });
   updateMarquee();
+
+  // ── PORTRAIT MARQUEE — auto-scroll ──
+  const portraitRow = document.getElementById('portrait-row');
+  if (portraitRow) {
+    const cardWidth = window.innerWidth >= 1024 ? 260 : window.innerWidth >= 640 ? 220 : 180;
+    const gap = 12;
+    const singleSetWidth = portraitImages.length * (cardWidth + gap);
+
+    let portraitOffset = 0;
+    const PORTRAIT_SPEED = 1.2;
+
+    function animatePortrait() {
+      portraitOffset -= PORTRAIT_SPEED;
+      if (Math.abs(portraitOffset) >= singleSetWidth) {
+        portraitOffset += singleSetWidth;
+      }
+      portraitRow.style.transform = `translateX(${portraitOffset}px)`;
+      requestAnimationFrame(animatePortrait);
+    }
+    animatePortrait();
+  }
 
   // ── FADE-IN ON SCROLL ──
   const fadeEls = document.querySelectorAll('.fade-init');
@@ -820,7 +815,6 @@
     function updateChars() {
       const rect = aboutText.getBoundingClientRect();
       const wh = window.innerHeight;
-      // start 0.8 = when bottom 80% visible, end 0.2 = when top 20% visible
       const start = wh * 0.8;
       const end = wh * 0.2;
       const progress = 1 - (rect.top - end) / (start - end);
@@ -834,17 +828,7 @@
     updateChars();
   }
 
-  // ── CARD STACKING: PEEK + 3D TILT ──
-  //
-  // Each card has a different sticky `top` value, so as you scroll:
-  //   - Card 1 locks at top:0 immediately
-  //   - Card 2 slides up and locks at top:56px, leaving card 1's header visible above it
-  //   - Card 3 locks at top:112px, showing cards 1+2 as stacked header strips
-  //   - Card 4 locks at top:168px
-  //
-  // JS adds a subtle rotateX tilt on buried cards so they appear to lean back
-  // into the screen — giving real 3D depth to the stack.
-
+  // ── CARD STACKING ──
   const cardEls = [
     document.getElementById('card-0'),
     document.getElementById('card-1'),
@@ -852,13 +836,15 @@
     document.getElementById('card-3'),
   ];
   const stickyWraps = Array.from(document.querySelectorAll('.card-sticky-wrap'));
-  const TILT_PER_LAYER = 3;   // degrees of rotateX per buried layer
-  const SCALE_PER_LAYER = 0.018; // scale reduction per layer
+  const TILT_PER_LAYER = 3;
+  const SCALE_PER_LAYER = 0.018;
 
   function updateCards() {
     const stackEl = document.getElementById('cards-stack');
     if (!stackEl) return;
+    // How many px the top of the stack is above the viewport top
     const scrolled = -stackEl.getBoundingClientRect().top;
+    const vh = window.innerHeight;
 
     stickyWraps.forEach((wrap, i) => {
       const card = cardEls[i];
@@ -866,21 +852,18 @@
 
       let burial = 0;
       for (let j = i + 1; j < stickyWraps.length; j++) {
-        const jTop = stickyWraps[j].offsetTop;
-        // Travel distance = the height of wrap j (55vh mobile, 100vh desktop)
-        const travelDist = stickyWraps[j].offsetHeight;
-        const prog = Math.max(0, Math.min(1, (scrolled - jTop + travelDist * 0.5) / (travelDist * 0.7)));
+        // Card j slides in at scroll position j * vh
+        const jStart = j * vh;
+        const prog = Math.max(0, Math.min(1, (scrolled - jStart + vh * 0.5) / (vh * 0.7)));
         burial += prog;
       }
 
       const scale = Math.max(0.88, 1 - burial * SCALE_PER_LAYER);
       const rotateX = burial * TILT_PER_LAYER;
-      // Also push slightly back in Z so buried cards visually recede
       const translateZ = -burial * 18;
 
       card.style.transform = `rotateX(${rotateX}deg) scale(${scale}) translateZ(${translateZ}px)`;
       card.style.transformOrigin = 'top center';
-      // Dim buried cards slightly
       card.style.filter = burial > 0.1 ? `brightness(${Math.max(0.6, 1 - burial * 0.12)})` : '';
     });
   }
@@ -891,8 +874,8 @@
   // ── MAGNETIC PORTRAIT ──
   const portraitWrap = document.getElementById('portrait');
   const portraitImg = document.getElementById('portrait-img');
-  const PADDING = 150;
-  const STRENGTH = 3;
+  const PADDING = 400;
+  const STRENGTH = 5;
 
   if (portraitWrap && portraitImg) {
     let isActive = false;
