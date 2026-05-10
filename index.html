@@ -40,13 +40,13 @@
       .nav-mobile-logo { display: block; }
     }
 
-    /* FIX 1: Larger logo in nav — mobile 52px, desktop 48px */
+    /* Logo: 78px mobile, 72px desktop (50% bigger than previous 52/48) */
     .nav-logo-img {
-      height: 52px;
+      height: 78px;
       width: auto;
       display: block;
     }
-    @media (min-width: 768px) { .nav-logo-img { height: 48px; } }
+    @media (min-width: 768px) { .nav-logo-img { height: 72px; } }
 
     .nav-links-mobile { display: none; }
 
@@ -501,11 +501,11 @@
     }
     @media (min-width: 640px) { .card-sticky-wrap { height: 100vh; } }
 
-    /* Mobile sticky tops — start below nav (~70px) */
-    .card-sticky-wrap:nth-child(1) { top: 70px;  padding-top: 8px;   z-index: 10; }
-    .card-sticky-wrap:nth-child(2) { top: 110px; padding-top: 8px;   z-index: 20; }
-    .card-sticky-wrap:nth-child(3) { top: 150px; padding-top: 8px;   z-index: 30; }
-    .card-sticky-wrap:nth-child(4) { top: 190px; padding-top: 8px;   z-index: 40; }
+    /* Mobile sticky tops — sit safely below nav (nav ≈ 110px with larger logo) */
+    .card-sticky-wrap:nth-child(1) { top: 110px; padding-top: 8px;  z-index: 10; }
+    .card-sticky-wrap:nth-child(2) { top: 150px; padding-top: 8px;  z-index: 20; }
+    .card-sticky-wrap:nth-child(3) { top: 190px; padding-top: 8px;  z-index: 30; }
+    .card-sticky-wrap:nth-child(4) { top: 230px; padding-top: 8px;  z-index: 40; }
 
     @media (min-width: 640px) {
       .card-sticky-wrap:nth-child(1) { top: 0;     padding-top: 10px; }
@@ -1323,6 +1323,19 @@
   // ── CARD STACKING ──
   const cardEls = ['card-0','card-1','card-2','card-3'].map(id => document.getElementById(id));
   const stickyWraps = Array.from(document.querySelectorAll('.card-sticky-wrap'));
+
+  // ── DYNAMIC CARD STICKY TOPS (based on real nav height, mobile only) ──
+  function applyCardTops() {
+    if (window.innerWidth >= 640) return;
+    const navEl = document.querySelector('nav');
+    const navH = navEl ? Math.round(navEl.getBoundingClientRect().height) : 110;
+    const GAP = 40; // px gap between each stacked card on mobile
+    stickyWraps.forEach((wrap, i) => {
+      wrap.style.top = (navH + i * GAP) + 'px';
+    });
+  }
+  applyCardTops();
+  window.addEventListener('resize', applyCardTops, { passive: true });
   const TILT_PER_LAYER = 3;
   const SCALE_PER_LAYER = 0.018;
 
