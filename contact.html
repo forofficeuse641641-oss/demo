@@ -37,6 +37,11 @@
       align-items: center;
     }
 
+    /* Remove desktop-only hide of mobile logo — show logo on all sizes */
+    @media (min-width: 768px) {
+      .nav-mobile-logo { display: block; }
+    }
+
     .nav-logo-img {
       height: 36px;
       width: auto;
@@ -79,10 +84,7 @@
     }
     .nav-cta:hover { transform: translateY(-1px); opacity: 1 !important; box-shadow: 0 4px 16px rgba(181,1,167,0.5), inset 2px 2px 8px #7721B1; }
 
-    /* Hide mobile logo on desktop since glass pill appears */
-    @media (min-width: 768px) {
-      .nav-mobile-logo { display: none; }
-    }
+
 
     /* ── HERO ── */
     #hero {
