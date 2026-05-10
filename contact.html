@@ -11,7 +11,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root { background: #0C0C0C; font-family: 'Kanit', sans-serif; }
     body { overflow-x: hidden; color: #D7E2EA; }
-    .main-wrapper { background: #0C0C0C; overflow-x: clip; }
+    .main-wrapper { background: #0C0C0C; }
 
     .hero-heading {
       background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
@@ -31,23 +31,10 @@
     }
     @media (min-width: 768px) { nav { padding: 1.25rem 2.5rem; } }
 
-    /* Glassmorphism pill — desktop only */
+    /* Nav CTA visible on all screen sizes */
     .nav-glass {
-      display: none;
-    }
-    @media (min-width: 768px) {
-      .nav-glass {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        background: rgba(12,12,12,0.55);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(215,226,234,0.13);
-        border-radius: 9999px;
-        padding: 0.55rem 2rem;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
-      }
+      display: flex;
+      align-items: center;
     }
 
     .nav-logo-img {
@@ -102,7 +89,6 @@
       min-height: 100svh;
       display: flex;
       flex-direction: column;
-      overflow-x: clip;
       position: relative;
     }
 
@@ -181,12 +167,14 @@
       flex-direction: column;
       gap: 1.25rem;
       z-index: 3;
+      padding-right: 0.5rem; /* prevents italic overhang clip */
     }
     @media (min-width: 768px) {
       .hero-left {
         flex: 1;
         max-width: 55%;
         gap: 2rem;
+        padding-right: 0;
       }
     }
     @media (min-width: 1024px) {
@@ -200,15 +188,16 @@
       line-height: 1.0;
       letter-spacing: -0.02em;
       color: #D7E2EA;
-      font-size: clamp(2.8rem, 11.5vw, 5rem);
+      font-size: clamp(2.5rem, 10.5vw, 5rem);
       overflow-wrap: break-word;
       word-break: break-word;
+      padding-right: 0.15em; /* room for italic overhang */
     }
     @media (min-width: 480px) {
-      .hero-tagline { font-size: clamp(3rem, 10vw, 5rem); }
+      .hero-tagline { font-size: clamp(2.8rem, 9.5vw, 5rem); }
     }
     @media (min-width: 768px) {
-      .hero-tagline { font-size: clamp(2.8rem, 4.2vw, 5.5rem); line-height: 1.05; }
+      .hero-tagline { font-size: clamp(2.8rem, 4.2vw, 5.5rem); line-height: 1.05; padding-right: 0.2em; }
     }
     @media (min-width: 1024px) {
       .hero-tagline { font-size: clamp(3rem, 4.8vw, 6rem); }
@@ -871,7 +860,7 @@
 
     <nav class="fade-init" data-delay="0" data-x="0" data-y="-20" style="position:relative;z-index:20;">
       <!-- Mobile: brand logo top-left -->
-      <a href="#" class="nav-mobile-logo" style="display:block;">
+      <a href="#" class="nav-mobile-logo">
         <img
           src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/orangelogo.png?raw=true"
           alt="Inkwell Media"
@@ -880,11 +869,8 @@
         />
       </a>
 
-      <!-- Desktop: glassmorphism pill with links -->
+      <!-- Both views: Get In Touch button -->
       <div class="nav-glass">
-        <a href="#projects">Services</a>
-        <a href="#portrait-marquee">Work</a>
-        <a href="#about">About</a>
         <a href="#contact" class="nav-cta">Get In Touch</a>
       </div>
     </nav>
@@ -973,16 +959,6 @@
                 <li>Script writing</li>
                 <li>Post production</li>
               </ul>
-              <div class="card-kpi-row">
-                <div class="card-kpi-circle">
-                  <span class="circle-num">4K</span>
-                  <span class="circle-label">Quality</span>
-                </div>
-                <div class="card-kpi-circle">
-                  <span class="circle-num">100+</span>
-                  <span class="circle-label">Videos</span>
-                </div>
-              </div>
             </div>
             <div class="card-right-img">
               <img class="card-img-lg" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80&fit=crop" alt="Content Creation" loading="lazy" />
@@ -1010,16 +986,6 @@
                 <li>Funnel optimization</li>
                 <li>Analytics &amp; reporting</li>
               </ul>
-              <div class="card-kpi-row">
-                <div class="card-kpi-circle">
-                  <span class="circle-num">3x</span>
-                  <span class="circle-label">Avg ROAS</span>
-                </div>
-                <div class="card-kpi-circle">
-                  <span class="circle-num">50+</span>
-                  <span class="circle-label">Campaigns</span>
-                </div>
-              </div>
             </div>
             <div class="card-right-img">
               <img class="card-img-lg" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80&fit=crop" alt="Performance Marketing" loading="lazy" />
@@ -1047,16 +1013,6 @@
                 <li>SEO optimized</li>
                 <li>Mobile first</li>
               </ul>
-              <div class="card-kpi-row">
-                <div class="card-kpi-circle">
-                  <span class="circle-num">30+</span>
-                  <span class="circle-label">Sites Built</span>
-                </div>
-                <div class="card-kpi-circle">
-                  <span class="circle-num">99%</span>
-                  <span class="circle-label">Uptime</span>
-                </div>
-              </div>
             </div>
             <div class="card-right-img">
               <img class="card-img-lg" src="https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800&q=80&fit=crop" alt="Web Development" loading="lazy" />
@@ -1084,16 +1040,6 @@
                 <li>Community mgmt</li>
                 <li>Growth strategy</li>
               </ul>
-              <div class="card-kpi-row">
-                <div class="card-kpi-circle">
-                  <span class="circle-num">10x</span>
-                  <span class="circle-label">Avg Growth</span>
-                </div>
-                <div class="card-kpi-circle">
-                  <span class="circle-num">50+</span>
-                  <span class="circle-label">Brands</span>
-                </div>
-              </div>
             </div>
             <div class="card-right-img">
               <img class="card-img-lg" src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80&fit=crop" alt="Social Media Management" loading="lazy" />
