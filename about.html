@@ -304,12 +304,12 @@
     #portrait-marquee { background: #0C0C0C; padding: 0 0 4rem; overflow: hidden; }
     @media (min-width: 640px) { #portrait-marquee { padding: 4rem 0; } }
 
-    .portrait-row { display: flex; gap: 0.75rem; will-change: transform; }
+    .portrait-row { display: flex; gap: 0.75rem; will-change: transform; width: max-content; }
 
-    /* CSS-driven on mobile for smooth scrolling */
-    @keyframes portraitScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }
+    /* Mobile: 11 cards × (180px card + 12px gap) = 2112px per set. 3 copies built in JS so loop is seamless. */
+    @keyframes portraitScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-2112px); } }
     @media (max-width: 639px) {
-      .portrait-row { animation: portraitScroll 8s linear infinite; }
+      .portrait-row { animation: portraitScroll 14s linear infinite; }
     }
 
     .portrait-card {
