@@ -24,7 +24,7 @@
       transform: translate(-50%, -50%);
       transition: opacity 0.3s;
       will-change: transform;
-      display: none; /* hidden on mobile */
+      display: none;
     }
     @media (min-width: 640px) { #cursor-spotlight { display: block; } }
 
@@ -86,7 +86,6 @@
       letter-spacing: 0.1em; cursor: pointer; text-decoration: none;
       font-family: 'Kanit', sans-serif;
       animation: gradShift 5s ease infinite;
-      /* No transition on mobile */
     }
     @media (min-width: 640px) {
       .nav-cta { transition: transform 0.2s, box-shadow 0.2s, background-position 0.5s; }
@@ -103,7 +102,6 @@
     #hero { min-height: 100svh; display: flex; flex-direction: column; position: relative; }
     @media (max-width: 767px) { #hero { min-height: 0; height: auto; } }
 
-    /* Orbs — only on desktop */
     .hero-orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(72px); display: none; }
     @media (min-width: 640px) { .hero-orb { display: block; } }
 
@@ -129,7 +127,6 @@
     @keyframes orbDrift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-32px,44px) scale(0.88); } }
     @keyframes orbDrift3 { from { transform: translate(0,0) scale(1); } to { transform: translate(28px,-38px) scale(1.1); } }
 
-    /* Particle canvas — desktop only */
     #hero-particles-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; display: none; }
     @media (min-width: 640px) { #hero-particles-canvas { display: block; } }
 
@@ -162,7 +159,6 @@
     @media (min-width: 1024px) { .hero-tagline { font-size: clamp(4.2rem, 6.4vw, 8rem); } }
     @media (min-width: 1280px) { .hero-tagline { font-size: clamp(5rem, 7vw, 9rem); } }
 
-    /* Tagline reveal — only run on desktop to avoid jank */
     @media (min-width: 640px) {
       .tagline-word { display: inline-block; opacity: 0; transform: translateY(40px); animation: wordReveal 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
       @keyframes wordReveal { to { opacity: 1; transform: translateY(0); } }
@@ -173,7 +169,7 @@
       background: linear-gradient(120deg, #B600A8 0%, #7621B0 50%, #BE4C00 100%);
       background-size: 200% 200%;
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      font-weight: 900; display: inline-block; padding-right: 0.08em;
+      font-weight: 900; display: inline-block; padding-right: 0.18em;
       animation: accentShift 4s ease infinite;
     }
     @keyframes accentShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
@@ -190,7 +186,6 @@
       background: rgba(12,12,12,0.65);
       box-shadow: 0 0 0 1px rgba(182,0,168,0.18), 0 4px 18px rgba(182,0,168,0.45), 0 8px 40px rgba(118,33,176,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
       flex: 1; cursor: default;
-      /* No levitate/hover animation on mobile */
     }
     @media (min-width: 640px) {
       .hero-kpi {
@@ -282,7 +277,6 @@
       display: flex; gap: 0.75rem; width: max-content;
       will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
-    /* Mobile: CSS animations (GPU-composited, no JS scroll) */
     @keyframes marqueeLeft  { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     @keyframes marqueeRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
     @media (max-width: 639px) {
@@ -294,7 +288,6 @@
     .marquee-img {
       width: 280px; height: 180px; border-radius: 1rem; object-fit: cover; flex-shrink: 0;
     }
-    /* Hover only on desktop */
     @media (min-width: 640px) {
       .marquee-img { width: 420px; height: 270px; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s; cursor: pointer; }
       .marquee-img:hover { transform: scale(1.04) translateY(-6px); box-shadow: 0 20px 60px rgba(182,0,168,0.35), 0 8px 24px rgba(0,0,0,0.5); }
@@ -306,7 +299,6 @@
 
     .portrait-row { display: flex; gap: 0.75rem; will-change: transform; width: max-content; }
 
-    /* Mobile: 11 cards × (180px card + 12px gap) = 2112px per set. 3 copies built in JS so loop is seamless. */
     @keyframes portraitScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-2112px); } }
     @media (max-width: 639px) {
       .portrait-row { animation: portraitScroll 14s linear infinite; }
@@ -316,7 +308,6 @@
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
       flex-shrink: 0; display: block; background: #111;
     }
-    /* Hover only on desktop */
     @media (min-width: 640px) {
       .portrait-card { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s; }
       .portrait-card:hover { transform: scale(1.06) translateY(-8px); box-shadow: 0 24px 60px rgba(182,0,168,0.4); z-index: 2; position: relative; }
@@ -380,7 +371,6 @@
       background: #0C0C0C; padding: 1rem;
       height: auto; overflow: hidden; position: relative;
     }
-    /* Card hover effects — desktop only */
     @media (min-width: 640px) {
       .project-card { will-change: transform; transition: border-color 0.4s, box-shadow 0.4s; }
       .project-card::before {
@@ -394,7 +384,10 @@
     @media (min-width: 640px) { .project-card { border-radius: 40px; padding: 1.25rem; height: calc(100vh - 22px); } }
     @media (min-width: 768px) { .project-card { border-radius: 50px; padding: 1.75rem; } }
 
-    .card-top-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+    /* ── UPDATED CARD HEADER ── */
+    .card-top-row {
+      display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem;
+    }
     @media (min-width: 640px) { .card-top-row { gap: 1rem; margin-bottom: 1rem; } }
 
     .card-num {
@@ -402,9 +395,18 @@
       background: linear-gradient(135deg, #D7E2EA 0%, rgba(182,0,168,0.6) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .card-meta { flex: 1; }
-    .card-category { color: #D7E2EA; font-size: clamp(0.65rem, 1.2vw, 0.9rem); text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.6; display: block; }
-    .card-title { color: #D7E2EA; font-size: clamp(1rem, 2.5vw, 2rem); font-weight: 700; text-transform: uppercase; line-height: 1.1; }
+
+    /* Title now matches the number sizing — no category label above it */
+    .card-title {
+      color: #D7E2EA;
+      font-size: clamp(2rem, 7vw, 100px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #D7E2EA 0%, rgba(182,0,168,0.6) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
 
     .card-body { display: flex; gap: 0.75rem; align-items: stretch; }
     @media (min-width: 640px) { .card-body { gap: 1.25rem; } }
@@ -433,50 +435,266 @@
     }
     @media (min-width: 768px) { .card-bullets li::before { width: 12px; height: 12px; } }
 
-    .card-right-img { width: 60%; }
+    /* ── IMAGE PANEL — blended ── */
+    .card-right-img { width: 60%; position: relative; overflow: hidden; border-radius: 20px; }
+    @media (min-width: 768px) { .card-right-img { border-radius: 30px; } }
+    @media (min-width: 1024px) { .card-right-img { border-radius: 40px; } }
+
     .card-img-lg {
       width: 100%; height: clamp(170px, 42vw, 450px); object-fit: cover;
-      border-radius: 20px; display: block;
+      border-radius: inherit; display: block;
+      /* Darken and desaturate so image blends with dark card */
+      filter: saturate(0.55) brightness(0.55);
     }
     @media (min-width: 640px) {
-      .card-img-lg { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; border-radius: 30px; }
-      .project-card:hover .card-img-lg { transform: scale(1.02); box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+      .card-img-lg { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), filter 0.5s; }
+      .project-card:hover .card-img-lg {
+        transform: scale(1.04);
+        filter: saturate(0.7) brightness(0.65);
+      }
     }
-    @media (min-width: 768px) { .card-img-lg { border-radius: 40px; } }
 
-    /* ── ABOUT ── */
-    #about {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      position: relative; padding: 5rem 1.25rem; background: #0C0C0C;
+    /* Gradient overlay that bleeds from image into card bg */
+    .card-right-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, #0C0C0C 0%, rgba(12,12,12,0.55) 30%, transparent 100%),
+        linear-gradient(to bottom, transparent 55%, rgba(12,12,12,0.85) 100%);
+      pointer-events: none;
+      border-radius: inherit;
+      z-index: 1;
     }
-    @media (min-width: 640px) { #about { padding: 5rem 2rem; } }
-    @media (min-width: 768px) { #about { padding: 5rem 2.5rem; } }
 
-    .about-deco { position: absolute; pointer-events: none; }
-    @media (min-width: 640px) {
-      .about-deco:nth-of-type(1) { animation: decoFloat1 5s ease-in-out infinite; }
-      .about-deco:nth-of-type(2) { animation: decoFloat2 6.5s ease-in-out infinite; }
-      .about-deco:nth-of-type(3) { animation: decoFloat3 5.8s ease-in-out infinite; }
-      .about-deco:nth-of-type(4) { animation: decoFloat4 7s ease-in-out infinite; }
+    /* Subtle purple color tint overlay */
+    .card-right-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 40%, rgba(182,0,168,0.15) 0%, rgba(118,33,176,0.1) 50%, transparent 75%);
+      pointer-events: none;
+      border-radius: inherit;
+      z-index: 2;
+      mix-blend-mode: screen;
     }
-    @keyframes decoFloat1 { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
-    @keyframes decoFloat2 { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(-2deg); } }
-    @keyframes decoFloat3 { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-14px) rotate(1.5deg); } }
-    @keyframes decoFloat4 { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-9px) rotate(-1.5deg); } }
 
-    .about-content { display: flex; flex-direction: column; align-items: center; gap: 2.5rem; position: relative; z-index: 2; width: 100%; max-width: 100%; }
-    @media (min-width: 640px) { .about-content { gap: 3.5rem; } }
-    @media (min-width: 768px) { .about-content { gap: 4rem; } }
+    /* ── PROCESS SECTION ── */
+    #process {
+      background: #0C0C0C; position: relative; overflow: hidden;
+      padding: 6rem 1.25rem 5rem;
+    }
+    @media (min-width: 640px) { #process { padding: 8rem 2rem 7rem; } }
+    @media (min-width: 768px) { #process { padding: 9rem 2.5rem 8rem; } }
 
-    .about-h2 { font-size: clamp(3rem, 12vw, 160px); font-weight: 900; text-transform: uppercase; line-height: 1; letter-spacing: -0.03em; text-align: center; }
+    /* Ambient glow behind process */
+    #process::before {
+      content: ''; position: absolute; left: 50%; top: 40%;
+      transform: translate(-50%, -50%);
+      width: 80vw; height: 60vh;
+      background: radial-gradient(ellipse, rgba(118,33,176,0.09) 0%, rgba(182,0,168,0.05) 40%, transparent 70%);
+      filter: blur(60px); pointer-events: none; z-index: 0;
+    }
 
-    .about-text-block { position: relative; width: min(88vw, 560px); }
-    .about-text { color: #D7E2EA; font-weight: 500; text-align: center; line-height: 1.65; width: 100%; font-size: clamp(0.9rem, 1.5vw, 1.35rem); white-space: normal; }
+    .process-heading-wrap {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.4rem; margin-bottom: 4rem;
+      overflow: visible; width: 100%; position: relative; z-index: 2;
+    }
+    @media (min-width: 640px) { .process-heading-wrap { margin-bottom: 6rem; } }
 
-    /* Char animation — desktop only */
-    .char { opacity: 0.2; display: inline; }
-    @media (min-width: 640px) { .char { transition: opacity 0.1s; } }
+    .process-h2 {
+      font-size: clamp(1.6rem, 7vw, 100px); font-weight: 900;
+      text-transform: uppercase; line-height: 1; letter-spacing: -0.03em;
+      text-align: center; overflow: visible;
+    }
+    @media (min-width: 640px) { .process-h2 { font-size: clamp(2.2rem, 8vw, 110px); } }
+
+    /* ── PROCESS TIMELINE ── */
+    .process-timeline {
+      position: relative; z-index: 2;
+      max-width: 1300px; margin: 0 auto;
+    }
+
+    /* The running connector line — desktop horizontal, mobile vertical */
+    .process-line-track {
+      position: absolute;
+      background: rgba(215,226,234,0.08);
+      border-radius: 999px;
+      z-index: 0;
+      /* mobile: vertical */
+      left: 28px; top: 32px; bottom: 32px; width: 2px; right: auto;
+    }
+    @media (min-width: 768px) {
+      /* desktop: horizontal */
+      .process-line-track {
+        left: 32px; right: 32px; top: 38px; bottom: auto;
+        width: auto; height: 2px;
+      }
+    }
+
+    /* The glowing fill that animates in via JS */
+    .process-line-fill {
+      position: absolute; background: linear-gradient(90deg, #B600A8, #7621B0, #BE4C00);
+      border-radius: 999px; box-shadow: 0 0 16px rgba(182,0,168,0.6);
+      transition: none;
+      /* mobile: vertical fill from top */
+      top: 0; left: 0; width: 100%; height: 0%;
+    }
+    @media (min-width: 768px) {
+      /* desktop: horizontal fill from left */
+      .process-line-fill { top: 0; left: 0; height: 100%; width: 0%; }
+    }
+
+    /* Traveling pulse dot on the line */
+    .process-line-pulse {
+      position: absolute; width: 10px; height: 10px;
+      border-radius: 50%; background: #fff;
+      box-shadow: 0 0 0 4px rgba(182,0,168,0.4), 0 0 20px rgba(182,0,168,0.8);
+      transform: translateX(-50%);
+      z-index: 3; pointer-events: none; opacity: 0;
+      transition: opacity 0.3s;
+      /* mobile */
+      left: 50%; top: 0;
+    }
+    @media (min-width: 768px) {
+      .process-line-pulse { top: 50%; transform: translate(-50%, -50%); left: 0; }
+    }
+
+    /* Steps grid */
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative; z-index: 1;
+      padding-left: 64px; /* space for mobile vertical line */
+    }
+    @media (min-width: 768px) {
+      .process-steps {
+        flex-direction: row;
+        align-items: flex-start;
+        padding-left: 0;
+        padding-top: 80px; /* space below horizontal line */
+        gap: 0;
+      }
+    }
+
+    .process-step {
+      flex: 1; display: flex; flex-direction: column;
+      position: relative;
+      padding-bottom: 2.5rem;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
+    }
+    .process-step.step-visible { opacity: 1; transform: translateY(0); }
+
+    @media (min-width: 768px) {
+      .process-step {
+        padding-bottom: 0;
+        padding-right: 1rem;
+        align-items: flex-start;
+        opacity: 0; transform: translateY(28px);
+      }
+    }
+
+    /* Node dot on the line */
+    .process-node {
+      position: absolute;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #0C0C0C;
+      border: 2px solid rgba(215,226,234,0.25);
+      box-shadow: 0 0 0 0 rgba(182,0,168,0);
+      transition: border-color 0.4s, box-shadow 0.4s, background 0.4s, transform 0.4s;
+      z-index: 4;
+      /* mobile: on the left vertical line */
+      left: -47px; top: 25px; transform: translateX(-50%);
+    }
+    @media (min-width: 768px) {
+      /* desktop: above the content, on the horizontal line */
+      .process-node {
+        left: 0; top: -99px;
+        transform: translateY(50%);
+      }
+    }
+
+    .process-node::after {
+      content: ''; position: absolute; inset: 3px; border-radius: 50%;
+      background: rgba(182,0,168,0); transition: background 0.4s;
+    }
+
+    .process-step.step-active .process-node {
+      border-color: #B600A8;
+      box-shadow: 0 0 0 5px rgba(182,0,168,0.2), 0 0 24px rgba(182,0,168,0.5);
+      background: #0C0C0C;
+      transform: translateX(-50%) scale(1.35);
+    }
+    @media (min-width: 768px) {
+      .process-step.step-active .process-node {
+        transform: translateY(50%) scale(1.35);
+      }
+    }
+    .process-step.step-active .process-node::after { background: #B600A8; }
+
+    /* Step number */
+    .process-step-num {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: rgba(215,226,234,0.3);
+      margin-bottom: 0.35rem;
+      transition: color 0.4s;
+    }
+    .process-step.step-active .process-step-num { color: rgba(182,0,168,0.7); }
+
+    /* Step name */
+    .process-step-name {
+      font-size: clamp(1.1rem, 2.2vw, 1.75rem);
+      font-weight: 800; text-transform: uppercase;
+      letter-spacing: -0.02em; line-height: 1;
+      color: rgba(215,226,234,0.35);
+      transition: color 0.4s, text-shadow 0.4s;
+    }
+    @media (min-width: 640px) { .process-step-name { font-size: clamp(1.2rem, 2.4vw, 2rem); } }
+
+    .process-step.step-active .process-step-name {
+      color: #D7E2EA;
+      text-shadow: 0 0 30px rgba(182,0,168,0.3);
+    }
+
+    /* Step description — only shown when active */
+    .process-step-desc {
+      font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+      font-weight: 300; letter-spacing: 0.04em;
+      color: rgba(215,226,234,0.5); line-height: 1.5;
+      margin-top: 0.5rem;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.4s;
+      opacity: 0;
+    }
+    .process-step.step-active .process-step-desc { max-height: 80px; opacity: 1; }
+
+    /* Animated tag pill */
+    .process-tag {
+      display: inline-block; margin-top: 0.6rem;
+      padding: 0.2rem 0.7rem; border-radius: 9999px;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      border: 1px solid rgba(182,0,168,0.3);
+      color: rgba(182,0,168,0.6);
+      background: rgba(182,0,168,0.06);
+      opacity: 0; transform: scale(0.8);
+      transition: opacity 0.3s 0.2s, transform 0.3s 0.2s;
+    }
+    .process-step.step-active .process-tag { opacity: 1; transform: scale(1); }
+
+    /* Auto-cycle indicator strip */
+    .process-cycle-bar {
+      position: absolute; bottom: 0; left: 0;
+      height: 2px; width: 0%; border-radius: 1px;
+      background: linear-gradient(90deg, #B600A8, #7621B0);
+      transition: none;
+    }
+    .process-step.step-active .process-cycle-bar {
+      animation: cycleBarGrow 3.2s linear forwards;
+    }
+    @keyframes cycleBarGrow { from { width: 0%; } to { width: 100%; } }
 
     /* ── CONTACT ── */
     #contact { background: #0C0C0C; position: relative; overflow: hidden; padding: 0; border-top: 1px solid rgba(215,226,234,0.08); }
@@ -545,7 +763,6 @@
 <div id="scroll-progress"></div>
 <div id="cursor-spotlight"></div>
 
-<!-- Global BG canvas — desktop only, injected by JS -->
 <canvas id="global-bg-canvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:none;"></canvas>
 
 <div class="main-wrapper" id="root" style="position:relative;z-index:1;">
@@ -613,32 +830,44 @@
     </div>
 
     <div class="cards-stack" id="cards-stack">
+
+      <!-- CARD 01 — Video Production -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-0">
           <div class="card-top-row">
             <span class="card-num">01</span>
-            <div class="card-meta"><span class="card-category">Service</span><span class="card-title">Content Creation</span></div>
+            <span class="card-title">Video Production</span>
           </div>
           <div class="card-body">
             <div class="card-left-panel">
-              <ul class="card-bullets"><li>Short-form videos</li><li>Reels &amp; TikToks</li><li>Brand storytelling</li></ul>
+              <ul class="card-bullets">
+                <li>Reels</li>
+                <li>Podcast</li>
+                <li>Motion Graphics</li>
+                <li>Animation</li>
+              </ul>
             </div>
             <div class="card-right-img">
-              <img class="card-img-lg" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80&fit=crop" alt="Content Creation" loading="lazy" />
+              <img class="card-img-lg" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80&fit=crop" alt="Video Production" loading="lazy" />
             </div>
           </div>
         </div>
       </div>
 
+      <!-- CARD 02 — Performance Marketing -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-1">
           <div class="card-top-row">
             <span class="card-num">02</span>
-            <div class="card-meta"><span class="card-category">Service</span><span class="card-title">Performance Marketing</span></div>
+            <span class="card-title">Performance Marketing</span>
           </div>
           <div class="card-body">
             <div class="card-left-panel">
-              <ul class="card-bullets"><li>Meta &amp; Google ads</li><li>A/B testing</li><li>Funnel optimisation</li></ul>
+              <ul class="card-bullets">
+                <li>Meta Ads</li>
+                <li>Google Ads</li>
+                <li>Analytics &amp; Reporting</li>
+              </ul>
             </div>
             <div class="card-right-img">
               <img class="card-img-lg" src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80&fit=crop" alt="Performance Marketing" loading="lazy" />
@@ -647,15 +876,45 @@
         </div>
       </div>
 
+      <!-- CARD 03 — Social Media Management -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-2">
           <div class="card-top-row">
             <span class="card-num">03</span>
-            <div class="card-meta"><span class="card-category">Service</span><span class="card-title">Web Development</span></div>
+            <span class="card-title">Social Media Management</span>
           </div>
           <div class="card-body">
             <div class="card-left-panel">
-              <ul class="card-bullets"><li>Landing pages</li><li>E-commerce stores</li><li>Mobile first</li></ul>
+              <ul class="card-bullets">
+                <li>Instagram</li>
+                <li>Facebook</li>
+                <li>YouTube</li>
+                <li>LinkedIn</li>
+              </ul>
+            </div>
+            <div class="card-right-img">
+              <img class="card-img-lg" src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80&fit=crop" alt="Social Media Management" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 04 — Web Development -->
+      <div class="card-sticky-wrap">
+        <div class="project-card" id="card-3">
+          <div class="card-top-row">
+            <span class="card-num">04</span>
+            <span class="card-title">Web Development</span>
+          </div>
+          <div class="card-body">
+            <div class="card-left-panel">
+              <ul class="card-bullets">
+                <li>Custom Website</li>
+                <li>Professional</li>
+                <li>Mobile-Responsive</li>
+                <li>High-Performance</li>
+                <li>Modern Design</li>
+              </ul>
             </div>
             <div class="card-right-img">
               <img class="card-img-lg" src="https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800&q=80&fit=crop" alt="Web Development" loading="lazy" />
@@ -664,22 +923,6 @@
         </div>
       </div>
 
-      <div class="card-sticky-wrap">
-        <div class="project-card" id="card-3">
-          <div class="card-top-row">
-            <span class="card-num">04</span>
-            <div class="card-meta"><span class="card-category">Service</span><span class="card-title">Social Media Management</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-left-panel">
-              <ul class="card-bullets"><li>Content calendars</li><li>Community growth</li><li>Growth strategy</li></ul>
-            </div>
-            <div class="card-right-img">
-              <img class="card-img-lg" src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80&fit=crop" alt="Social Media Management" loading="lazy" />
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -688,27 +931,96 @@
     <div id="portrait-row" class="portrait-row"></div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <img class="about-deco fade-init" data-delay="0.1" data-x="-80" data-y="0"
-      src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/3d%20icons/camera.png?raw=true"
-      alt="" style="width:clamp(130px,15vw,260px);top:4%;left:max(1%,4px);" />
-    <img class="about-deco fade-init" data-delay="0.25" data-x="-80" data-y="0"
-      src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/3d%20icons/instagram.png?raw=true"
-      alt="" style="width:clamp(115px,13vw,220px);bottom:8%;left:max(3%,8px);" />
-    <img class="about-deco fade-init" data-delay="0.15" data-x="80" data-y="0"
-      src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/3d%20icons/drone.png?raw=true"
-      alt="" style="width:clamp(130px,15vw,260px);top:4%;right:max(1%,4px);" />
-    <img class="about-deco fade-init" data-delay="0.3" data-x="80" data-y="0"
-      src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png"
-      alt="" style="width:clamp(115px,13vw,220px);bottom:8%;right:max(3%,8px);" />
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="process-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
+      <h2 class="process-h2 hero-heading glitch-heading">How We Curate Your Brand's Content</h2>
+      <img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/white_exclamation.png?raw=true" alt="" class="projects-exclamation" />
+    </div>
 
-    <div class="about-content">
-      <h2 class="about-h2 hero-heading glitch-heading fade-init" data-delay="0" data-y="40" data-x="0">About us</h2>
-      <div class="about-text-block" id="about-text-el">
-        <p class="about-text" id="about-animated-text">With more than five years of experience in media and marketing, we focus on content, growth, and digital presence. We truly enjoy working with businesses that aim to stand out and present their best image. Let&apos;s build something incredible together!</p>
+    <div class="process-timeline" id="process-timeline">
+      <!-- The connecting line -->
+      <div class="process-line-track" id="process-line-track">
+        <div class="process-line-fill" id="process-line-fill"></div>
+        <div class="process-line-pulse" id="process-line-pulse"></div>
       </div>
-      <a href="#contact" class="contact-btn">Contact Us</a>
+
+      <!-- Steps -->
+      <div class="process-steps" id="process-steps">
+
+        <div class="process-step" data-step="0">
+          <div class="process-node"></div>
+          <span class="process-step-num">01</span>
+          <span class="process-step-name">Business Analysis</span>
+          <span class="process-step-desc">We deep-dive into your brand, audience & goals to build the foundation.</span>
+          <span class="process-tag">Discovery</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+        <div class="process-step" data-step="1">
+          <div class="process-node"></div>
+          <span class="process-step-num">02</span>
+          <span class="process-step-name">Ideation</span>
+          <span class="process-step-desc">Brainstorming raw ideas that align with your voice and market position.</span>
+          <span class="process-tag">Creative</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+        <div class="process-step" data-step="2">
+          <div class="process-node"></div>
+          <span class="process-step-num">03</span>
+          <span class="process-step-name">Concept</span>
+          <span class="process-step-desc">Refining the best ideas into a clear, compelling content concept.</span>
+          <span class="process-tag">Strategy</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+        <div class="process-step" data-step="3">
+          <div class="process-node"></div>
+          <span class="process-step-num">04</span>
+          <span class="process-step-name">Script</span>
+          <span class="process-step-desc">Every word written with intention — hooks, narrative arc, CTA.</span>
+          <span class="process-tag">Writing</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+        <div class="process-step" data-step="4">
+          <div class="process-node"></div>
+          <span class="process-step-num">05</span>
+          <span class="process-step-name">Casting</span>
+          <span class="process-step-desc">Selecting the right faces and voices that embody your brand energy.</span>
+          <span class="process-tag">Talent</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+        <div class="process-step" data-step="5">
+          <div class="process-node"></div>
+          <span class="process-step-num">06</span>
+          <span class="process-step-name">Shoot</span>
+          <span class="process-step-desc">Lights, camera — production day where the vision becomes reality.</span>
+          <span class="process-tag">Production</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+        <div class="process-step" data-step="6">
+          <div class="process-node"></div>
+          <span class="process-step-num">07</span>
+          <span class="process-step-name">Edit</span>
+          <span class="process-step-desc">Colour, cuts, motion graphics — crafting the final cinematic piece.</span>
+          <span class="process-tag">Post</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+        <div class="process-step" data-step="7">
+          <div class="process-node"></div>
+          <span class="process-step-num">08</span>
+          <span class="process-step-name">Final Delivery</span>
+          <span class="process-step-desc">Optimised files, ready to publish and built to perform.</span>
+          <span class="process-tag">Launch</span>
+          <div class="process-cycle-bar"></div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -757,7 +1069,7 @@
 (function() {
   const IS_MOBILE = window.innerWidth < 640 || ('ontouchstart' in window);
 
-  // ── SCROLL PROGRESS (throttled via rAF) ──
+  // ── SCROLL PROGRESS ──
   const progressBar = document.getElementById('scroll-progress');
   let rafPending = false;
   window.addEventListener('scroll', () => {
@@ -806,7 +1118,6 @@
   function buildMarqueeRow(rowEl, imgs) {
     const track = document.createElement('div');
     track.className = 'marquee-track';
-    // 4 copies on mobile for seamless CSS animation; 2 on desktop
     const copies = IS_MOBILE ? 4 : 2;
     for (let c = 0; c < copies; c++) {
       imgs.forEach(src => {
@@ -823,7 +1134,6 @@
   const track1 = buildMarqueeRow(document.getElementById('row1'), row1Images);
   const track2 = buildMarqueeRow(document.getElementById('row2'), row2Images);
 
-  // Desktop: scroll-driven parallax marquee
   if (!IS_MOBILE) {
     const marqueeSec = document.getElementById('marquee');
     let marqueeSectionTop = marqueeSec.offsetTop;
@@ -842,7 +1152,7 @@
     applyDesktopMarquee();
   }
 
-  // ── PORTRAIT MARQUEE (9:16 videos) ──
+  // ── PORTRAIT MARQUEE ──
   const portraitVideos = [
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-63.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-123.mp4',
@@ -859,19 +1169,16 @@
 
   const portraitRowEl = document.getElementById('portrait-row');
   if (portraitRowEl) {
-    // On mobile use CSS animation (set on container), on desktop use rAF
-    const copies = IS_MOBILE ? 3 : 3;
+    const copies = 3;
     for (let c = 0; c < copies; c++) {
       portraitVideos.forEach(src => {
         const video = document.createElement('video');
         video.src = src; video.className = 'portrait-card';
         video.autoplay = true; video.muted = true; video.loop = true; video.playsInline = true;
-        // On mobile, limit preload to reduce memory pressure
         video.preload = IS_MOBILE ? 'none' : 'auto';
         portraitRowEl.appendChild(video);
       });
     }
-    // Stagger video load on mobile
     if (IS_MOBILE) {
       const videos = portraitRowEl.querySelectorAll('video');
       videos.forEach((v, i) => {
@@ -881,7 +1188,6 @@
       portraitRowEl.querySelectorAll('video').forEach(v => { v.load(); v.play().catch(() => {}); });
     }
 
-    // Desktop rAF scroll
     if (!IS_MOBILE) {
       const cardWidth = window.innerWidth >= 1024 ? 260 : 220;
       const singleSetWidth = portraitVideos.length * (cardWidth + 12);
@@ -922,41 +1228,117 @@
   }, { threshold: 0, rootMargin: '50px' });
   fadeEls.forEach(el => observer.observe(el));
 
-  // ── ABOUT TEXT (char reveal) — desktop only ──
-  const aboutText = document.getElementById('about-animated-text');
-  if (aboutText && !IS_MOBILE) {
-    const text = aboutText.textContent.trim();
-    aboutText.textContent = '';
-    text.split(' ').forEach((word, wi, arr) => {
-      const wordSpan = document.createElement('span');
-      wordSpan.style.display = 'inline-block';
-      word.split('').forEach(ch => {
-        const span = document.createElement('span');
-        span.className = 'char'; span.textContent = ch; span.style.opacity = '0.2';
-        wordSpan.appendChild(span);
-      });
-      aboutText.appendChild(wordSpan);
-      if (wi < arr.length - 1) aboutText.appendChild(document.createTextNode(' '));
-    });
-    const charEls = aboutText.querySelectorAll('.char');
-    const total = charEls.length;
-    let charRaf = false;
-    function updateChars() {
-      if (charRaf) return; charRaf = true;
-      requestAnimationFrame(() => {
-        charRaf = false;
-        const rect = aboutText.getBoundingClientRect();
-        const wh = window.innerHeight;
-        const progress = 1 - (rect.top - wh * 0.2) / (wh * 0.6);
-        const clamped = Math.max(0, Math.min(1, progress));
-        charEls.forEach((span, i) => {
-          span.style.opacity = clamped >= i / total ? '1' : '0.2';
-        });
-      });
+  // ── PROCESS TIMELINE ──
+  (function() {
+    const steps = Array.from(document.querySelectorAll('.process-step'));
+    const lineFill = document.getElementById('process-line-fill');
+    const linePulse = document.getElementById('process-line-pulse');
+    const timeline = document.getElementById('process-timeline');
+    if (!steps.length || !lineFill || !timeline) return;
+
+    const TOTAL = steps.length;
+    let activeIdx = -1;
+    let cycleTimer = null;
+    let hasStarted = false;
+
+    function isDesktop() { return window.innerWidth >= 768; }
+
+    function setLineFill(fraction) {
+      if (isDesktop()) {
+        lineFill.style.width = (fraction * 100) + '%';
+        lineFill.style.height = '100%';
+        linePulse.style.left = (fraction * 100) + '%';
+        linePulse.style.top = '50%';
+      } else {
+        lineFill.style.height = (fraction * 100) + '%';
+        lineFill.style.width = '100%';
+        linePulse.style.top = (fraction * 100) + '%';
+        linePulse.style.left = '50%';
+      }
     }
-    window.addEventListener('scroll', updateChars, { passive: true });
-    updateChars();
-  }
+
+    function animateLineTo(targetFraction, duration, onDone) {
+      const startFraction = parseFloat(isDesktop() ? lineFill.style.width : lineFill.style.height) / 100 || 0;
+      const startTs = performance.now();
+      linePulse.style.opacity = '1';
+      function tick(ts) {
+        const elapsed = ts - startTs;
+        const t = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const cur = startFraction + (targetFraction - startFraction) * eased;
+        setLineFill(cur);
+        if (t < 1) { requestAnimationFrame(tick); }
+        else { if (onDone) onDone(); }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function activateStep(idx) {
+      steps.forEach((s, i) => {
+        s.classList.remove('step-active');
+        if (i < idx) s.classList.add('step-visited');
+      });
+      if (idx >= 0 && idx < TOTAL) {
+        steps[idx].classList.add('step-active');
+      }
+      activeIdx = idx;
+      // line fill: fraction is position between nodes
+      const frac = idx < 0 ? 0 : idx / (TOTAL - 1);
+      animateLineTo(frac, 500);
+    }
+
+    function startCycle() {
+      if (cycleTimer) clearTimeout(cycleTimer);
+      let idx = 0;
+      function advance() {
+        activateStep(idx);
+        idx = (idx + 1) % TOTAL;
+        cycleTimer = setTimeout(advance, 3200);
+      }
+      advance();
+    }
+
+    // Stagger reveal all steps when section enters viewport
+    const revealObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !hasStarted) {
+        hasStarted = true;
+        linePulse.style.opacity = '0';
+        setLineFill(0);
+        steps.forEach((step, i) => {
+          setTimeout(() => {
+            step.classList.add('step-visible');
+            if (i === TOTAL - 1) {
+              // all revealed — start cycle
+              setTimeout(startCycle, 300);
+            }
+          }, i * 90);
+        });
+        revealObserver.disconnect();
+      }
+    }, { threshold: 0.15 });
+    revealObserver.observe(timeline);
+
+    // Hover: pause cycle and manually activate hovered step
+    steps.forEach((step, i) => {
+      step.addEventListener('mouseenter', () => {
+        if (cycleTimer) { clearTimeout(cycleTimer); cycleTimer = null; }
+        activateStep(i);
+      });
+      step.addEventListener('mouseleave', () => {
+        // Resume cycle from hovered step after short delay
+        if (!cycleTimer) {
+          cycleTimer = setTimeout(() => {
+            let idx = (i + 1) % TOTAL;
+            (function advance() {
+              activateStep(idx);
+              idx = (idx + 1) % TOTAL;
+              cycleTimer = setTimeout(advance, 3200);
+            })();
+          }, 1200);
+        }
+      });
+    });
+  })();
 
   // ── CARD STACKING ──
   const cardEls = ['card-0','card-1','card-2','card-3'].map(id => document.getElementById(id));
@@ -978,7 +1360,6 @@
   setStackHeight();
   window.addEventListener('resize', setStackHeight);
 
-  // Card tilt — desktop only
   if (!IS_MOBILE) {
     const TILT = 3, SCALE = 0.018;
     let cardRaf = false;
