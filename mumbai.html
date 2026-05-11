@@ -11,7 +11,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root { background: #0C0C0C; font-family: 'Kanit', sans-serif; }
     @media (max-width: 639px) { html, body { background: #0C0C0C; } #root { background: transparent; } }
-    body { overflow-x: clip; color: #D7E2EA; } /* clip vs hidden: fixed children not clipped */
+    body { overflow-x: clip; color: #D7E2EA; }
     .main-wrapper { background: #0C0C0C; }
     @media (max-width: 639px) { .main-wrapper { background: transparent; } }
 
@@ -129,8 +129,8 @@
     @keyframes orbDrift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-32px,44px) scale(0.88); } }
     @keyframes orbDrift3 { from { transform: translate(0,0) scale(1); } to { transform: translate(28px,-38px) scale(1.1); } }
 
-    #hero-particles-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; display: none; }
-    @media (min-width: 640px) { #hero-particles-canvas { display: block; } }
+    /* CHANGE 2: particles canvas now visible on mobile too */
+    #hero-particles-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 
     /* ── HERO BODY ── */
     .hero-body {
@@ -193,7 +193,13 @@
         inset 0 1px 0 rgba(255,255,255,0.049),
         inset 0 -1px 0 rgba(182,0,168,0.105);
       flex: 1; cursor: default; position: relative; overflow: hidden;
+      /* CHANGE 4: KPI levitate animation now on mobile too */
+      will-change: transform;
+      animation: kpiLevitate 4s ease-in-out infinite;
     }
+    .hero-kpi:nth-child(2) { animation-delay: 0.7s; }
+    .hero-kpi:nth-child(3) { animation-delay: 1.4s; }
+
     .hero-kpi::before {
       content: '';
       position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
@@ -206,10 +212,8 @@
 
     @media (min-width: 640px) {
       .hero-kpi {
-        will-change: transform;
-        animation: kpiLevitate 4s ease-in-out infinite;
-        transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
         backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
       }
       .hero-kpi:hover {
         border-color: rgba(182,0,168,0.49);
@@ -221,8 +225,6 @@
           inset 0 -1px 0 rgba(182,0,168,0.21);
         transform: translateY(-10px) scale(1.06) !important;
       }
-      .hero-kpi:nth-child(2) { animation-delay: 0.7s; }
-      .hero-kpi:nth-child(3) { animation-delay: 1.4s; }
     }
     @keyframes kpiLevitate { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-7px); } }
     @media (min-width: 640px) { .hero-kpi { padding: 0.9rem 1.4rem; border-radius: 24px; } }
@@ -251,24 +253,24 @@
     .process-h2-inline-wrap {
       display: inline-flex; align-items: flex-end;
       position: relative;
-      /* FIX: break out of parent's -webkit-text-fill-color: transparent */
       -webkit-text-fill-color: initial;
       color: #D7E2EA;
     }
+    /* CHANGE 3: Moved exclamation up more (translateY 10% instead of 18/20%) + bounce on mobile too */
     .process-exclamation-inline {
       height: clamp(2rem, 8vw, 10rem);
       width: auto; display: inline-block;
-      /* FIX: shifted right (was -0.35em) */
       margin-left: 0.15em;
-      transform: translateY(18%);
+      transform: translateY(10%);
       flex-shrink: 0;
+      /* CHANGE 3: bounce animation now on mobile too */
+      animation: exclamationBounce 2.5s ease-in-out infinite;
     }
     @media (min-width: 640px) {
       .process-exclamation-inline {
         height: clamp(2.8rem, 9vw, 11rem);
-        /* FIX: shifted right on desktop too (was -0.4em) */
         margin-left: 0.18em;
-        transform: translateY(20%);
+        transform: translateY(12%);
         animation: exclamationBounce 2.5s ease-in-out infinite;
       }
     }
@@ -395,6 +397,8 @@
     .projects-exclamation {
       height: clamp(2.5rem, 10vw, 14rem); width: auto; display: block;
       flex-shrink: 0; margin-left: -0.6rem;
+      /* CHANGE 3: bounce animation on mobile too */
+      animation: exclamationBounce 2.5s ease-in-out infinite;
     }
     @media (min-width: 640px) {
       .projects-exclamation {
@@ -548,7 +552,6 @@
       display: flex; align-items: center; justify-content: center;
       gap: 0.4rem; margin-bottom: 4rem;
       overflow: visible; width: 100%; position: relative; z-index: 2;
-      /* allow text to wrap naturally */
       flex-wrap: wrap;
     }
     @media (min-width: 640px) { .process-heading-wrap { margin-bottom: 6rem; flex-wrap: nowrap; } }
@@ -557,12 +560,10 @@
       font-size: clamp(2rem, 8.75vw, 100px); font-weight: 900;
       text-transform: uppercase; line-height: 1.1; letter-spacing: -0.03em;
       text-align: center; overflow: visible;
-      /* No hero-heading on the whole h2 — we apply it only to the text span inside */
       color: #D7E2EA;
     }
     @media (min-width: 640px) { .process-h2 { font-size: clamp(2.2rem, 8vw, 110px); } }
 
-    /* The gradient text part of the process heading */
     .process-h2-gradient {
       background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
       -webkit-background-clip: text;
@@ -800,7 +801,7 @@
     ::-webkit-scrollbar-thumb { background: rgba(182,0,168,0.28); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(182,0,168,0.49); }
   
-    /* ── MOBILE BACKGROUND — matches desktop canvas orbs ── */
+    /* CHANGE 1: Mobile background — purple reduced by ~70% (opacity values cut to ~30% of original) */
     @media (max-width: 639px) {
       body::before {
         content: '';
@@ -809,10 +810,10 @@
         z-index: 0;
         pointer-events: none;
         background:
-          radial-gradient(ellipse 65% 50% at 10% 20%, rgba(182,0,168,0.22) 0%, transparent 70%),
-          radial-gradient(ellipse 60% 45% at 85% 40%, rgba(118,33,176,0.18) 0%, transparent 70%),
-          radial-gradient(ellipse 55% 48% at 50% 75%, rgba(190,76,0,0.15) 0%, transparent 70%),
-          radial-gradient(ellipse 50% 38% at 20% 85%, rgba(182,0,168,0.16) 0%, transparent 70%);
+          radial-gradient(ellipse 65% 50% at 10% 20%, rgba(182,0,168,0.066) 0%, transparent 70%),
+          radial-gradient(ellipse 60% 45% at 85% 40%, rgba(118,33,176,0.054) 0%, transparent 70%),
+          radial-gradient(ellipse 55% 48% at 50% 75%, rgba(190,76,0,0.045) 0%, transparent 70%),
+          radial-gradient(ellipse 50% 38% at 20% 85%, rgba(182,0,168,0.048) 0%, transparent 70%);
         animation: mobileBgShift 12s ease-in-out infinite alternate;
       }
       @keyframes mobileBgShift {
@@ -822,7 +823,6 @@
       }
     }
 
-  
     @media (max-width: 639px) {
       #hero, #marquee, #projects, #portrait-marquee, #process, #contact {
         background: transparent !important;
@@ -830,8 +830,7 @@
       .project-card { background: rgba(12,12,12,0.85) !important; }
     }
 
-  
-    /* ── MOBILE BG — second orb layer for lower page sections ── */
+    /* CHANGE 1: Mobile second orb layer — purple reduced by ~70% */
     @media (max-width: 639px) {
       html::after {
         content: '';
@@ -840,9 +839,9 @@
         z-index: 0;
         pointer-events: none;
         background:
-          radial-gradient(ellipse 70% 45% at 75% 60%, rgba(118,33,176,0.17) 0%, transparent 70%),
-          radial-gradient(ellipse 55% 40% at 30% 80%, rgba(182,0,168,0.19) 0%, transparent 70%),
-          radial-gradient(ellipse 50% 35% at 90% 15%, rgba(190,76,0,0.13) 0%, transparent 70%);
+          radial-gradient(ellipse 70% 45% at 75% 60%, rgba(118,33,176,0.051) 0%, transparent 70%),
+          radial-gradient(ellipse 55% 40% at 30% 80%, rgba(182,0,168,0.057) 0%, transparent 70%),
+          radial-gradient(ellipse 50% 35% at 90% 15%, rgba(190,76,0,0.039) 0%, transparent 70%);
         animation: mobileBgShift2 15s ease-in-out infinite alternate-reverse;
       }
       @keyframes mobileBgShift2 {
@@ -1033,18 +1032,6 @@
   <!-- PROCESS -->
   <section id="process">
     <div class="process-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
-      <!--
-        FIX 1: Removed hero-heading from the h2 itself.
-        Instead, only the label text is wrapped in .process-h2-gradient (same gradient styles).
-        This prevents -webkit-text-fill-color:transparent from bleeding into the
-        .process-h2-inline-wrap child, which was making "Content" invisible.
-
-        FIX 2: .process-h2-inline-wrap now has -webkit-text-fill-color: initial
-        so "Content" renders as the h2's color (#D7E2EA) regardless of parent.
-
-        FIX 3: .process-exclamation-inline margin-left changed from -0.35em → 0.15em
-        (shifted right as requested).
-      -->
       <h2 class="process-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;"><span style="-webkit-text-fill-color:#D7E2EA;color:#D7E2EA;">How We Craft Your Brand's </span><span class="process-h2-inline-wrap">Content<img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/white_exclamation.png?raw=true" alt="" class="process-exclamation-inline" /></span></h2>
     </div>
 
@@ -1514,15 +1501,17 @@
     }
   }
 
-  // ── HERO PARTICLES (desktop only) ──
-  if (!IS_MOBILE) {
+  // CHANGE 2: HERO PARTICLES — now runs on ALL devices (removed IS_MOBILE guard)
+  {
     const pc = document.getElementById('hero-particles-canvas');
     if (pc) {
       const ctx = pc.getContext('2d');
       let W, H;
       function resize() { W = pc.width = pc.offsetWidth; H = pc.height = pc.offsetHeight; }
       resize(); window.addEventListener('resize', resize);
-      const pts = Array.from({ length: 80 }, () => ({
+      // Fewer particles on mobile for performance
+      const count = IS_MOBILE ? 35 : 80;
+      const pts = Array.from({ length: count }, () => ({
         x: Math.random(), y: Math.random(),
         r: Math.random() * 1.8 + 0.3,
         speed: Math.random() * 0.00014 + 0.00004,
@@ -1619,7 +1608,6 @@
       gc.style.display = 'block';
       const ctx = gc.getContext('2d');
       let W, H;
-      if (IS_MOBILE) orbs.splice(3); // fewer orbs on mobile
       function resize() { W = gc.width = window.innerWidth; H = gc.height = window.innerHeight; }
       resize(); window.addEventListener('resize', resize);
       const orbs = [
@@ -1630,6 +1618,11 @@
         { x: 0.75, y: 0.15, r: 0.18, color: [118,33,176],  a: 0.08, dx: 0.00012, dy: 0.00015 },
         { x: 0.45, y: 0.45, r: 0.30, color: [100,0,160],   a: 0.06, dx:-0.00007, dy: 0.00009 },
       ];
+      // CHANGE 1: On mobile, reduce orb alpha by 70% to cut purple saturation
+      if (IS_MOBILE) {
+        orbs.forEach(o => { o.a *= 0.30; });
+        orbs.splice(3); // also fewer orbs on mobile
+      }
       const pts = Array.from({ length: IS_MOBILE ? 30 : 70 }, () => ({
         x: Math.random(), y: Math.random(), r: Math.random() * 1.3 + 0.3,
         speed: Math.random() * 0.00008 + 0.00003, drift: (Math.random() - 0.5) * 0.00003,
