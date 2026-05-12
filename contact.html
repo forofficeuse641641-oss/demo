@@ -1189,6 +1189,7 @@
   ];
 
   // ── 16:9 BOTTOM VIDEOS with YouTube redirect links ──
+  // Note: folder is literally "16:9 Videos" — colon = %3A, space = %20
   const bottomVideos = [
     {
       src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4',
@@ -1227,15 +1228,18 @@
     for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
         const video = document.createElement('video');
-        video.src = src;
-        video.className = 'portrait-card';
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
+        video.setAttribute('src', src);
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('loop', '');
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', '');
-        video.preload = 'none';
+        video.setAttribute('preload', 'metadata');
+        video.muted = true;
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.className = 'portrait-card';
         rowEl.appendChild(video);
       });
     }
@@ -1247,7 +1251,7 @@
     rowEl.classList.add(cssClass);
 
     for (let c = 0; c < 2; c++) {
-      items.forEach((item, idx) => {
+      items.forEach((item) => {
         // Wrapper anchor — opens YouTube on click
         const wrap = document.createElement('a');
         wrap.className = 'marquee-video-wrap';
@@ -1256,18 +1260,23 @@
         wrap.rel = 'noopener noreferrer';
         wrap.setAttribute('aria-label', 'Watch on YouTube');
 
-        // Video element
+        // Video element — all attributes set for maximum mobile compatibility
         const video = document.createElement('video');
-        video.src = item.src;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
+        video.setAttribute('src', item.src);
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('loop', '');
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', '');
-        video.preload = 'none';
+        video.setAttribute('x5-playsinline', '');        // WeChat/Android WebView
+        video.setAttribute('x5-video-player-type', 'h5');
+        video.setAttribute('preload', 'metadata');       // metadata not none — crucial for mobile
+        video.muted = true;                              // property AND attribute both needed
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
 
-        // Play icon overlay
+        // Play icon overlay (desktop hover only)
         const playIcon = document.createElement('div');
         playIcon.className = 'marquee-video-play';
         playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
@@ -1295,12 +1304,30 @@
   const bottomTrack = document.getElementById('marquee-track-bottom');
   buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
 
+  // Robust play function — retries once after 800ms if the promise rejects
+  function tryPlay(video) {
+    video.muted = true; // ensure property is set
+    const p = video.play();
+    if (p && p.catch) {
+      p.catch(() => {
+        setTimeout(() => {
+          video.muted = true;
+          video.play().catch(() => {});
+        }, 800);
+      });
+    }
+  }
+
   function lazyPlayRow(rowEl) {
     rowEl.querySelectorAll('video').forEach((v, i) => {
-      const delay = IS_MOBILE ? i * 150 : i * 80;
+      // On mobile stagger minimally (50ms), desktop can afford more gap
+      const delay = IS_MOBILE ? i * 50 : i * 80;
       setTimeout(() => {
-        if (v.preload === 'none') { v.preload = 'metadata'; v.load(); }
-        v.play().catch(() => {});
+        if (v.getAttribute('preload') === 'none') {
+          v.setAttribute('preload', 'metadata');
+          v.load();
+        }
+        tryPlay(v);
       }, delay);
     });
   }
@@ -1316,15 +1343,27 @@
   const topSec = document.getElementById('portrait-marquee-top');
   if (topSec) ioTop.observe(topSec);
 
-  // Lazy play bottom 16:9 videos
+  // Lazy play bottom 16:9 videos — observe with rootMargin so it triggers slightly before visible
   const ioBottom = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       lazyPlayRow(bottomTrack);
       ioBottom.disconnect();
     }
-  }, { threshold: 0.05 });
+  }, { threshold: 0, rootMargin: '200px' });
   const bottomSec = document.getElementById('marquee-bottom');
   if (bottomSec) ioBottom.observe(bottomSec);
+
+  // iOS Safari extra: on first user interaction, kick all paused videos
+  // (handles cases where autoplay was blocked before gesture)
+  function kickPausedVideos() {
+    document.querySelectorAll('video').forEach(v => {
+      if (v.paused) { v.muted = true; tryPlay(v); }
+    });
+    document.removeEventListener('touchstart', kickPausedVideos);
+    document.removeEventListener('scroll', kickPausedVideos);
+  }
+  document.addEventListener('touchstart', kickPausedVideos, { once: true, passive: true });
+  document.addEventListener('scroll', kickPausedVideos, { once: true, passive: true });
 
   // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
