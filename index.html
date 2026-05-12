@@ -1031,21 +1031,36 @@
   }
 
   // ══════════════════════════════════════════════════════════
-  // TOP PORTRAIT MARQUEE — 7 unique videos, TWO rows opposite
+  // SEAMLESS MARQUEE SETUP
+  // Strategy: build exactly 2 copies of each unique set in DOM,
+  // then use CSS animation translateX(0) → translateX(-50%).
+  // When it reaches -50% it loops back to 0 — perfectly seamless,
+  // no JS offset math, no jump, browser-composited smooth.
   // ══════════════════════════════════════════════════════════
-  const topVideos = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-63.mp4',
+
+  // ── Row A (scrolls left) — new videos ──
+  const topVideosA = [
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid3.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid4.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid5.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid6.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid7.mp4',
+  ];
+
+  // ── Row B (scrolls right) — original videos ──
+  const topVideosB = [
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-123.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-437.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-63.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-666.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-697.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-714.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-820.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/videos/Video-852.mp4',
   ];
 
-  // ══════════════════════════════════════════════════════════
-  // BOTTOM 16:9 MARQUEE — 5 unique videos, single row
-  // ══════════════════════════════════════════════════════════
   const bottomImages = [
     'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
     'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
@@ -1054,110 +1069,94 @@
     'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
   ];
 
-  // Helper: build a row of videos with N copies for seamless loop
-  function buildVideoRow(containerEl, srcs, copies) {
-    for (let c = 0; c < copies; c++) {
+  // Inject keyframes once into <head>
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes scrollRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+    .marquee-loop-left  { animation: scrollLeft  var(--dur, 28s) linear infinite; will-change: transform; }
+    .marquee-loop-right { animation: scrollRight var(--dur, 28s) linear infinite; will-change: transform; }
+  `;
+  document.head.appendChild(styleEl);
+
+  // Build a video marquee row: 2 copies of srcs (seamless loop = exactly 2×)
+  function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
+    rowEl.style.setProperty('--dur', durSec + 's');
+    rowEl.classList.add(cssClass);
+    // 2 copies only
+    for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
         const video = document.createElement('video');
         video.src = src;
         video.className = 'portrait-card';
-        video.autoplay = true; video.muted = true; video.loop = true; video.playsInline = true;
-        video.preload = 'none';
-        containerEl.appendChild(video);
+        video.autoplay = true;
+        video.muted = true;      // always muted — no sound
+        video.loop = true;
+        video.playsInline = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.preload = 'none'; // lazy-loaded via IntersectionObserver
+        rowEl.appendChild(video);
       });
     }
   }
 
-  // Lazy-load + play videos with staggered starts
-  function lazyPlayRow(rowEl, staggerMs) {
-    rowEl.querySelectorAll('video').forEach((v, i) => {
-      setTimeout(() => { v.preload = 'metadata'; v.load(); v.play().catch(() => {}); }, i * staggerMs);
-    });
+  // Build a 16:9 image marquee row: 2 copies
+  function buildImageMarquee(rowEl, srcs, cssClass, durSec) {
+    rowEl.style.setProperty('--dur', durSec + 's');
+    rowEl.classList.add(cssClass);
+    for (let c = 0; c < 2; c++) {
+      srcs.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src; img.className = 'marquee-img'; img.loading = 'lazy'; img.alt = ''; img.decoding = 'async';
+        rowEl.appendChild(img);
+      });
+    }
   }
 
-  // ── Build top rows (7 unique × 3 copies) ──
+  // Speed: duration = (unique items × item width) / px-per-sec
+  // Portrait card widths: mobile 192px, tablet 232px, desktop 272px
+  const cardW = IS_MOBILE ? 192 : (window.innerWidth >= 1024 ? 272 : 232);
+  const imgW  = IS_MOBILE ? 292 : 432;
+  const PPS   = IS_MOBILE ? 50 : 65; // pixels per second
+
+  const topDurA = Math.round(topVideosA.length  * cardW / PPS);
+  const topDurB = Math.round(topVideosB.length  * cardW / PPS);
+  const botDur  = Math.round(bottomImages.length * imgW  / PPS);
+
+  // Build rows — A scrolls left (new videos), B scrolls right (original videos)
   const topRowA = document.getElementById('portrait-row-top-a');
   const topRowB = document.getElementById('portrait-row-top-b');
-  buildVideoRow(topRowA, topVideos, 3);
-  buildVideoRow(topRowB, topVideos, 3);
+  buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
+  buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
-  // ── Build bottom 16:9 marquee (5 unique × 4 copies) ──
   const bottomTrack = document.getElementById('marquee-track-bottom');
-  const BOT_COPIES = 4;
-  for (let c = 0; c < BOT_COPIES; c++) {
-    bottomImages.forEach(src => {
-      const img = document.createElement('img');
-      img.src = src; img.className = 'marquee-img'; img.loading = 'lazy'; img.alt = ''; img.decoding = 'async';
-      bottomTrack.appendChild(img);
+  buildImageMarquee(bottomTrack, bottomImages, 'marquee-loop-left', botDur);
+
+  // Lazy-play: only load+play videos when section scrolls into view.
+  // On mobile, stagger more aggressively to avoid bandwidth spikes.
+  function lazyPlayRow(rowEl) {
+    rowEl.querySelectorAll('video').forEach((v, i) => {
+      const delay = IS_MOBILE ? i * 150 : i * 80;
+      setTimeout(() => {
+        if (v.preload === 'none') {
+          v.preload = 'metadata';
+          v.load();
+        }
+        v.play().catch(() => {});
+      }, delay);
     });
   }
-
-  // Lazy-play when sections enter viewport
-  const STAGGER_MS = IS_MOBILE ? 120 : 60;
 
   const ioTop = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
-      lazyPlayRow(topRowA, STAGGER_MS);
-      lazyPlayRow(topRowB, STAGGER_MS + 20);
-      ioTop.disconnect();
+      lazyPlayRow(topRowA);
+      lazyPlayRow(topRowB);
+      ioTop.disconnect(); // disconnect after both rows triggered
     }
   }, { threshold: 0.05 });
   const topSec = document.getElementById('portrait-marquee-top');
   if (topSec) ioTop.observe(topSec);
-
-  // ── rAF-driven smooth scroll animations ──
-  function getPortraitCardWidth() {
-    return window.innerWidth >= 1024 ? 260 + 12 : window.innerWidth >= 640 ? 220 + 12 : 180 + 12;
-  }
-  function getMarqueeImgWidth() {
-    return window.innerWidth >= 640 ? 420 + 12 : 280 + 12;
-  }
-
-  const PX_PER_SEC = IS_MOBILE ? 55 : 72;
-
-  // Top row A: scroll left
-  let topAOffset = 0, topALastTs = null;
-  const topSingleWidth = topVideos.length * getPortraitCardWidth();
-
-  function animateTopA(ts) {
-    if (topALastTs !== null) {
-      topAOffset -= PX_PER_SEC * ((ts - topALastTs) / 1000);
-      if (Math.abs(topAOffset) >= topSingleWidth) topAOffset += topSingleWidth;
-      topRowA.style.transform = `translateX(${topAOffset}px)`;
-    }
-    topALastTs = ts;
-    requestAnimationFrame(animateTopA);
-  }
-  requestAnimationFrame(animateTopA);
-
-  // Top row B: scroll right (opposite), start offset so rows look distinct
-  let topBOffset = -(topSingleWidth * 0.5), topBLastTs = null;
-
-  function animateTopB(ts) {
-    if (topBLastTs !== null) {
-      topBOffset += PX_PER_SEC * ((ts - topBLastTs) / 1000);
-      if (topBOffset >= 0) topBOffset -= topSingleWidth;
-      topRowB.style.transform = `translateX(${topBOffset}px)`;
-    }
-    topBLastTs = ts;
-    requestAnimationFrame(animateTopB);
-  }
-  requestAnimationFrame(animateTopB);
-
-  // Bottom 16:9: scroll left (rAF-driven)
-  let botOffset = 0, botLastTs = null;
-  const botSingleWidth = bottomImages.length * getMarqueeImgWidth();
-
-  function animateBot(ts) {
-    if (botLastTs !== null) {
-      botOffset -= PX_PER_SEC * ((ts - botLastTs) / 1000);
-      if (Math.abs(botOffset) >= botSingleWidth) botOffset += botSingleWidth;
-      bottomTrack.style.transform = `translateX(${botOffset}px)`;
-    }
-    botLastTs = ts;
-    requestAnimationFrame(animateBot);
-  }
-  requestAnimationFrame(animateBot);
 
   // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
