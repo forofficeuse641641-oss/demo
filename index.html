@@ -453,6 +453,134 @@
       pointer-events: none; border-radius: inherit; z-index: 2; mix-blend-mode: screen;
     }
 
+    /* =====================================================
+       VIDEO SLIDER — with Safari/iOS GPU rendering fixes
+       ===================================================== */
+    #video-slider {
+      background: #0C0C0C; position: relative; z-index: 10;
+      padding: 5rem 0 5rem;
+      overflow: hidden;
+    }
+    @media (min-width: 640px) { #video-slider { padding: 7rem 0 6rem; } }
+
+    .video-slider-heading-wrap {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.4rem; margin-bottom: 2.5rem; overflow: visible; width: 100%;
+      padding: 0 1.25rem;
+    }
+    @media (min-width: 640px) { .video-slider-heading-wrap { margin-bottom: 3.5rem; } }
+
+    .video-slider-h2 {
+      font-size: clamp(2.5rem, 12.5vw, 160px); font-weight: 900;
+      text-transform: uppercase; line-height: 1; letter-spacing: -0.03em;
+      text-align: center; overflow: visible; padding-right: 0.04em;
+      color: #D7E2EA; -webkit-text-fill-color: #D7E2EA;
+    }
+    @media (min-width: 640px) { .video-slider-h2 { font-size: clamp(3rem, 12vw, 160px); } }
+
+    .video-slider-exclamation {
+      height: clamp(2.5rem, 10vw, 14rem); width: auto; display: block;
+      flex-shrink: 0; margin-left: -0.6rem;
+      animation: exclamationBounce 2.5s ease-in-out infinite;
+    }
+    @media (min-width: 640px) { .video-slider-exclamation { height: clamp(4rem, 12vw, 14rem); margin-left: -1.2rem; } }
+
+    .video-slider-track-wrap {
+      position: relative;
+      touch-action: pan-y;
+    }
+
+    .video-slider-track-wrap::before,
+    .video-slider-track-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 5; pointer-events: none;
+    }
+    .video-slider-track-wrap::before { left: 0; background: linear-gradient(to right, #0C0C0C 0%, transparent 100%); }
+    .video-slider-track-wrap::after  { right: 0; background: linear-gradient(to left, #0C0C0C 0%, transparent 100%); }
+    @media (min-width: 640px) {
+      .video-slider-track-wrap::before,
+      .video-slider-track-wrap::after { width: 140px; }
+    }
+
+    /* Safari GPU fix: force compositing layer on scroll container */
+    #video-slider-track {
+      display: flex; gap: 1rem; padding: 1rem 1.25rem;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      cursor: grab;
+      /* GPU compositing */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+    #video-slider-track::-webkit-scrollbar { display: none; }
+    #video-slider-track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+    @media (min-width: 640px) { #video-slider-track { gap: 1.25rem; padding: 1.5rem 2rem; } }
+    @media (min-width: 1024px) { #video-slider-track { gap: 1.5rem; padding: 1.5rem 3rem; } }
+
+    /* Safari GPU fix: each slide gets its own compositing layer */
+    .video-slide {
+      flex: 0 0 80vw; max-width: 480px; min-width: 260px;
+      border-radius: 20px; overflow: hidden; position: relative;
+      scroll-snap-align: center;
+      border: 1px solid rgba(182,0,168,0.14);
+      background: #000;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      aspect-ratio: 16/9;
+      /* GPU compositing — NO opacity/filter/scale/translate on this element */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+    @media (min-width: 640px) {
+      .video-slide {
+        flex: 0 0 55vw; max-width: 600px; border-radius: 24px;
+        /* Hover only changes border/shadow — NO transform to avoid Safari video freeze */
+        transition: box-shadow 0.4s, border-color 0.4s;
+      }
+      .video-slide:hover {
+        box-shadow: 0 20px 60px rgba(182,0,168,0.2), 0 6px 24px rgba(0,0,0,0.5);
+        border-color: rgba(182,0,168,0.42);
+        /* Intentionally NO transform here — transforms freeze Safari video */
+      }
+    }
+    @media (min-width: 768px) { .video-slide { flex: 0 0 45vw; border-radius: 28px; } }
+    @media (min-width: 1024px) { .video-slide { flex: 0 0 38vw; max-width: 680px; border-radius: 32px; } }
+
+    /* Safari GPU fix: video element compositing + safe properties only */
+    .video-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: inherit;
+      background: #000;
+      /* GPU compositing */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      /* NO opacity / filter / scale / translate animations on video */
+    }
+
+    .video-slide::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.35) 100%);
+      pointer-events: none; border-radius: inherit; z-index: 1;
+    }
+
+    .video-slider-dots {
+      display: flex; justify-content: center; gap: 0.45rem; margin-top: 1.5rem; padding: 0 1.25rem;
+    }
+    .slider-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: rgba(215,226,234,0.2);
+      cursor: pointer; transition: background 0.3s, transform 0.3s, width 0.3s;
+      flex-shrink: 0;
+    }
+    .slider-dot.active {
+      background: linear-gradient(90deg, #B600A8, #7621B0);
+      width: 22px; border-radius: 3px; transform: none;
+      box-shadow: 0 0 8px rgba(182,0,168,0.5);
+    }
+
     #process {
       background: #0C0C0C; position: relative; overflow: hidden;
       padding: 6rem 1.25rem 5rem;
@@ -670,7 +798,7 @@
     }
 
     @media (max-width: 639px) {
-      #hero, #portrait-marquee-top, #projects, #process, #contact {
+      #hero, #portrait-marquee-top, #projects, #video-slider, #process, #contact {
         background: transparent !important;
       }
       .project-card { background: rgba(12,12,12,0.85) !important; }
@@ -861,6 +989,66 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- VIDEO SLIDER: all autoplay attributes set directly in HTML -->
+  <section id="video-slider">
+    <div class="video-slider-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
+      <h2 class="video-slider-h2 glitch-heading">Our Work</h2>
+      <img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/white_exclamation.png?raw=true" alt="" class="video-slider-exclamation" />
+    </div>
+
+    <div class="video-slider-track-wrap fade-init" data-delay="0.1" data-y="20" data-x="0">
+      <div class="video-slider-track" id="video-slider-track">
+        <div class="video-slide">
+          <video id="sv-0"
+            muted
+            autoplay
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+          ></video>
+        </div>
+        <div class="video-slide">
+          <video id="sv-1"
+            muted
+            autoplay
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+          ></video>
+        </div>
+        <div class="video-slide">
+          <video id="sv-2"
+            muted
+            autoplay
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+          ></video>
+        </div>
+        <div class="video-slide">
+          <video id="sv-3"
+            muted
+            autoplay
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+          ></video>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-slider-dots" id="slider-dots">
+      <div class="slider-dot active" data-idx="0"></div>
+      <div class="slider-dot" data-idx="1"></div>
+      <div class="slider-dot" data-idx="2"></div>
+      <div class="slider-dot" data-idx="3"></div>
     </div>
   </section>
 
@@ -1062,24 +1250,24 @@
   document.head.appendChild(styleEl);
 
   const topVideosA = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid7.mp4',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid1.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid2.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid3.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid4.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid5.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid6.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid7.mp4?raw=true',
   ];
 
   const topVideosB = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/7.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/8.mp4',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/1.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/2.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/3.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/4.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/5.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/6.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/7.mp4?raw=true',
+    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/8.mp4?raw=true',
   ];
 
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
@@ -1480,6 +1668,133 @@
         requestAnimationFrame(draw);
       }
       draw();
+    }
+  }
+
+  /* =====================================================
+     VIDEO SLIDER — fixed loader for Safari / iOS / Android
+     ===================================================== */
+  {
+    // URL format: ?raw=true suffix (GitHub CDN, range-request friendly)
+    const SLIDER_SRCS = [
+      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/1.mp4?raw=true',
+      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/2.mp4?raw=true',
+      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/3.mp4?raw=true',
+      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/4.mp4?raw=true',
+    ];
+
+    /**
+     * loadSliderVideo — Safari/iOS/Android-safe loader.
+     * - Sets all required IDL properties (not just attributes)
+     * - Hooks loadedmetadata + canplay for the forcePlay attempt
+     * - Listens for "suspend" (iOS background-tab throttle) and re-loads
+     * - Does NOT animate opacity/filter/scale/translate on the video element
+     */
+    function loadSliderVideo(video, src) {
+      if (!video) return;
+
+      // IDL properties (authoritative on iOS WebKit)
+      video.muted        = true;
+      video.defaultMuted = true;
+      video.playsInline  = true;
+      video.autoplay     = true;
+      video.loop         = true;
+
+      video.src = src;
+
+      const forcePlay = () => {
+        video.muted = true;
+        const p = video.play();
+        if (p && p.catch) {
+          p.catch(() => {
+            setTimeout(() => {
+              video.muted = true;
+              video.play().catch(() => {});
+            }, 500);
+          });
+        }
+      };
+
+      video.addEventListener('loadedmetadata', forcePlay, { once: true });
+      video.addEventListener('canplay',        forcePlay, { once: true });
+
+      // iOS suspends background videos; reload to recover
+      video.addEventListener('suspend', () => {
+        video.load();
+      });
+
+      video.addEventListener('error', (e) => {
+        console.log('SLIDER VIDEO ERROR', video.currentSrc, e);
+      });
+
+      video.load();
+      forcePlay();
+    }
+
+    const sliderSec = document.getElementById('video-slider');
+    const ioSlider = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        SLIDER_SRCS.forEach((src, i) => {
+          const v = document.getElementById('sv-' + i);
+          if (v) setTimeout(() => loadSliderVideo(v, src), i * 150);
+        });
+        ioSlider.disconnect();
+      }
+    }, { threshold: 0, rootMargin: '300px' });
+    if (sliderSec) ioSlider.observe(sliderSec);
+
+    const track = document.getElementById('video-slider-track');
+    const dots = Array.from(document.querySelectorAll('#slider-dots .slider-dot'));
+
+    function updateDots() {
+      if (!track || !dots.length) return;
+      const slides = track.querySelectorAll('.video-slide');
+      const center = track.scrollLeft + track.offsetWidth / 2;
+      let closest = 0, minDist = Infinity;
+      slides.forEach((slide, i) => {
+        const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      dots.forEach((d, i) => d.classList.toggle('active', i === closest));
+    }
+
+    if (track) {
+      track.addEventListener('scroll', updateDots, { passive: true });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.dataset.idx);
+          const slides = track.querySelectorAll('.video-slide');
+          if (slides[idx]) {
+            const targetLeft = slides[idx].offsetLeft - (track.offsetWidth - slides[idx].offsetWidth) / 2;
+            track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Desktop drag-to-scroll
+      let isDragging = false, startX = 0, startScroll = 0;
+      track.addEventListener('mousedown', (e) => {
+        isDragging = true; startX = e.pageX; startScroll = track.scrollLeft;
+        track.classList.add('is-dragging');
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        track.scrollLeft = startScroll - (e.pageX - startX);
+      });
+      window.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false; track.classList.remove('is-dragging');
+        const slides = track.querySelectorAll('.video-slide');
+        const center = track.scrollLeft + track.offsetWidth / 2;
+        let closest = 0, minDist = Infinity;
+        slides.forEach((slide, i) => {
+          const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
+          if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        const targetLeft = slides[closest].offsetLeft - (track.offsetWidth - slides[closest].offsetWidth) / 2;
+        track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      });
     }
   }
 
