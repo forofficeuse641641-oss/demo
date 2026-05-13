@@ -15,7 +15,6 @@
     .main-wrapper { background: #0C0C0C; }
     @media (max-width: 639px) { .main-wrapper { background: transparent; } }
 
-    /* ── CURSOR SPOTLIGHT — desktop only ── */
     #cursor-spotlight {
       position: fixed; width: 600px; height: 600px; border-radius: 50%;
       pointer-events: none; z-index: 0;
@@ -43,7 +42,6 @@
       .glitch-heading { animation: glitchFlicker 7s infinite; }
     }
 
-    /* ── NAVBAR ── */
     nav {
       display: flex; justify-content: space-between; align-items: center;
       padding: 0.4rem 1.25rem; position: relative; z-index: 20;
@@ -84,7 +82,6 @@
     @media (min-width: 768px) { .nav-cta { padding: 0.7rem 2.2rem !important; font-size: 1rem !important; outline-width: 2px; } }
     @media (min-width: 1024px) { .nav-cta { padding: 0.8rem 2.6rem !important; font-size: 1.05rem !important; } }
 
-    /* ── HERO ── */
     #hero { min-height: 100svh; display: flex; flex-direction: column; position: relative; }
     @media (max-width: 767px) { #hero { min-height: 0; height: auto; } }
 
@@ -112,7 +109,6 @@
 
     #hero-particles-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 
-    /* ── HERO BODY ── */
     .hero-body {
       flex: 1; display: flex; flex-direction: column; position: relative; z-index: 2;
       padding: 0 1.25rem 0.75rem; justify-content: flex-start; padding-top: 0; min-height: 0;
@@ -140,7 +136,6 @@
     @media (min-width: 1024px) { .hero-tagline { font-size: clamp(5rem, 7.2vw, 9.2rem); } }
     @media (min-width: 1280px) { .hero-tagline { font-size: clamp(5.8rem, 8vw, 10.5rem); } }
 
-    /* ── MOBILE TAGLINE OVERRIDES — slightly bigger ── */
     @media (max-width: 639px) {
       .hero-tagline {
         text-align: center;
@@ -173,7 +168,6 @@
     }
     @keyframes accentShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
-    /* KPI ROW */
     .hero-kpis { display: flex; flex-direction: row; gap: 0.5rem; flex-wrap: nowrap; justify-content: center; }
     @media (min-width: 640px) { .hero-kpis { gap: 0.75rem; } }
     @media (min-width: 768px) { .hero-kpis { gap: 1rem; } }
@@ -233,7 +227,6 @@
       box-shadow: 0 0 6px rgba(182,0,168,0.42);
     }
 
-    /* ── PROCESS INLINE EXCLAMATION ── */
     .process-h2-inline-wrap {
       display: inline-flex; align-items: flex-end; position: relative;
       -webkit-text-fill-color: initial; color: #D7E2EA;
@@ -276,7 +269,6 @@
     .hero-portrait-wrap img.is-magnetic { animation: none; }
     @keyframes logoFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-9px); } }
 
-    /* ── CONTACT BUTTON ── */
     .contact-btn {
       display: inline-block; padding: 0.75rem 2rem; border-radius: 9999px;
       background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%);
@@ -298,15 +290,11 @@
     @media (min-width: 640px) { .contact-btn { padding: 0.875rem 2.5rem; font-size: 0.875rem; } }
     @media (min-width: 768px) { .contact-btn { padding: 1rem 3rem; font-size: 1rem; } }
 
-    /* ══════════════════════════════════════════════
-       ── PORTRAIT MARQUEE (9:16) — TWO ROWS, TOP ──
-    ══════════════════════════════════════════════ */
     #portrait-marquee-top {
       background: #0C0C0C; padding: 0 0 2.5rem; overflow: hidden;
     }
     @media (min-width: 640px) { #portrait-marquee-top { padding: 0 0 4rem; } }
 
-    /* ── WHAT WE DID heading above portrait marquee ── */
     .what-we-did-wrap {
       display: flex; align-items: center; justify-content: center;
       gap: 0.4rem; padding: 3rem 0.5rem 2rem; overflow: visible; width: 100%;
@@ -348,7 +336,7 @@
     @media (min-width: 1024px) { .portrait-card { width: 260px; height: 462px; } }
 
     /* ══════════════════════════════════════════════
-       ── MARQUEE 16:9 — BOTTOM (after projects) ──
+       16:9 BOTTOM MARQUEE
     ══════════════════════════════════════════════ */
     #marquee-bottom {
       background: #0C0C0C; padding: 3rem 0 4rem; overflow: hidden;
@@ -358,22 +346,47 @@
     .marquee-row { overflow: hidden; }
     .marquee-track {
       display: flex; gap: 0.75rem; width: max-content;
-      will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    }
+    /* Only enable GPU compositing on desktop — on mobile will-change blocks video decode */
+    @media (min-width: 640px) {
+      .marquee-track { will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
     }
 
-    /* ── 16:9 VIDEO CARD ── */
     .marquee-video-wrap {
       position: relative; flex-shrink: 0; border-radius: 1rem; overflow: hidden;
-      width: 280px; height: 157px; background: #111; cursor: pointer;
+      width: 280px; height: 157px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
     }
-    @media (min-width: 640px) { .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; } }
+    @media (min-width: 640px) {
+      .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; }
+    }
 
+    /* Video fills wrapper — critical on mobile */
     .marquee-video-wrap video {
-      width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      background: #111;
     }
+
+    /* Transparent clickable overlay */
+    .marquee-video-link {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: block;
+      text-decoration: none;
+      background: transparent;
+    }
+
     @media (min-width: 640px) {
       .marquee-video-wrap {
         transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+        cursor: pointer;
       }
       .marquee-video-wrap:hover {
         transform: scale(1.04) translateY(-6px);
@@ -384,7 +397,6 @@
       }
     }
 
-    /* Play icon overlay */
     .marquee-video-play {
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%) scale(0.85);
@@ -399,14 +411,12 @@
       width: 22px; height: 22px; fill: white; margin-left: 3px;
     }
 
-    /* gradient overlay on video */
     .marquee-video-wrap::after {
       content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
       background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.45) 100%);
       border-radius: inherit;
     }
 
-    /* ── PROJECTS ── */
     #projects {
       background: #0C0C0C; position: relative; z-index: 10;
       padding: 5rem 1.25rem 0; padding-bottom: 0;
@@ -538,7 +548,6 @@
       pointer-events: none; border-radius: inherit; z-index: 2; mix-blend-mode: screen;
     }
 
-    /* ── PROCESS SECTION ── */
     #process {
       background: #0C0C0C; position: relative; overflow: hidden;
       padding: 6rem 1.25rem 5rem;
@@ -667,11 +676,9 @@
       position: absolute; bottom: 0; left: 0; height: 2px; width: 0%; border-radius: 1px;
       background: linear-gradient(90deg, #B600A8, #7621B0); transition: none;
     }
-    /* Desktop: 3.2s cycle */
     .process-step.step-active .process-cycle-bar { animation: cycleBarGrow var(--cycle-dur, 3.2s) linear forwards; }
     @keyframes cycleBarGrow { from { width: 0%; } to { width: 100%; } }
 
-    /* ── CONTACT ── */
     #contact { background: #0C0C0C; position: relative; overflow: hidden; padding: 0; border-top: 1px solid rgba(215,226,234,0.056); }
     #contact-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: none; }
     @media (min-width: 640px) { #contact-canvas { display: block; } }
@@ -705,7 +712,6 @@
     @media (min-width: 640px) { .contact-item { padding: 1.75rem 0.5rem; } }
     .contact-item:last-child { border-bottom: 1px solid rgba(215,226,234,0.07); }
 
-    /* ── CONTACT ICONS ── */
     .contact-item-icon {
       display: flex; align-items: center; justify-content: center;
       width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
@@ -735,11 +741,9 @@
     .contact-cta { display: flex; justify-content: center; }
     .contact-footer-line { color: rgba(215,226,234,0.14); font-size: 0.75rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; padding-top: 1rem; border-top: 1px solid rgba(215,226,234,0.042); width: 100%; }
 
-    /* ── FADE-IN ── */
     .fade-init { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.25,0.1,0.25,1), transform 0.7s cubic-bezier(0.25,0.1,0.25,1); }
     .fade-init.visible { opacity: 1; transform: translateY(0) translateX(0); }
 
-    /* ── SCROLL PROGRESS BAR ── */
     #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; z-index: 9999; background: linear-gradient(90deg, #B600A8, #7621B0, #BE4C00); width: 0%; box-shadow: 0 0 12px rgba(182,0,168,0.56); }
 
     ::-webkit-scrollbar { width: 6px; }
@@ -747,7 +751,6 @@
     ::-webkit-scrollbar-thumb { background: rgba(182,0,168,0.28); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(182,0,168,0.49); }
 
-    /* Mobile background */
     @media (max-width: 639px) {
       body::before {
         content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -873,7 +876,6 @@
     </div>
 
     <div class="cards-stack" id="cards-stack">
-      <!-- CARD 01 — Video Production -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-0">
           <div class="card-top-row">
@@ -896,7 +898,6 @@
         </div>
       </div>
 
-      <!-- CARD 02 — Performance Marketing -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-1">
           <div class="card-top-row">
@@ -918,7 +919,6 @@
         </div>
       </div>
 
-      <!-- CARD 03 — Social Media Management -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-2">
           <div class="card-top-row">
@@ -941,7 +941,6 @@
         </div>
       </div>
 
-      <!-- CARD 04 — Web Development -->
       <div class="card-sticky-wrap">
         <div class="project-card" id="card-3">
           <div class="card-top-row">
@@ -1166,7 +1165,17 @@
     })();
   }
 
-  // ── MARQUEE SETUP ──
+  // ── MARQUEE ANIMATION STYLES ──
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes scrollRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+    .marquee-loop-left  { animation: scrollLeft  var(--dur, 28s) linear infinite; will-change: transform; }
+    .marquee-loop-right { animation: scrollRight var(--dur, 28s) linear infinite; will-change: transform; }
+  `;
+  document.head.appendChild(styleEl);
+
+  // ── VIDEO SOURCES ──
   const topVideosA = [
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
@@ -1188,8 +1197,6 @@
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/8.mp4',
   ];
 
-  // ── 16:9 BOTTOM VIDEOS with YouTube redirect links ──
-  // Note: folder is literally "16:9 Videos" — colon = %3A, space = %20
   const bottomVideos = [
     {
       src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4',
@@ -1213,22 +1220,13 @@
     },
   ];
 
-  const styleEl = document.createElement('style');
-  styleEl.textContent = `
-    @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    @keyframes scrollRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-    .marquee-loop-left  { animation: scrollLeft  var(--dur, 28s) linear infinite; will-change: transform; }
-    .marquee-loop-right { animation: scrollRight var(--dur, 28s) linear infinite; will-change: transform; }
-  `;
-  document.head.appendChild(styleEl);
-
+  // ── BUILD 9:16 PORTRAIT MARQUEE ──
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
     for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
         const video = document.createElement('video');
-        video.setAttribute('src', src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
@@ -1241,60 +1239,106 @@
         video.playsInline = true;
         video.className = 'portrait-card';
         rowEl.appendChild(video);
+        // Set src AFTER append, then load
+        const source = document.createElement('source');
+        source.src = src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
       });
     }
   }
 
-  // ── BUILD 16:9 BOTTOM VIDEO MARQUEE with click-through ──
+  // ════════════════════════════════════════════════════════════
+  // ── BUILD 16:9 BOTTOM MARQUEE — MOBILE FIX ──
+  //
+  // Root cause of blank videos on mobile:
+  //   Setting video.src (or src attribute) BEFORE the element is
+  //   appended to the DOM can cause mobile browsers to silently
+  //   refuse to load or decode the video, resulting in a black frame.
+  //
+  // Fix applied:
+  //   1. Append wrapper + video to DOM FIRST
+  //   2. Then inject a <source> child and call video.load()
+  //   3. Listen for canplay / loadeddata events to trigger play()
+  //   4. preload="auto" so mobile fetches enough data to display
+  //   5. Gradient placeholder background so cards are never black
+  // ════════════════════════════════════════════════════════════
   function buildBottomVideoMarquee(rowEl, items, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
 
     for (let c = 0; c < 2; c++) {
       items.forEach((item) => {
-        // Wrapper anchor — opens YouTube on click
-        const wrap = document.createElement('a');
+        // Outer wrapper — plain div, NOT <a> (iOS blocks autoplay inside <a>)
+        const wrap = document.createElement('div');
         wrap.className = 'marquee-video-wrap';
-        wrap.href = item.href;
-        wrap.target = '_blank';
-        wrap.rel = 'noopener noreferrer';
-        wrap.setAttribute('aria-label', 'Watch on YouTube');
 
-        // Video element — all attributes set for maximum mobile compatibility
+        // Video element with every required mobile-autoplay attribute
         const video = document.createElement('video');
-        video.setAttribute('src', item.src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', '');
-        video.setAttribute('x5-playsinline', '');        // WeChat/Android WebView
+        video.setAttribute('x5-playsinline', '');
         video.setAttribute('x5-video-player-type', 'h5');
-        video.setAttribute('preload', 'metadata');       // metadata not none — crucial for mobile
-        video.muted = true;                              // property AND attribute both needed
+        video.setAttribute('preload', 'auto');
+        // JS properties too — some browsers only check one or the other
+        video.muted = true;
         video.autoplay = true;
         video.loop = true;
         video.playsInline = true;
+        video.defaultMuted = true;
 
-        // Play icon overlay (desktop hover only)
+        // Transparent overlay <a> for YouTube link (sits above video, z-index:4)
+        const link = document.createElement('a');
+        link.className = 'marquee-video-link';
+        link.href = item.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', 'Watch on YouTube');
+
+        // Play icon (desktop hover reveal only)
         const playIcon = document.createElement('div');
         playIcon.className = 'marquee-video-play';
         playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
 
+        // Append to DOM FIRST
         wrap.appendChild(video);
         wrap.appendChild(playIcon);
+        wrap.appendChild(link);
         rowEl.appendChild(wrap);
+
+        // ── CRITICAL MOBILE FIX ──
+        // Set src via <source> tag AFTER appending to DOM, then call load().
+        // This is the key step that makes mobile browsers actually decode the video.
+        const source = document.createElement('source');
+        source.src = item.src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
+
+        // Play on canplay/loadeddata — more reliable than setTimeout on mobile
+        function attemptPlay() {
+          video.muted = true;
+          const p = video.play();
+          if (p && p.catch) { p.catch(() => {}); }
+        }
+        video.addEventListener('canplay', attemptPlay, { once: true });
+        video.addEventListener('loadeddata', attemptPlay, { once: true });
       });
     }
   }
 
+  // ── SIZING ──
   const cardW = IS_MOBILE ? 192 : (window.innerWidth >= 1024 ? 272 : 232);
   const vidW  = IS_MOBILE ? 292 : 432;
   const PPS   = IS_MOBILE ? 50 : 65;
 
-  const topDurA  = Math.round(topVideosA.length   * cardW / PPS);
-  const topDurB  = Math.round(topVideosB.length   * cardW / PPS);
-  const botDur   = Math.round(bottomVideos.length * vidW  / PPS);
+  const topDurA = Math.round(topVideosA.length   * cardW / PPS);
+  const topDurB = Math.round(topVideosB.length   * cardW / PPS);
+  const botDur  = Math.round(bottomVideos.length * vidW  / PPS);
 
   const topRowA = document.getElementById('portrait-row-top-a');
   const topRowB = document.getElementById('portrait-row-top-b');
@@ -1304,9 +1348,9 @@
   const bottomTrack = document.getElementById('marquee-track-bottom');
   buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
 
-  // Robust play function — retries once after 800ms if the promise rejects
+  // ── ROBUST PLAY — retries once after 800ms ──
   function tryPlay(video) {
-    video.muted = true; // ensure property is set
+    video.muted = true;
     const p = video.play();
     if (p && p.catch) {
       p.catch(() => {
@@ -1320,19 +1364,15 @@
 
   function lazyPlayRow(rowEl) {
     rowEl.querySelectorAll('video').forEach((v, i) => {
-      // On mobile stagger minimally (50ms), desktop can afford more gap
       const delay = IS_MOBILE ? i * 50 : i * 80;
       setTimeout(() => {
-        if (v.getAttribute('preload') === 'none') {
-          v.setAttribute('preload', 'metadata');
-          v.load();
-        }
+        v.muted = true;
         tryPlay(v);
       }, delay);
     });
   }
 
-  // Lazy play top portrait videos
+  // ── LAZY PLAY — top portrait marquee ──
   const ioTop = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       lazyPlayRow(topRowA);
@@ -1343,7 +1383,7 @@
   const topSec = document.getElementById('portrait-marquee-top');
   if (topSec) ioTop.observe(topSec);
 
-  // Lazy play bottom 16:9 videos — observe with rootMargin so it triggers slightly before visible
+  // ── LAZY PLAY — bottom 16:9 marquee ──
   const ioBottom = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       lazyPlayRow(bottomTrack);
@@ -1353,17 +1393,14 @@
   const bottomSec = document.getElementById('marquee-bottom');
   if (bottomSec) ioBottom.observe(bottomSec);
 
-  // iOS Safari extra: on first user interaction, kick all paused videos
-  // (handles cases where autoplay was blocked before gesture)
+  // ── iOS Safari: kick all paused videos on first user gesture ──
   function kickPausedVideos() {
     document.querySelectorAll('video').forEach(v => {
       if (v.paused) { v.muted = true; tryPlay(v); }
     });
-    document.removeEventListener('touchstart', kickPausedVideos);
-    document.removeEventListener('scroll', kickPausedVideos);
   }
   document.addEventListener('touchstart', kickPausedVideos, { once: true, passive: true });
-  document.addEventListener('scroll', kickPausedVideos, { once: true, passive: true });
+  document.addEventListener('scroll',     kickPausedVideos, { once: true, passive: true });
 
   // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
