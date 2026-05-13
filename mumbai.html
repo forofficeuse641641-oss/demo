@@ -343,45 +343,22 @@
     }
     @media (min-width: 640px) { #marquee-bottom { padding: 4rem 0; } }
 
-    /* FIX: explicit height on the row so it never collapses on mobile */
-    .marquee-row {
-      overflow: hidden;
-      height: 157px;
-    }
-    @media (min-width: 640px) {
-      .marquee-row {
-        height: 236px;
-      }
-    }
-
+    .marquee-row { overflow: hidden; }
     .marquee-track {
-      display: flex;
-      gap: 0.75rem;
-      width: max-content;
-      height: 100%;
-      will-change: transform;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+      display: flex; gap: 0.75rem; width: max-content;
+      will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
     }
 
-    /* FIX: explicit dimensions — width fixed, height inherits from row */
     .marquee-video-wrap {
-      position: relative;
-      flex-shrink: 0;
-      border-radius: 1rem;
-      overflow: hidden;
-      width: 280px;
-      height: 100%;      /* ← inherit from .marquee-row instead of fixed px */
-      background: #1a1a1a;
+      position: relative; flex-shrink: 0; border-radius: 1rem; overflow: hidden;
+      width: 280px; height: 157px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
     }
     @media (min-width: 640px) {
-      .marquee-video-wrap {
-        width: 420px;
-        border-radius: 1.25rem;
-      }
+      .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; }
     }
 
-    /* FIX: video fills wrapper explicitly */
+    /* Video fills wrapper — critical on mobile */
     .marquee-video-wrap video {
       position: absolute;
       top: 0; left: 0;
@@ -393,16 +370,14 @@
       background: #111;
     }
 
-    /* Clickable overlay on top of everything */
+    /* Transparent clickable overlay */
     .marquee-video-link {
       position: absolute;
       inset: 0;
-      z-index: 5;
+      z-index: 4;
       display: block;
       text-decoration: none;
       background: transparent;
-      cursor: pointer;
-      -webkit-tap-highlight-color: rgba(182,0,168,0.15);
     }
 
     @media (min-width: 640px) {
@@ -419,43 +394,18 @@
       }
     }
 
-    /* Play button — always visible on mobile, hover-only on desktop */
     .marquee-video-play {
       position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(1);
+      transform: translate(-50%, -50%) scale(0.85);
       width: 52px; height: 52px; border-radius: 50%;
-      background: rgba(182,0,168,0.88);
+      background: rgba(182,0,168,0.82);
       display: flex; align-items: center; justify-content: center;
-      opacity: 1;
-      transition: opacity 0.3s, transform 0.3s;
-      pointer-events: none; z-index: 4;
+      opacity: 0; transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none; z-index: 3;
       box-shadow: 0 0 0 6px rgba(182,0,168,0.22), 0 4px 20px rgba(0,0,0,0.5);
-    }
-    @media (min-width: 640px) {
-      .marquee-video-play {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.85);
-      }
     }
     .marquee-video-play svg {
       width: 22px; height: 22px; fill: white; margin-left: 3px;
-    }
-
-    .marquee-video-poster {
-      position: absolute; inset: 0; z-index: 1;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 6px;
-      background: linear-gradient(135deg, #18011F 0%, #0C0C0C 60%, #1a0a1a 100%);
-      border-radius: inherit;
-      opacity: 1;
-      transition: opacity 0.4s;
-    }
-    .marquee-video-poster.hidden { opacity: 0; pointer-events: none; }
-    .marquee-video-poster-label {
-      font-family: 'Kanit', sans-serif;
-      font-size: 11px; font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.12em;
-      color: rgba(215,226,234,0.35);
     }
 
     .marquee-video-wrap::after {
@@ -1274,7 +1224,6 @@
     for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
         const video = document.createElement('video');
-        video.setAttribute('src', src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
@@ -1287,30 +1236,43 @@
         video.playsInline = true;
         video.className = 'portrait-card';
         rowEl.appendChild(video);
+        // Set src AFTER append, then load
+        const source = document.createElement('source');
+        source.src = src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
       });
     }
   }
 
-  // ── BUILD 16:9 BOTTOM MARQUEE ──
+  // ════════════════════════════════════════════════════════════
+  // ── BUILD 16:9 BOTTOM MARQUEE — MOBILE FIX ──
+  //
+  // Root cause of blank videos on mobile:
+  //   Setting video.src (or src attribute) BEFORE the element is
+  //   appended to the DOM can cause mobile browsers to silently
+  //   refuse to load or decode the video, resulting in a black frame.
+  //
+  // Fix applied:
+  //   1. Append wrapper + video to DOM FIRST
+  //   2. Then inject a <source> child and call video.load()
+  //   3. Listen for canplay / loadeddata events to trigger play()
+  //   4. preload="auto" so mobile fetches enough data to display
+  //   5. Gradient placeholder background so cards are never black
+  // ════════════════════════════════════════════════════════════
   function buildBottomVideoMarquee(rowEl, items, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
-    // FIX: ensure track fills the row height and is a proper flex container
-    rowEl.style.height = '100%';
-    rowEl.style.display = 'flex';
-    rowEl.style.alignItems = 'stretch';
 
     for (let c = 0; c < 2; c++) {
       items.forEach((item) => {
-        // <div> wrapper — NOT <a> (iOS Safari blocks autoplay inside <a>)
+        // Outer wrapper — plain div, NOT <a> (iOS blocks autoplay inside <a>)
         const wrap = document.createElement('div');
         wrap.className = 'marquee-video-wrap';
-        // FIX: height 100% so it fills the fixed-height row
-        wrap.style.height = '100%';
 
-        // Video with every mobile-autoplay attribute
+        // Video element with every required mobile-autoplay attribute
         const video = document.createElement('video');
-        video.setAttribute('src', item.src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
@@ -1318,13 +1280,15 @@
         video.setAttribute('webkit-playsinline', '');
         video.setAttribute('x5-playsinline', '');
         video.setAttribute('x5-video-player-type', 'h5');
-        video.setAttribute('preload', 'metadata');
+        video.setAttribute('preload', 'auto');
+        // JS properties too — some browsers only check one or the other
         video.muted = true;
         video.autoplay = true;
         video.loop = true;
         video.playsInline = true;
+        video.defaultMuted = true;
 
-        // Transparent overlay <a> for the YouTube link (on top, z-index:5)
+        // Transparent overlay <a> for YouTube link (sits above video, z-index:4)
         const link = document.createElement('a');
         link.className = 'marquee-video-link';
         link.href = item.href;
@@ -1332,15 +1296,34 @@
         link.rel = 'noopener noreferrer';
         link.setAttribute('aria-label', 'Watch on YouTube');
 
-        // Play icon
+        // Play icon (desktop hover reveal only)
         const playIcon = document.createElement('div');
         playIcon.className = 'marquee-video-play';
         playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
 
+        // Append to DOM FIRST
         wrap.appendChild(video);
         wrap.appendChild(playIcon);
         wrap.appendChild(link);
         rowEl.appendChild(wrap);
+
+        // ── CRITICAL MOBILE FIX ──
+        // Set src via <source> tag AFTER appending to DOM, then call load().
+        // This is the key step that makes mobile browsers actually decode the video.
+        const source = document.createElement('source');
+        source.src = item.src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
+
+        // Play on canplay/loadeddata — more reliable than setTimeout on mobile
+        function attemptPlay() {
+          video.muted = true;
+          const p = video.play();
+          if (p && p.catch) { p.catch(() => {}); }
+        }
+        video.addEventListener('canplay', attemptPlay, { once: true });
+        video.addEventListener('loadeddata', attemptPlay, { once: true });
       });
     }
   }
@@ -1380,10 +1363,7 @@
     rowEl.querySelectorAll('video').forEach((v, i) => {
       const delay = IS_MOBILE ? i * 50 : i * 80;
       setTimeout(() => {
-        if (v.getAttribute('preload') === 'none') {
-          v.setAttribute('preload', 'metadata');
-          v.load();
-        }
+        v.muted = true;
         tryPlay(v);
       }, delay);
     });
