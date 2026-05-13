@@ -138,20 +138,11 @@
 
     @media (max-width: 639px) {
       .hero-tagline {
-        text-align: center;
-        padding-right: 0;
-        display: flex; flex-direction: column; align-items: center;
-        gap: 0.05em;
+        text-align: center; padding-right: 0;
+        display: flex; flex-direction: column; align-items: center; gap: 0.05em;
       }
-      .tagline-small {
-        font-size: clamp(1.9rem, 8.5vw, 2.7rem);
-        line-height: 1.1;
-        display: block;
-      }
-      .tagline-accent {
-        font-size: clamp(4rem, 17.5vw, 6.2rem);
-        display: block;
-      }
+      .tagline-small { font-size: clamp(1.9rem, 8.5vw, 2.7rem); line-height: 1.1; display: block; }
+      .tagline-accent { font-size: clamp(4rem, 17.5vw, 6.2rem); display: block; }
     }
 
     @media (min-width: 640px) {
@@ -239,7 +230,6 @@
     @media (min-width: 640px) {
       .process-exclamation-inline {
         height: clamp(2.8rem, 9vw, 11rem); margin-left: 0.18em; transform: translateY(12%);
-        animation: exclamationBounce 2.5s ease-in-out infinite;
       }
     }
 
@@ -319,10 +309,7 @@
     }
 
     .portrait-row-wrap { overflow: hidden; }
-
-    .portrait-row {
-      display: flex; gap: 0.75rem; will-change: transform; width: max-content;
-    }
+    .portrait-row { display: flex; gap: 0.75rem; will-change: transform; width: max-content; }
 
     .portrait-card {
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
@@ -334,91 +321,6 @@
     }
     @media (min-width: 640px) { .portrait-card { width: 220px; height: 390px; } }
     @media (min-width: 1024px) { .portrait-card { width: 260px; height: 462px; } }
-
-    /* ══════════════════════════════════════════════
-       16:9 BOTTOM MARQUEE — FIXED FOR MOBILE
-    ══════════════════════════════════════════════ */
-    #marquee-bottom {
-      background: #0C0C0C; padding: 3rem 0 4rem; overflow: hidden;
-    }
-    @media (min-width: 640px) { #marquee-bottom { padding: 4rem 0; } }
-
-    .marquee-row { overflow: hidden; }
-    .marquee-track {
-      display: flex; gap: 0.75rem; width: max-content;
-      will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    }
-
-    /* ── FIX 1: explicit dimensions on the wrapper, not relying on video to size it ── */
-    .marquee-video-wrap {
-      position: relative; flex-shrink: 0; border-radius: 1rem; overflow: hidden;
-      /* Mobile: explicit pixel sizes so the wrapper never collapses */
-      width: 280px; height: 157px;
-      background: #1a1a1a;
-      /* FIX: use <div> not <a> as the outer wrapper to avoid iOS autoplay block.
-         The YouTube link is on an inner overlay instead. */
-    }
-    @media (min-width: 640px) {
-      .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; }
-    }
-
-    /* ── FIX 2: video fills wrapper explicitly — crucial on mobile ── */
-    .marquee-video-wrap video {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      pointer-events: none;
-      /* FIX: background color so the poster/loading state is visible */
-      background: #111;
-    }
-
-    /* ── FIX 3: clickable overlay on top of the video (not wrapping it) ── */
-    .marquee-video-link {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      display: block;
-      text-decoration: none;
-      /* transparent — video shows through, but this captures the tap */
-      background: transparent;
-    }
-
-    @media (min-width: 640px) {
-      .marquee-video-wrap {
-        transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
-        cursor: pointer;
-      }
-      .marquee-video-wrap:hover {
-        transform: scale(1.04) translateY(-6px);
-        box-shadow: 0 20px 60px rgba(182,0,168,0.245), 0 8px 24px rgba(0,0,0,0.35);
-      }
-      .marquee-video-wrap:hover .marquee-video-play {
-        opacity: 1; transform: translate(-50%, -50%) scale(1);
-      }
-    }
-
-    .marquee-video-play {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(0.85);
-      width: 52px; height: 52px; border-radius: 50%;
-      background: rgba(182,0,168,0.82);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s, transform 0.3s;
-      pointer-events: none; z-index: 3;
-      box-shadow: 0 0 0 6px rgba(182,0,168,0.22), 0 4px 20px rgba(0,0,0,0.5);
-    }
-    .marquee-video-play svg {
-      width: 22px; height: 22px; fill: white; margin-left: 3px;
-    }
-
-    .marquee-video-wrap::after {
-      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-      background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.45) 100%);
-      border-radius: inherit;
-    }
 
     #projects {
       background: #0C0C0C; position: relative; z-index: 10;
@@ -717,16 +619,12 @@
 
     .contact-item-icon {
       display: flex; align-items: center; justify-content: center;
-      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
-      overflow: hidden;
+      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     @media (min-width: 640px) {
       .contact-item-icon { width: 44px; height: 44px; border-radius: 14px; }
-      .contact-item:hover .contact-item-icon {
-        transform: scale(1.1);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-      }
+      .contact-item:hover .contact-item-icon { transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.35); }
     }
     .contact-item-icon svg { width: 38px; height: 38px; display: block; }
     @media (min-width: 640px) { .contact-item-icon svg { width: 44px; height: 44px; } }
@@ -772,7 +670,7 @@
     }
 
     @media (max-width: 639px) {
-      #hero, #portrait-marquee-top, #marquee-bottom, #projects, #process, #contact {
+      #hero, #portrait-marquee-top, #projects, #process, #contact {
         background: transparent !important;
       }
       .project-card { background: rgba(12,12,12,0.85) !important; }
@@ -804,7 +702,6 @@
 
 <div class="main-wrapper" id="root" style="position:relative;z-index:1;">
 
-  <!-- HERO -->
   <section id="hero">
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
@@ -856,7 +753,6 @@
     </div>
   </section>
 
-  <!-- TOP PORTRAIT MARQUEE (9:16) -->
   <section id="portrait-marquee-top">
     <div class="what-we-did-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="what-we-did-h2 glitch-heading">What We Did</h2>
@@ -871,7 +767,6 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="projects-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="projects-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">What We Do</h2>
@@ -969,14 +864,6 @@
     </div>
   </section>
 
-  <!-- BOTTOM 16:9 VIDEO MARQUEE -->
-  <section id="marquee-bottom">
-    <div id="marquee-row-bottom" class="marquee-row">
-      <div id="marquee-track-bottom" class="marquee-track"></div>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
   <section id="process">
     <div class="process-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="process-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">
@@ -1060,7 +947,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <canvas id="contact-canvas"></canvas>
     <div class="contact-inner">
@@ -1142,7 +1028,6 @@
 (function() {
   const IS_MOBILE = window.innerWidth < 640 || ('ontouchstart' in window);
 
-  // ── SCROLL PROGRESS ──
   const progressBar = document.getElementById('scroll-progress');
   let rafPending = false;
   window.addEventListener('scroll', () => {
@@ -1155,7 +1040,6 @@
     });
   }, { passive: true });
 
-  // ── CURSOR SPOTLIGHT (desktop only) ──
   if (!IS_MOBILE) {
     const spotlight = document.getElementById('cursor-spotlight');
     let spotX = window.innerWidth / 2, spotY = window.innerHeight / 2;
@@ -1168,7 +1052,6 @@
     })();
   }
 
-  // ── MARQUEE ANIMATION STYLES ──
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -1178,7 +1061,6 @@
   `;
   document.head.appendChild(styleEl);
 
-  // ── VIDEO SOURCES ──
   const topVideosA = [
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
@@ -1200,37 +1082,12 @@
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/8.mp4',
   ];
 
-  const bottomVideos = [
-    {
-      src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4',
-      href: 'https://youtu.be/WIDUEKf4VJ8?si=rf2WhD_a3Yccis92'
-    },
-    {
-      src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/2.mp4',
-      href: 'https://youtu.be/mJOFf8BzYfU?si=48rFr5wMmiUGitwi'
-    },
-    {
-      src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/3.mp4',
-      href: 'https://youtu.be/7OGztPQMKB0?si=0hpwoKvYWRoew598'
-    },
-    {
-      src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/4.mp4',
-      href: 'https://youtu.be/Hj_MnHnfOB0?si=ahlKFbKyIEYvreNU'
-    },
-    {
-      src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4',
-      href: 'https://youtu.be/ooPJhsXmZ5M?si=ryCKXFKWCloX66uy'
-    },
-  ];
-
-  // ── BUILD 9:16 PORTRAIT MARQUEE ──
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
     for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
         const video = document.createElement('video');
-        video.setAttribute('src', src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
@@ -1243,97 +1100,31 @@
         video.playsInline = true;
         video.className = 'portrait-card';
         rowEl.appendChild(video);
+        const source = document.createElement('source');
+        source.src = src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
       });
     }
   }
 
-  // ════════════════════════════════════════════════════════════
-  // ── BUILD 16:9 BOTTOM MARQUEE — MOBILE-FIXED VERSION ──
-  //
-  // KEY CHANGES vs original:
-  //  1. Outer wrapper is a <div>, NOT an <a>.
-  //     iOS Safari blocks autoplay on videos inside <a> tags.
-  //  2. Video uses position:absolute + explicit w/h to fill wrapper.
-  //     Without this the video has 0 intrinsic size in some browsers.
-  //  3. The YouTube link is a transparent <a> overlay (z-index:4)
-  //     layered on top — tappable but doesn't wrap the <video>.
-  //  4. preload="metadata" is set as attribute AND property.
-  // ════════════════════════════════════════════════════════════
-  function buildBottomVideoMarquee(rowEl, items, cssClass, durSec) {
-    rowEl.style.setProperty('--dur', durSec + 's');
-    rowEl.classList.add(cssClass);
-
-    for (let c = 0; c < 2; c++) {
-      items.forEach((item) => {
-        // FIX: <div> wrapper, not <a>
-        const wrap = document.createElement('div');
-        wrap.className = 'marquee-video-wrap';
-
-        // Video element with every mobile-autoplay attribute needed
-        const video = document.createElement('video');
-        video.setAttribute('src', item.src);
-        video.setAttribute('autoplay', '');
-        video.setAttribute('muted', '');
-        video.setAttribute('loop', '');
-        video.setAttribute('playsinline', '');
-        video.setAttribute('webkit-playsinline', '');
-        video.setAttribute('x5-playsinline', '');
-        video.setAttribute('x5-video-player-type', 'h5');
-        video.setAttribute('preload', 'metadata');
-        // Set JS properties too — some browsers only check one or the other
-        video.muted = true;
-        video.autoplay = true;
-        video.loop = true;
-        video.playsInline = true;
-
-        // FIX: transparent overlay <a> for the YouTube link
-        const link = document.createElement('a');
-        link.className = 'marquee-video-link';
-        link.href = item.href;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.setAttribute('aria-label', 'Watch on YouTube');
-
-        // Play icon (desktop hover only)
-        const playIcon = document.createElement('div');
-        playIcon.className = 'marquee-video-play';
-        playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
-
-        wrap.appendChild(video);
-        wrap.appendChild(playIcon);
-        wrap.appendChild(link); // link is on top (z-index:4)
-        rowEl.appendChild(wrap);
-      });
-    }
-  }
-
-  // ── SIZING ──
   const cardW = IS_MOBILE ? 192 : (window.innerWidth >= 1024 ? 272 : 232);
-  const vidW  = IS_MOBILE ? 292 : 432;
   const PPS   = IS_MOBILE ? 50 : 65;
-
-  const topDurA = Math.round(topVideosA.length   * cardW / PPS);
-  const topDurB = Math.round(topVideosB.length   * cardW / PPS);
-  const botDur  = Math.round(bottomVideos.length * vidW  / PPS);
+  const topDurA = Math.round(topVideosA.length * cardW / PPS);
+  const topDurB = Math.round(topVideosB.length * cardW / PPS);
 
   const topRowA = document.getElementById('portrait-row-top-a');
   const topRowB = document.getElementById('portrait-row-top-b');
   buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
   buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
-  const bottomTrack = document.getElementById('marquee-track-bottom');
-  buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
-
-  // ── ROBUST PLAY — retries once after 800ms ──
   function tryPlay(video) {
     video.muted = true;
     const p = video.play();
     if (p && p.catch) {
       p.catch(() => {
-        setTimeout(() => {
-          video.muted = true;
-          video.play().catch(() => {});
-        }, 800);
+        setTimeout(() => { video.muted = true; video.play().catch(() => {}); }, 800);
       });
     }
   }
@@ -1341,17 +1132,10 @@
   function lazyPlayRow(rowEl) {
     rowEl.querySelectorAll('video').forEach((v, i) => {
       const delay = IS_MOBILE ? i * 50 : i * 80;
-      setTimeout(() => {
-        if (v.getAttribute('preload') === 'none') {
-          v.setAttribute('preload', 'metadata');
-          v.load();
-        }
-        tryPlay(v);
-      }, delay);
+      setTimeout(() => { v.muted = true; tryPlay(v); }, delay);
     });
   }
 
-  // ── LAZY PLAY — top portrait marquee ──
   const ioTop = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       lazyPlayRow(topRowA);
@@ -1362,27 +1146,13 @@
   const topSec = document.getElementById('portrait-marquee-top');
   if (topSec) ioTop.observe(topSec);
 
-  // ── LAZY PLAY — bottom 16:9 marquee ──
-  // rootMargin 200px so it starts loading before it scrolls into view
-  const ioBottom = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      lazyPlayRow(bottomTrack);
-      ioBottom.disconnect();
-    }
-  }, { threshold: 0, rootMargin: '200px' });
-  const bottomSec = document.getElementById('marquee-bottom');
-  if (bottomSec) ioBottom.observe(bottomSec);
+  document.addEventListener('touchstart', () => {
+    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
+  }, { once: true, passive: true });
+  document.addEventListener('scroll', () => {
+    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
+  }, { once: true, passive: true });
 
-  // ── iOS Safari: kick all paused videos on first user gesture ──
-  function kickPausedVideos() {
-    document.querySelectorAll('video').forEach(v => {
-      if (v.paused) { v.muted = true; tryPlay(v); }
-    });
-  }
-  document.addEventListener('touchstart', kickPausedVideos, { once: true, passive: true });
-  document.addEventListener('scroll',     kickPausedVideos, { once: true, passive: true });
-
-  // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
   fadeEls.forEach(el => {
     const delay = parseFloat(el.dataset.delay || 0);
@@ -1404,7 +1174,6 @@
   }, { threshold: 0, rootMargin: '50px' });
   fadeEls.forEach(el => fadeObserver.observe(el));
 
-  // ── PROCESS TIMELINE ──
   (function() {
     const steps = Array.from(document.querySelectorAll('.process-step'));
     const lineFill = document.getElementById('process-line-fill');
@@ -1502,7 +1271,6 @@
     });
   })();
 
-  // ── CARD STACKING ──
   const cardEls = ['card-0','card-1','card-2','card-3'].map(id => document.getElementById(id));
   const stickyWraps = Array.from(document.querySelectorAll('.card-sticky-wrap'));
 
@@ -1551,7 +1319,6 @@
     updateCards();
   }
 
-  // ── MAGNETIC PORTRAIT (desktop only) ──
   if (!IS_MOBILE) {
     const heroSection = document.getElementById('hero');
     const portraitImg = document.getElementById('portrait-img');
@@ -1573,7 +1340,6 @@
     }
   }
 
-  // ── HERO PARTICLES ──
   {
     const pc = document.getElementById('hero-particles-canvas');
     if (pc) {
@@ -1605,7 +1371,6 @@
     }
   }
 
-  // ── KPI COUNTER ──
   (function() {
     const kpiEls = document.querySelectorAll('.kpi-number[data-target]');
     const DURATION = 1800;
@@ -1626,7 +1391,6 @@
     kpiEls.forEach(el => io.observe(el));
   })();
 
-  // ── CONTACT CANVAS (desktop only) ──
   if (!IS_MOBILE) {
     const canvas = document.getElementById('contact-canvas');
     if (canvas) {
@@ -1672,7 +1436,6 @@
     }
   }
 
-  // ── GLOBAL BG CANVAS ──
   {
     const gc = document.getElementById('global-bg-canvas');
     if (gc) {
