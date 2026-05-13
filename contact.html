@@ -138,20 +138,11 @@
 
     @media (max-width: 639px) {
       .hero-tagline {
-        text-align: center;
-        padding-right: 0;
-        display: flex; flex-direction: column; align-items: center;
-        gap: 0.05em;
+        text-align: center; padding-right: 0;
+        display: flex; flex-direction: column; align-items: center; gap: 0.05em;
       }
-      .tagline-small {
-        font-size: clamp(1.9rem, 8.5vw, 2.7rem);
-        line-height: 1.1;
-        display: block;
-      }
-      .tagline-accent {
-        font-size: clamp(4rem, 17.5vw, 6.2rem);
-        display: block;
-      }
+      .tagline-small { font-size: clamp(1.9rem, 8.5vw, 2.7rem); line-height: 1.1; display: block; }
+      .tagline-accent { font-size: clamp(4rem, 17.5vw, 6.2rem); display: block; }
     }
 
     @media (min-width: 640px) {
@@ -239,7 +230,6 @@
     @media (min-width: 640px) {
       .process-exclamation-inline {
         height: clamp(2.8rem, 9vw, 11rem); margin-left: 0.18em; transform: translateY(12%);
-        animation: exclamationBounce 2.5s ease-in-out infinite;
       }
     }
 
@@ -319,10 +309,7 @@
     }
 
     .portrait-row-wrap { overflow: hidden; }
-
-    .portrait-row {
-      display: flex; gap: 0.75rem; will-change: transform; width: max-content;
-    }
+    .portrait-row { display: flex; gap: 0.75rem; will-change: transform; width: max-content; }
 
     .portrait-card {
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
@@ -335,9 +322,6 @@
     @media (min-width: 640px) { .portrait-card { width: 220px; height: 390px; } }
     @media (min-width: 1024px) { .portrait-card { width: 260px; height: 462px; } }
 
-    /* ══════════════════════════════════════════════
-       PROJECTS SECTION
-    ══════════════════════════════════════════════ */
     #projects {
       background: #0C0C0C; position: relative; z-index: 10;
       padding: 5rem 1.25rem 0; padding-bottom: 0;
@@ -469,144 +453,6 @@
       pointer-events: none; border-radius: inherit; z-index: 2; mix-blend-mode: screen;
     }
 
-    /* ══════════════════════════════════════════════
-       16:9 VIDEO SHOWCASE (replaces marquee)
-    ══════════════════════════════════════════════ */
-    #video-showcase {
-      background: #0C0C0C;
-      padding: 5rem 1.25rem 4rem;
-      position: relative;
-      z-index: 10;
-    }
-    @media (min-width: 640px) { #video-showcase { padding: 7rem 2rem 6rem; } }
-    @media (min-width: 768px) { #video-showcase { padding: 8rem 2.5rem 7rem; } }
-
-    #video-showcase::before {
-      content: '';
-      position: absolute;
-      left: 50%; top: 30%;
-      transform: translate(-50%, -50%);
-      width: 70vw; height: 50vh;
-      background: radial-gradient(ellipse, rgba(118,33,176,0.056) 0%, rgba(182,0,168,0.028) 45%, transparent 70%);
-      filter: blur(80px);
-      pointer-events: none; z-index: 0;
-    }
-
-    .video-showcase-heading-wrap {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0.4rem; margin-bottom: 3rem; overflow: visible; width: 100%;
-      position: relative; z-index: 2;
-    }
-    @media (min-width: 640px) { .video-showcase-heading-wrap { margin-bottom: 4rem; } }
-
-    .video-showcase-h2 {
-      font-size: clamp(2.5rem, 12.5vw, 160px); font-weight: 900;
-      text-transform: uppercase; line-height: 1; letter-spacing: -0.03em;
-      text-align: center; overflow: visible; padding-right: 0.04em;
-      color: #D7E2EA; -webkit-text-fill-color: #D7E2EA;
-    }
-    @media (min-width: 640px) { .video-showcase-h2 { font-size: clamp(3rem, 12vw, 160px); } }
-
-    .video-showcase-exclamation {
-      height: clamp(2.5rem, 10vw, 14rem); width: auto; display: block;
-      flex-shrink: 0; margin-left: -0.6rem;
-      animation: exclamationBounce 2.5s ease-in-out infinite;
-    }
-    @media (min-width: 640px) {
-      .video-showcase-exclamation { height: clamp(4rem, 12vw, 14rem); margin-left: -1.2rem; }
-    }
-
-    /* Featured video (large, top) */
-    .video-showcase-featured {
-      position: relative; z-index: 2;
-      width: 100%;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
-      border: 1px solid rgba(182,0,168,0.175);
-      box-shadow: 0 8px 40px rgba(182,0,168,0.105), 0 2px 12px rgba(0,0,0,0.4);
-      aspect-ratio: 16/9;
-    }
-    @media (min-width: 640px) {
-      .video-showcase-featured {
-        border-radius: 28px;
-        margin-bottom: 1.25rem;
-        transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s, border-color 0.4s;
-      }
-      .video-showcase-featured:hover {
-        transform: translateY(-6px) scale(1.012);
-        box-shadow: 0 24px 80px rgba(182,0,168,0.21), 0 8px 32px rgba(0,0,0,0.5);
-        border-color: rgba(182,0,168,0.42);
-      }
-    }
-    @media (min-width: 768px) { .video-showcase-featured { border-radius: 36px; } }
-
-    .video-showcase-featured video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: inherit;
-    }
-
-    /* Grid of 4 below */
-    .video-showcase-grid {
-      position: relative; z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-    }
-    @media (min-width: 768px) {
-      .video-showcase-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
-      }
-    }
-    @media (min-width: 1024px) { .video-showcase-grid { gap: 1.25rem; } }
-
-    .video-showcase-item {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #1a1a1a 0%, #0e0e0e 100%);
-      border: 1px solid rgba(182,0,168,0.105);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-      aspect-ratio: 16/9;
-    }
-    @media (min-width: 640px) {
-      .video-showcase-item {
-        border-radius: 20px;
-        transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s, border-color 0.4s;
-      }
-      .video-showcase-item:hover {
-        transform: translateY(-5px) scale(1.03);
-        box-shadow: 0 16px 50px rgba(182,0,168,0.175), 0 4px 20px rgba(0,0,0,0.45);
-        border-color: rgba(182,0,168,0.35);
-      }
-    }
-    @media (min-width: 768px) { .video-showcase-item { border-radius: 24px; } }
-
-    .video-showcase-item video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: inherit;
-    }
-
-    /* Subtle overlay on all video cards */
-    .video-showcase-featured::after,
-    .video-showcase-item::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 65%, rgba(12,12,12,0.38) 100%);
-      pointer-events: none;
-      border-radius: inherit;
-      z-index: 1;
-    }
-
-    /* ══════════════════════════════════════════════
-       PROCESS
-    ══════════════════════════════════════════════ */
     #process {
       background: #0C0C0C; position: relative; overflow: hidden;
       padding: 6rem 1.25rem 5rem;
@@ -773,16 +619,12 @@
 
     .contact-item-icon {
       display: flex; align-items: center; justify-content: center;
-      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
-      overflow: hidden;
+      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     @media (min-width: 640px) {
       .contact-item-icon { width: 44px; height: 44px; border-radius: 14px; }
-      .contact-item:hover .contact-item-icon {
-        transform: scale(1.1);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-      }
+      .contact-item:hover .contact-item-icon { transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.35); }
     }
     .contact-item-icon svg { width: 38px; height: 38px; display: block; }
     @media (min-width: 640px) { .contact-item-icon svg { width: 44px; height: 44px; } }
@@ -828,14 +670,10 @@
     }
 
     @media (max-width: 639px) {
-      #hero, #portrait-marquee-top, #video-showcase, #projects, #process, #contact {
+      #hero, #portrait-marquee-top, #projects, #process, #contact {
         background: transparent !important;
       }
       .project-card { background: rgba(12,12,12,0.85) !important; }
-      .video-showcase-featured,
-      .video-showcase-item {
-        background: rgba(26,26,26,0.9) !important;
-      }
     }
 
     @media (max-width: 639px) {
@@ -864,7 +702,6 @@
 
 <div class="main-wrapper" id="root" style="position:relative;z-index:1;">
 
-  <!-- HERO -->
   <section id="hero">
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
@@ -916,7 +753,6 @@
     </div>
   </section>
 
-  <!-- TOP PORTRAIT MARQUEE (9:16) -->
   <section id="portrait-marquee-top">
     <div class="what-we-did-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="what-we-did-h2 glitch-heading">What We Did</h2>
@@ -931,7 +767,6 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="projects-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="projects-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">What We Do</h2>
@@ -1029,36 +864,6 @@
     </div>
   </section>
 
-  <!-- 16:9 VIDEO SHOWCASE (after 4th service card) -->
-  <section id="video-showcase">
-    <div class="video-showcase-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
-      <h2 class="video-showcase-h2 glitch-heading">Our Work</h2>
-      <img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/white_exclamation.png?raw=true" alt="" class="video-showcase-exclamation" />
-    </div>
-
-    <!-- Featured (Video 1) — src injected by JS to avoid mobile colon-in-URL bug -->
-    <div class="video-showcase-featured fade-init" data-delay="0.1" data-y="30" data-x="0">
-      <video id="vs-vid-0" class="showcase-vid" autoplay muted loop playsinline x-webkit-airplay="allow" preload="auto"></video>
-    </div>
-
-    <!-- Grid (Videos 2-5) -->
-    <div class="video-showcase-grid fade-init" data-delay="0.2" data-y="25" data-x="0">
-      <div class="video-showcase-item">
-        <video id="vs-vid-1" class="showcase-vid" autoplay muted loop playsinline x-webkit-airplay="allow" preload="auto"></video>
-      </div>
-      <div class="video-showcase-item">
-        <video id="vs-vid-2" class="showcase-vid" autoplay muted loop playsinline x-webkit-airplay="allow" preload="auto"></video>
-      </div>
-      <div class="video-showcase-item">
-        <video id="vs-vid-3" class="showcase-vid" autoplay muted loop playsinline x-webkit-airplay="allow" preload="auto"></video>
-      </div>
-      <div class="video-showcase-item">
-        <video id="vs-vid-4" class="showcase-vid" autoplay muted loop playsinline x-webkit-airplay="allow" preload="auto"></video>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
   <section id="process">
     <div class="process-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="process-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">
@@ -1142,7 +947,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <canvas id="contact-canvas"></canvas>
     <div class="contact-inner">
@@ -1224,7 +1028,6 @@
 (function() {
   const IS_MOBILE = window.innerWidth < 640 || ('ontouchstart' in window);
 
-  // ── SCROLL PROGRESS ──
   const progressBar = document.getElementById('scroll-progress');
   let rafPending = false;
   window.addEventListener('scroll', () => {
@@ -1237,7 +1040,6 @@
     });
   }, { passive: true });
 
-  // ── CURSOR SPOTLIGHT (desktop only) ──
   if (!IS_MOBILE) {
     const spotlight = document.getElementById('cursor-spotlight');
     let spotX = window.innerWidth / 2, spotY = window.innerHeight / 2;
@@ -1250,7 +1052,6 @@
     })();
   }
 
-  // ── MARQUEE ANIMATION STYLES ──
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -1260,7 +1061,6 @@
   `;
   document.head.appendChild(styleEl);
 
-  // ── VIDEO SOURCES ──
   const topVideosA = [
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
@@ -1282,7 +1082,6 @@
     'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/8.mp4',
   ];
 
-  // ── BUILD 9:16 PORTRAIT MARQUEE ──
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
@@ -1310,10 +1109,8 @@
     }
   }
 
-  // ── SIZING ──
   const cardW = IS_MOBILE ? 192 : (window.innerWidth >= 1024 ? 272 : 232);
   const PPS   = IS_MOBILE ? 50 : 65;
-
   const topDurA = Math.round(topVideosA.length * cardW / PPS);
   const topDurB = Math.round(topVideosB.length * cardW / PPS);
 
@@ -1322,16 +1119,12 @@
   buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
   buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
-  // ── ROBUST PLAY ──
   function tryPlay(video) {
     video.muted = true;
     const p = video.play();
     if (p && p.catch) {
       p.catch(() => {
-        setTimeout(() => {
-          video.muted = true;
-          video.play().catch(() => {});
-        }, 800);
+        setTimeout(() => { video.muted = true; video.play().catch(() => {}); }, 800);
       });
     }
   }
@@ -1343,7 +1136,6 @@
     });
   }
 
-  // ── LAZY PLAY — top portrait marquee ──
   const ioTop = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       lazyPlayRow(topRowA);
@@ -1354,57 +1146,13 @@
   const topSec = document.getElementById('portrait-marquee-top');
   if (topSec) ioTop.observe(topSec);
 
-  // ── SHOWCASE VIDEOS — set src via JS (mobile colon-in-URL fix) ──
-  const SHOWCASE_SRCS = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4',
-  ];
+  document.addEventListener('touchstart', () => {
+    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
+  }, { once: true, passive: true });
+  document.addEventListener('scroll', () => {
+    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
+  }, { once: true, passive: true });
 
-  function loadShowcaseVideo(v, src) {
-    v.muted = true;
-    v.defaultMuted = true;
-    v.setAttribute('muted', '');
-    v.setAttribute('playsinline', '');
-    v.setAttribute('webkit-playsinline', '');
-    v.setAttribute('x5-playsinline', '');
-    v.src = src;
-    v.load();
-    function attempt() {
-      v.muted = true;
-      var p = v.play();
-      if (p && p.catch) p.catch(function() {
-        setTimeout(function() { v.muted = true; v.play().catch(function(){}); }, 600);
-      });
-    }
-    v.addEventListener('canplay', attempt, { once: true });
-    v.addEventListener('loadeddata', attempt, { once: true });
-  }
-
-  var showcaseSec = document.getElementById('video-showcase');
-  var ioShowcase = new IntersectionObserver(function(entries) {
-    if (entries[0].isIntersecting) {
-      var vids = document.querySelectorAll('#video-showcase video.showcase-vid');
-      vids.forEach(function(v, i) {
-        setTimeout(function() { loadShowcaseVideo(v, SHOWCASE_SRCS[i]); }, i * 150);
-      });
-      ioShowcase.disconnect();
-    }
-  }, { threshold: 0, rootMargin: '300px' });
-  if (showcaseSec) ioShowcase.observe(showcaseSec);
-
-  // ── iOS Safari: kick all paused videos on first user gesture ──
-  function kickPausedVideos() {
-    document.querySelectorAll('video').forEach(v => {
-      if (v.paused) { v.muted = true; tryPlay(v); }
-    });
-  }
-  document.addEventListener('touchstart', kickPausedVideos, { once: true, passive: true });
-  document.addEventListener('scroll',     kickPausedVideos, { once: true, passive: true });
-
-  // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
   fadeEls.forEach(el => {
     const delay = parseFloat(el.dataset.delay || 0);
@@ -1426,7 +1174,6 @@
   }, { threshold: 0, rootMargin: '50px' });
   fadeEls.forEach(el => fadeObserver.observe(el));
 
-  // ── PROCESS TIMELINE ──
   (function() {
     const steps = Array.from(document.querySelectorAll('.process-step'));
     const lineFill = document.getElementById('process-line-fill');
@@ -1524,7 +1271,6 @@
     });
   })();
 
-  // ── CARD STACKING ──
   const cardEls = ['card-0','card-1','card-2','card-3'].map(id => document.getElementById(id));
   const stickyWraps = Array.from(document.querySelectorAll('.card-sticky-wrap'));
 
@@ -1573,7 +1319,6 @@
     updateCards();
   }
 
-  // ── MAGNETIC PORTRAIT (desktop only) ──
   if (!IS_MOBILE) {
     const heroSection = document.getElementById('hero');
     const portraitImg = document.getElementById('portrait-img');
@@ -1595,7 +1340,6 @@
     }
   }
 
-  // ── HERO PARTICLES ──
   {
     const pc = document.getElementById('hero-particles-canvas');
     if (pc) {
@@ -1627,7 +1371,6 @@
     }
   }
 
-  // ── KPI COUNTER ──
   (function() {
     const kpiEls = document.querySelectorAll('.kpi-number[data-target]');
     const DURATION = 1800;
@@ -1648,7 +1391,6 @@
     kpiEls.forEach(el => io.observe(el));
   })();
 
-  // ── CONTACT CANVAS (desktop only) ──
   if (!IS_MOBILE) {
     const canvas = document.getElementById('contact-canvas');
     if (canvas) {
@@ -1694,7 +1436,6 @@
     }
   }
 
-  // ── GLOBAL BG CANVAS ──
   {
     const gc = document.getElementById('global-bg-canvas');
     if (gc) {
