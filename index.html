@@ -138,11 +138,20 @@
 
     @media (max-width: 639px) {
       .hero-tagline {
-        text-align: center; padding-right: 0;
-        display: flex; flex-direction: column; align-items: center; gap: 0.05em;
+        text-align: center;
+        padding-right: 0;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 0.05em;
       }
-      .tagline-small { font-size: clamp(1.9rem, 8.5vw, 2.7rem); line-height: 1.1; display: block; }
-      .tagline-accent { font-size: clamp(4rem, 17.5vw, 6.2rem); display: block; }
+      .tagline-small {
+        font-size: clamp(1.9rem, 8.5vw, 2.7rem);
+        line-height: 1.1;
+        display: block;
+      }
+      .tagline-accent {
+        font-size: clamp(4rem, 17.5vw, 6.2rem);
+        display: block;
+      }
     }
 
     @media (min-width: 640px) {
@@ -230,6 +239,7 @@
     @media (min-width: 640px) {
       .process-exclamation-inline {
         height: clamp(2.8rem, 9vw, 11rem); margin-left: 0.18em; transform: translateY(12%);
+        animation: exclamationBounce 2.5s ease-in-out infinite;
       }
     }
 
@@ -309,7 +319,10 @@
     }
 
     .portrait-row-wrap { overflow: hidden; }
-    .portrait-row { display: flex; gap: 0.75rem; will-change: transform; width: max-content; }
+
+    .portrait-row {
+      display: flex; gap: 0.75rem; will-change: transform; width: max-content;
+    }
 
     .portrait-card {
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
@@ -321,6 +334,116 @@
     }
     @media (min-width: 640px) { .portrait-card { width: 220px; height: 390px; } }
     @media (min-width: 1024px) { .portrait-card { width: 260px; height: 462px; } }
+
+    /* ══════════════════════════════════════════════
+       16:9 BOTTOM MARQUEE — HIDDEN ON MOBILE
+    ══════════════════════════════════════════════ */
+    #marquee-bottom {
+      background: #0C0C0C; padding: 3rem 0 4rem; overflow: hidden;
+      /* MOBILE FIX: hide entirely on phone */
+      display: none;
+    }
+    @media (min-width: 640px) {
+      #marquee-bottom {
+        display: block;
+        padding: 4rem 0;
+      }
+    }
+
+    .marquee-row { overflow: hidden; }
+    .marquee-track {
+      display: flex; gap: 0.75rem; width: max-content;
+      will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    }
+
+    .marquee-video-wrap {
+      position: relative; flex-shrink: 0; border-radius: 1rem; overflow: hidden;
+      width: 280px; height: 157px;
+      background: #1a1a1a;
+    }
+    @media (min-width: 640px) {
+      .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; }
+    }
+
+    .marquee-video-wrap video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      background: #111;
+    }
+
+    .marquee-video-link {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: block;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: rgba(182,0,168,0.15);
+    }
+
+    @media (min-width: 640px) {
+      .marquee-video-wrap {
+        transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+        cursor: pointer;
+      }
+      .marquee-video-wrap:hover {
+        transform: scale(1.04) translateY(-6px);
+        box-shadow: 0 20px 60px rgba(182,0,168,0.245), 0 8px 24px rgba(0,0,0,0.35);
+      }
+      .marquee-video-wrap:hover .marquee-video-play {
+        opacity: 1; transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    .marquee-video-play {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(182,0,168,0.88);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 1;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none; z-index: 4;
+      box-shadow: 0 0 0 6px rgba(182,0,168,0.22), 0 4px 20px rgba(0,0,0,0.5);
+    }
+    @media (min-width: 640px) {
+      .marquee-video-play {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.85);
+      }
+    }
+    .marquee-video-play svg {
+      width: 22px; height: 22px; fill: white; margin-left: 3px;
+    }
+
+    .marquee-video-poster {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #18011F 0%, #0C0C0C 60%, #1a0a1a 100%);
+      border-radius: inherit;
+      opacity: 1;
+      transition: opacity 0.4s;
+    }
+    .marquee-video-poster.hidden { opacity: 0; pointer-events: none; }
+    .marquee-video-poster-label {
+      font-family: 'Kanit', sans-serif;
+      font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(215,226,234,0.35);
+    }
+
+    .marquee-video-wrap::after {
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.45) 100%);
+      border-radius: inherit;
+    }
 
     #projects {
       background: #0C0C0C; position: relative; z-index: 10;
@@ -451,134 +574,6 @@
       content: ''; position: absolute; inset: 0;
       background: radial-gradient(ellipse at 70% 40%, rgba(182,0,168,0.105) 0%, rgba(118,33,176,0.07) 50%, transparent 75%);
       pointer-events: none; border-radius: inherit; z-index: 2; mix-blend-mode: screen;
-    }
-
-    /* =====================================================
-       VIDEO SLIDER — with Safari/iOS GPU rendering fixes
-       ===================================================== */
-    #video-slider {
-      background: #0C0C0C; position: relative; z-index: 10;
-      padding: 5rem 0 5rem;
-      overflow: hidden;
-    }
-    @media (min-width: 640px) { #video-slider { padding: 7rem 0 6rem; } }
-
-    .video-slider-heading-wrap {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0.4rem; margin-bottom: 2.5rem; overflow: visible; width: 100%;
-      padding: 0 1.25rem;
-    }
-    @media (min-width: 640px) { .video-slider-heading-wrap { margin-bottom: 3.5rem; } }
-
-    .video-slider-h2 {
-      font-size: clamp(2.5rem, 12.5vw, 160px); font-weight: 900;
-      text-transform: uppercase; line-height: 1; letter-spacing: -0.03em;
-      text-align: center; overflow: visible; padding-right: 0.04em;
-      color: #D7E2EA; -webkit-text-fill-color: #D7E2EA;
-    }
-    @media (min-width: 640px) { .video-slider-h2 { font-size: clamp(3rem, 12vw, 160px); } }
-
-    .video-slider-exclamation {
-      height: clamp(2.5rem, 10vw, 14rem); width: auto; display: block;
-      flex-shrink: 0; margin-left: -0.6rem;
-      animation: exclamationBounce 2.5s ease-in-out infinite;
-    }
-    @media (min-width: 640px) { .video-slider-exclamation { height: clamp(4rem, 12vw, 14rem); margin-left: -1.2rem; } }
-
-    .video-slider-track-wrap {
-      position: relative;
-      touch-action: pan-y;
-    }
-
-    .video-slider-track-wrap::before,
-    .video-slider-track-wrap::after {
-      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 5; pointer-events: none;
-    }
-    .video-slider-track-wrap::before { left: 0; background: linear-gradient(to right, #0C0C0C 0%, transparent 100%); }
-    .video-slider-track-wrap::after  { right: 0; background: linear-gradient(to left, #0C0C0C 0%, transparent 100%); }
-    @media (min-width: 640px) {
-      .video-slider-track-wrap::before,
-      .video-slider-track-wrap::after { width: 140px; }
-    }
-
-    /* Safari GPU fix: force compositing layer on scroll container */
-    #video-slider-track {
-      display: flex; gap: 1rem; padding: 1rem 1.25rem;
-      overflow-x: auto; scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      cursor: grab;
-      /* GPU compositing */
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-    }
-    #video-slider-track::-webkit-scrollbar { display: none; }
-    #video-slider-track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
-    @media (min-width: 640px) { #video-slider-track { gap: 1.25rem; padding: 1.5rem 2rem; } }
-    @media (min-width: 1024px) { #video-slider-track { gap: 1.5rem; padding: 1.5rem 3rem; } }
-
-    /* Safari GPU fix: each slide gets its own compositing layer */
-    .video-slide {
-      flex: 0 0 80vw; max-width: 480px; min-width: 260px;
-      border-radius: 20px; overflow: hidden; position: relative;
-      scroll-snap-align: center;
-      border: 1px solid rgba(182,0,168,0.14);
-      background: #000;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-      aspect-ratio: 16/9;
-      /* GPU compositing — NO opacity/filter/scale/translate on this element */
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-    }
-    @media (min-width: 640px) {
-      .video-slide {
-        flex: 0 0 55vw; max-width: 600px; border-radius: 24px;
-        /* Hover only changes border/shadow — NO transform to avoid Safari video freeze */
-        transition: box-shadow 0.4s, border-color 0.4s;
-      }
-      .video-slide:hover {
-        box-shadow: 0 20px 60px rgba(182,0,168,0.2), 0 6px 24px rgba(0,0,0,0.5);
-        border-color: rgba(182,0,168,0.42);
-        /* Intentionally NO transform here — transforms freeze Safari video */
-      }
-    }
-    @media (min-width: 768px) { .video-slide { flex: 0 0 45vw; border-radius: 28px; } }
-    @media (min-width: 1024px) { .video-slide { flex: 0 0 38vw; max-width: 680px; border-radius: 32px; } }
-
-    /* Safari GPU fix: video element compositing + safe properties only */
-    .video-slide video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: inherit;
-      background: #000;
-      /* GPU compositing */
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      /* NO opacity / filter / scale / translate animations on video */
-    }
-
-    .video-slide::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.35) 100%);
-      pointer-events: none; border-radius: inherit; z-index: 1;
-    }
-
-    .video-slider-dots {
-      display: flex; justify-content: center; gap: 0.45rem; margin-top: 1.5rem; padding: 0 1.25rem;
-    }
-    .slider-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: rgba(215,226,234,0.2);
-      cursor: pointer; transition: background 0.3s, transform 0.3s, width 0.3s;
-      flex-shrink: 0;
-    }
-    .slider-dot.active {
-      background: linear-gradient(90deg, #B600A8, #7621B0);
-      width: 22px; border-radius: 3px; transform: none;
-      box-shadow: 0 0 8px rgba(182,0,168,0.5);
     }
 
     #process {
@@ -712,6 +707,9 @@
     .process-step.step-active .process-cycle-bar { animation: cycleBarGrow var(--cycle-dur, 3.2s) linear forwards; }
     @keyframes cycleBarGrow { from { width: 0%; } to { width: 100%; } }
 
+    /* ══════════════════════════════════════════════
+       CONTACT SECTION — MOBILE EMAIL FIX
+    ══════════════════════════════════════════════ */
     #contact { background: #0C0C0C; position: relative; overflow: hidden; padding: 0; border-top: 1px solid rgba(215,226,234,0.056); }
     #contact-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: none; }
     @media (min-width: 640px) { #contact-canvas { display: block; } }
@@ -729,6 +727,8 @@
       display: flex; align-items: center; gap: 1rem; padding: 1.4rem 0.5rem;
       border-top: 1px solid rgba(215,226,234,0.07); text-decoration: none; border-radius: 8px;
       position: relative; overflow: hidden;
+      /* MOBILE FIX: prevent horizontal overflow */
+      min-width: 0;
     }
     @media (min-width: 640px) {
       .contact-item { transition: background 0.25s, padding-left 0.25s; }
@@ -747,23 +747,45 @@
 
     .contact-item-icon {
       display: flex; align-items: center; justify-content: center;
-      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
+      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+      overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     @media (min-width: 640px) {
       .contact-item-icon { width: 44px; height: 44px; border-radius: 14px; }
-      .contact-item:hover .contact-item-icon { transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.35); }
+      .contact-item:hover .contact-item-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      }
     }
     .contact-item-icon svg { width: 38px; height: 38px; display: block; }
     @media (min-width: 640px) { .contact-item-icon svg { width: 44px; height: 44px; } }
 
-    .contact-item-label { color: #D7E2EA; font-size: clamp(0.7rem, 1.3vw, 0.85rem); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 300; opacity: 0.4; min-width: 90px; flex-shrink: 0; }
-    @media (min-width: 640px) { .contact-item-label { min-width: 120px; } }
-    .contact-item-value {
-      color: #D7E2EA; font-size: clamp(0.9rem, 2vw, 1.35rem); font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.04em; flex: 1; opacity: 0.85;
+    .contact-item-label {
+      color: #D7E2EA; font-size: clamp(0.7rem, 1.3vw, 0.85rem); text-transform: uppercase;
+      letter-spacing: 0.15em; font-weight: 300; opacity: 0.4;
+      /* MOBILE FIX: fixed width on mobile, min-width on desktop */
+      width: 64px; flex-shrink: 0;
     }
-    @media (min-width: 640px) { .contact-item-value { transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1); } }
+    @media (min-width: 640px) { .contact-item-label { width: auto; min-width: 120px; } }
+
+    .contact-item-value {
+      color: #D7E2EA; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      /* MOBILE FIX: allow shrink + truncate cleanly */
+      flex: 1; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      opacity: 0.85;
+      /* MOBILE FIX: smaller font on mobile to fit email */
+      font-size: clamp(0.65rem, 2.5vw, 1.35rem);
+    }
+    @media (min-width: 640px) {
+      .contact-item-value {
+        white-space: nowrap;
+        font-size: clamp(0.9rem, 2vw, 1.35rem);
+        transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      }
+    }
     .contact-item-arrow { color: #D7E2EA; font-size: clamp(1rem, 2vw, 1.4rem); opacity: 0.3; flex-shrink: 0; }
     @media (min-width: 640px) { .contact-item-arrow { transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1); } }
 
@@ -798,7 +820,7 @@
     }
 
     @media (max-width: 639px) {
-      #hero, #portrait-marquee-top, #projects, #video-slider, #process, #contact {
+      #hero, #portrait-marquee-top, #marquee-bottom, #projects, #process, #contact {
         background: transparent !important;
       }
       .project-card { background: rgba(12,12,12,0.85) !important; }
@@ -830,6 +852,7 @@
 
 <div class="main-wrapper" id="root" style="position:relative;z-index:1;">
 
+  <!-- HERO -->
   <section id="hero">
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
@@ -881,6 +904,7 @@
     </div>
   </section>
 
+  <!-- TOP PORTRAIT MARQUEE (9:16) -->
   <section id="portrait-marquee-top">
     <div class="what-we-did-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="what-we-did-h2 glitch-heading">What We Did</h2>
@@ -895,6 +919,7 @@
     </div>
   </section>
 
+  <!-- PROJECTS -->
   <section id="projects">
     <div class="projects-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="projects-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">What We Do</h2>
@@ -992,66 +1017,14 @@
     </div>
   </section>
 
-  <!-- VIDEO SLIDER: all autoplay attributes set directly in HTML -->
-  <section id="video-slider">
-    <div class="video-slider-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
-      <h2 class="video-slider-h2 glitch-heading">Our Work</h2>
-      <img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/white_exclamation.png?raw=true" alt="" class="video-slider-exclamation" />
-    </div>
-
-    <div class="video-slider-track-wrap fade-init" data-delay="0.1" data-y="20" data-x="0">
-      <div class="video-slider-track" id="video-slider-track">
-        <div class="video-slide">
-          <video id="sv-0"
-            muted
-            autoplay
-            loop
-            playsinline
-            webkit-playsinline
-            preload="auto"
-          ></video>
-        </div>
-        <div class="video-slide">
-          <video id="sv-1"
-            muted
-            autoplay
-            loop
-            playsinline
-            webkit-playsinline
-            preload="auto"
-          ></video>
-        </div>
-        <div class="video-slide">
-          <video id="sv-2"
-            muted
-            autoplay
-            loop
-            playsinline
-            webkit-playsinline
-            preload="auto"
-          ></video>
-        </div>
-        <div class="video-slide">
-          <video id="sv-3"
-            muted
-            autoplay
-            loop
-            playsinline
-            webkit-playsinline
-            preload="auto"
-          ></video>
-        </div>
-      </div>
-    </div>
-
-    <div class="video-slider-dots" id="slider-dots">
-      <div class="slider-dot active" data-idx="0"></div>
-      <div class="slider-dot" data-idx="1"></div>
-      <div class="slider-dot" data-idx="2"></div>
-      <div class="slider-dot" data-idx="3"></div>
+  <!-- BOTTOM 16:9 VIDEO MARQUEE — desktop only (hidden on mobile via CSS) -->
+  <section id="marquee-bottom">
+    <div id="marquee-row-bottom" class="marquee-row">
+      <div id="marquee-track-bottom" class="marquee-track"></div>
     </div>
   </section>
 
+  <!-- PROCESS -->
   <section id="process">
     <div class="process-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="process-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">
@@ -1135,6 +1108,7 @@
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section id="contact">
     <canvas id="contact-canvas"></canvas>
     <div class="contact-inner">
@@ -1216,6 +1190,7 @@
 (function() {
   const IS_MOBILE = window.innerWidth < 640 || ('ontouchstart' in window);
 
+  // ── SCROLL PROGRESS ──
   const progressBar = document.getElementById('scroll-progress');
   let rafPending = false;
   window.addEventListener('scroll', () => {
@@ -1228,6 +1203,7 @@
     });
   }, { passive: true });
 
+  // ── CURSOR SPOTLIGHT (desktop only) ──
   if (!IS_MOBILE) {
     const spotlight = document.getElementById('cursor-spotlight');
     let spotX = window.innerWidth / 2, spotY = window.innerHeight / 2;
@@ -1240,6 +1216,7 @@
     })();
   }
 
+  // ── MARQUEE ANIMATION STYLES ──
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -1249,33 +1226,44 @@
   `;
   document.head.appendChild(styleEl);
 
+  // ── VIDEO SOURCES ──
   const topVideosA = [
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid1.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid2.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid3.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid4.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid5.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid6.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/new_videos/vid7.mp4?raw=true',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid3.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid4.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid5.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid6.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid7.mp4',
   ];
 
   const topVideosB = [
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/1.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/2.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/3.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/4.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/5.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/6.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/7.mp4?raw=true',
-    'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/916%20lower%20videos/8.mp4?raw=true',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/1.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/2.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/3.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/4.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/5.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/6.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/7.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/8.mp4',
   ];
 
+  const bottomVideos = [
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4', href: 'https://youtu.be/WIDUEKf4VJ8?si=rf2WhD_a3Yccis92' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/2.mp4', href: 'https://youtu.be/mJOFf8BzYfU?si=48rFr5wMmiUGitwi' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/3.mp4', href: 'https://youtu.be/7OGztPQMKB0?si=0hpwoKvYWRoew598' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/4.mp4', href: 'https://youtu.be/Hj_MnHnfOB0?si=ahlKFbKyIEYvreNU' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4', href: 'https://youtu.be/ooPJhsXmZ5M?si=ryCKXFKWCloX66uy' },
+  ];
+
+  // ── BUILD 9:16 PORTRAIT MARQUEE ──
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
     for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
         const video = document.createElement('video');
+        video.setAttribute('src', src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
@@ -1288,31 +1276,80 @@
         video.playsInline = true;
         video.className = 'portrait-card';
         rowEl.appendChild(video);
-        const source = document.createElement('source');
-        source.src = src;
-        source.type = 'video/mp4';
-        video.appendChild(source);
-        video.load();
       });
     }
   }
 
+  // ── BUILD 16:9 BOTTOM MARQUEE (desktop only) ──
+  function buildBottomVideoMarquee(rowEl, items, cssClass, durSec) {
+    rowEl.style.setProperty('--dur', durSec + 's');
+    rowEl.classList.add(cssClass);
+    for (let c = 0; c < 2; c++) {
+      items.forEach((item) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'marquee-video-wrap';
+        const video = document.createElement('video');
+        video.setAttribute('src', item.src);
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('loop', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.setAttribute('x5-playsinline', '');
+        video.setAttribute('x5-video-player-type', 'h5');
+        video.setAttribute('preload', 'metadata');
+        video.muted = true;
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
+        const link = document.createElement('a');
+        link.className = 'marquee-video-link';
+        link.href = item.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', 'Watch on YouTube');
+        const playIcon = document.createElement('div');
+        playIcon.className = 'marquee-video-play';
+        playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
+        wrap.appendChild(video);
+        wrap.appendChild(playIcon);
+        wrap.appendChild(link);
+        rowEl.appendChild(wrap);
+      });
+    }
+  }
+
+  // ── SIZING ──
   const cardW = IS_MOBILE ? 192 : (window.innerWidth >= 1024 ? 272 : 232);
+  const vidW  = IS_MOBILE ? 292 : 432;
   const PPS   = IS_MOBILE ? 50 : 65;
-  const topDurA = Math.round(topVideosA.length * cardW / PPS);
-  const topDurB = Math.round(topVideosB.length * cardW / PPS);
+
+  const topDurA = Math.round(topVideosA.length   * cardW / PPS);
+  const topDurB = Math.round(topVideosB.length   * cardW / PPS);
+  const botDur  = Math.round(bottomVideos.length * vidW  / PPS);
 
   const topRowA = document.getElementById('portrait-row-top-a');
   const topRowB = document.getElementById('portrait-row-top-b');
   buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
   buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
+  // Only build bottom marquee on desktop — section is hidden on mobile anyway,
+  // but skip the DOM work + network requests entirely for a performance win
+  if (!IS_MOBILE) {
+    const bottomTrack = document.getElementById('marquee-track-bottom');
+    buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
+  }
+
+  // ── ROBUST PLAY — retries once after 800ms ──
   function tryPlay(video) {
     video.muted = true;
     const p = video.play();
     if (p && p.catch) {
       p.catch(() => {
-        setTimeout(() => { video.muted = true; video.play().catch(() => {}); }, 800);
+        setTimeout(() => {
+          video.muted = true;
+          video.play().catch(() => {});
+        }, 800);
       });
     }
   }
@@ -1320,10 +1357,17 @@
   function lazyPlayRow(rowEl) {
     rowEl.querySelectorAll('video').forEach((v, i) => {
       const delay = IS_MOBILE ? i * 50 : i * 80;
-      setTimeout(() => { v.muted = true; tryPlay(v); }, delay);
+      setTimeout(() => {
+        if (v.getAttribute('preload') === 'none') {
+          v.setAttribute('preload', 'metadata');
+          v.load();
+        }
+        tryPlay(v);
+      }, delay);
     });
   }
 
+  // ── LAZY PLAY — top portrait marquee ──
   const ioTop = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       lazyPlayRow(topRowA);
@@ -1334,13 +1378,28 @@
   const topSec = document.getElementById('portrait-marquee-top');
   if (topSec) ioTop.observe(topSec);
 
-  document.addEventListener('touchstart', () => {
-    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
-  }, { once: true, passive: true });
-  document.addEventListener('scroll', () => {
-    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
-  }, { once: true, passive: true });
+  // ── LAZY PLAY — bottom 16:9 marquee (desktop only) ──
+  if (!IS_MOBILE) {
+    const ioBottom = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        lazyPlayRow(document.getElementById('marquee-track-bottom'));
+        ioBottom.disconnect();
+      }
+    }, { threshold: 0, rootMargin: '200px' });
+    const bottomSec = document.getElementById('marquee-bottom');
+    if (bottomSec) ioBottom.observe(bottomSec);
+  }
 
+  // ── iOS Safari: kick all paused videos on first user gesture ──
+  function kickPausedVideos() {
+    document.querySelectorAll('video').forEach(v => {
+      if (v.paused) { v.muted = true; tryPlay(v); }
+    });
+  }
+  document.addEventListener('touchstart', kickPausedVideos, { once: true, passive: true });
+  document.addEventListener('scroll',     kickPausedVideos, { once: true, passive: true });
+
+  // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
   fadeEls.forEach(el => {
     const delay = parseFloat(el.dataset.delay || 0);
@@ -1362,6 +1421,7 @@
   }, { threshold: 0, rootMargin: '50px' });
   fadeEls.forEach(el => fadeObserver.observe(el));
 
+  // ── PROCESS TIMELINE ──
   (function() {
     const steps = Array.from(document.querySelectorAll('.process-step'));
     const lineFill = document.getElementById('process-line-fill');
@@ -1459,6 +1519,7 @@
     });
   })();
 
+  // ── CARD STACKING ──
   const cardEls = ['card-0','card-1','card-2','card-3'].map(id => document.getElementById(id));
   const stickyWraps = Array.from(document.querySelectorAll('.card-sticky-wrap'));
 
@@ -1507,6 +1568,7 @@
     updateCards();
   }
 
+  // ── MAGNETIC PORTRAIT (desktop only) ──
   if (!IS_MOBILE) {
     const heroSection = document.getElementById('hero');
     const portraitImg = document.getElementById('portrait-img');
@@ -1528,6 +1590,7 @@
     }
   }
 
+  // ── HERO PARTICLES ──
   {
     const pc = document.getElementById('hero-particles-canvas');
     if (pc) {
@@ -1559,6 +1622,7 @@
     }
   }
 
+  // ── KPI COUNTER ──
   (function() {
     const kpiEls = document.querySelectorAll('.kpi-number[data-target]');
     const DURATION = 1800;
@@ -1579,6 +1643,7 @@
     kpiEls.forEach(el => io.observe(el));
   })();
 
+  // ── CONTACT CANVAS (desktop only) ──
   if (!IS_MOBILE) {
     const canvas = document.getElementById('contact-canvas');
     if (canvas) {
@@ -1624,6 +1689,7 @@
     }
   }
 
+  // ── GLOBAL BG CANVAS ──
   {
     const gc = document.getElementById('global-bg-canvas');
     if (gc) {
@@ -1668,133 +1734,6 @@
         requestAnimationFrame(draw);
       }
       draw();
-    }
-  }
-
-  /* =====================================================
-     VIDEO SLIDER — fixed loader for Safari / iOS / Android
-     ===================================================== */
-  {
-    // URL format: ?raw=true suffix (GitHub CDN, range-request friendly)
-    const SLIDER_SRCS = [
-      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/1.mp4?raw=true',
-      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/2.mp4?raw=true',
-      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/3.mp4?raw=true',
-      'https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/16%3A9%20Videos/4.mp4?raw=true',
-    ];
-
-    /**
-     * loadSliderVideo — Safari/iOS/Android-safe loader.
-     * - Sets all required IDL properties (not just attributes)
-     * - Hooks loadedmetadata + canplay for the forcePlay attempt
-     * - Listens for "suspend" (iOS background-tab throttle) and re-loads
-     * - Does NOT animate opacity/filter/scale/translate on the video element
-     */
-    function loadSliderVideo(video, src) {
-      if (!video) return;
-
-      // IDL properties (authoritative on iOS WebKit)
-      video.muted        = true;
-      video.defaultMuted = true;
-      video.playsInline  = true;
-      video.autoplay     = true;
-      video.loop         = true;
-
-      video.src = src;
-
-      const forcePlay = () => {
-        video.muted = true;
-        const p = video.play();
-        if (p && p.catch) {
-          p.catch(() => {
-            setTimeout(() => {
-              video.muted = true;
-              video.play().catch(() => {});
-            }, 500);
-          });
-        }
-      };
-
-      video.addEventListener('loadedmetadata', forcePlay, { once: true });
-      video.addEventListener('canplay',        forcePlay, { once: true });
-
-      // iOS suspends background videos; reload to recover
-      video.addEventListener('suspend', () => {
-        video.load();
-      });
-
-      video.addEventListener('error', (e) => {
-        console.log('SLIDER VIDEO ERROR', video.currentSrc, e);
-      });
-
-      video.load();
-      forcePlay();
-    }
-
-    const sliderSec = document.getElementById('video-slider');
-    const ioSlider = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        SLIDER_SRCS.forEach((src, i) => {
-          const v = document.getElementById('sv-' + i);
-          if (v) setTimeout(() => loadSliderVideo(v, src), i * 150);
-        });
-        ioSlider.disconnect();
-      }
-    }, { threshold: 0, rootMargin: '300px' });
-    if (sliderSec) ioSlider.observe(sliderSec);
-
-    const track = document.getElementById('video-slider-track');
-    const dots = Array.from(document.querySelectorAll('#slider-dots .slider-dot'));
-
-    function updateDots() {
-      if (!track || !dots.length) return;
-      const slides = track.querySelectorAll('.video-slide');
-      const center = track.scrollLeft + track.offsetWidth / 2;
-      let closest = 0, minDist = Infinity;
-      slides.forEach((slide, i) => {
-        const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
-        if (dist < minDist) { minDist = dist; closest = i; }
-      });
-      dots.forEach((d, i) => d.classList.toggle('active', i === closest));
-    }
-
-    if (track) {
-      track.addEventListener('scroll', updateDots, { passive: true });
-
-      dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-          const idx = parseInt(dot.dataset.idx);
-          const slides = track.querySelectorAll('.video-slide');
-          if (slides[idx]) {
-            const targetLeft = slides[idx].offsetLeft - (track.offsetWidth - slides[idx].offsetWidth) / 2;
-            track.scrollTo({ left: targetLeft, behavior: 'smooth' });
-          }
-        });
-      });
-
-      // Desktop drag-to-scroll
-      let isDragging = false, startX = 0, startScroll = 0;
-      track.addEventListener('mousedown', (e) => {
-        isDragging = true; startX = e.pageX; startScroll = track.scrollLeft;
-        track.classList.add('is-dragging');
-      });
-      window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        track.scrollLeft = startScroll - (e.pageX - startX);
-      });
-      window.addEventListener('mouseup', () => {
-        if (!isDragging) return;
-        isDragging = false; track.classList.remove('is-dragging');
-        const slides = track.querySelectorAll('.video-slide');
-        const center = track.scrollLeft + track.offsetWidth / 2;
-        let closest = 0, minDist = Infinity;
-        slides.forEach((slide, i) => {
-          const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
-          if (dist < minDist) { minDist = dist; closest = i; }
-        });
-        const targetLeft = slides[closest].offsetLeft - (track.offsetWidth - slides[closest].offsetWidth) / 2;
-        track.scrollTo({ left: targetLeft, behavior: 'smooth' });
-      });
     }
   }
 
