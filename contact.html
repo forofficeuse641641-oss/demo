@@ -138,11 +138,20 @@
 
     @media (max-width: 639px) {
       .hero-tagline {
-        text-align: center; padding-right: 0;
-        display: flex; flex-direction: column; align-items: center; gap: 0.05em;
+        text-align: center;
+        padding-right: 0;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 0.05em;
       }
-      .tagline-small { font-size: clamp(1.9rem, 8.5vw, 2.7rem); line-height: 1.1; display: block; }
-      .tagline-accent { font-size: clamp(4rem, 17.5vw, 6.2rem); display: block; }
+      .tagline-small {
+        font-size: clamp(1.9rem, 8.5vw, 2.7rem);
+        line-height: 1.1;
+        display: block;
+      }
+      .tagline-accent {
+        font-size: clamp(4rem, 17.5vw, 6.2rem);
+        display: block;
+      }
     }
 
     @media (min-width: 640px) {
@@ -230,6 +239,7 @@
     @media (min-width: 640px) {
       .process-exclamation-inline {
         height: clamp(2.8rem, 9vw, 11rem); margin-left: 0.18em; transform: translateY(12%);
+        animation: exclamationBounce 2.5s ease-in-out infinite;
       }
     }
 
@@ -309,7 +319,10 @@
     }
 
     .portrait-row-wrap { overflow: hidden; }
-    .portrait-row { display: flex; gap: 0.75rem; will-change: transform; width: max-content; }
+
+    .portrait-row {
+      display: flex; gap: 0.75rem; will-change: transform; width: max-content;
+    }
 
     .portrait-card {
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
@@ -321,6 +334,116 @@
     }
     @media (min-width: 640px) { .portrait-card { width: 220px; height: 390px; } }
     @media (min-width: 1024px) { .portrait-card { width: 260px; height: 462px; } }
+
+    /* ══════════════════════════════════════════════
+       16:9 BOTTOM MARQUEE — HIDDEN ON MOBILE
+    ══════════════════════════════════════════════ */
+    #marquee-bottom {
+      background: #0C0C0C; padding: 3rem 0 4rem; overflow: hidden;
+      /* MOBILE FIX: hide entirely on phone */
+      display: none;
+    }
+    @media (min-width: 640px) {
+      #marquee-bottom {
+        display: block;
+        padding: 4rem 0;
+      }
+    }
+
+    .marquee-row { overflow: hidden; }
+    .marquee-track {
+      display: flex; gap: 0.75rem; width: max-content;
+      will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    }
+
+    .marquee-video-wrap {
+      position: relative; flex-shrink: 0; border-radius: 1rem; overflow: hidden;
+      width: 280px; height: 157px;
+      background: #1a1a1a;
+    }
+    @media (min-width: 640px) {
+      .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; }
+    }
+
+    .marquee-video-wrap video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      background: #111;
+    }
+
+    .marquee-video-link {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: block;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: rgba(182,0,168,0.15);
+    }
+
+    @media (min-width: 640px) {
+      .marquee-video-wrap {
+        transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+        cursor: pointer;
+      }
+      .marquee-video-wrap:hover {
+        transform: scale(1.04) translateY(-6px);
+        box-shadow: 0 20px 60px rgba(182,0,168,0.245), 0 8px 24px rgba(0,0,0,0.35);
+      }
+      .marquee-video-wrap:hover .marquee-video-play {
+        opacity: 1; transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    .marquee-video-play {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(182,0,168,0.88);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 1;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none; z-index: 4;
+      box-shadow: 0 0 0 6px rgba(182,0,168,0.22), 0 4px 20px rgba(0,0,0,0.5);
+    }
+    @media (min-width: 640px) {
+      .marquee-video-play {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.85);
+      }
+    }
+    .marquee-video-play svg {
+      width: 22px; height: 22px; fill: white; margin-left: 3px;
+    }
+
+    .marquee-video-poster {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #18011F 0%, #0C0C0C 60%, #1a0a1a 100%);
+      border-radius: inherit;
+      opacity: 1;
+      transition: opacity 0.4s;
+    }
+    .marquee-video-poster.hidden { opacity: 0; pointer-events: none; }
+    .marquee-video-poster-label {
+      font-family: 'Kanit', sans-serif;
+      font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(215,226,234,0.35);
+    }
+
+    .marquee-video-wrap::after {
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.45) 100%);
+      border-radius: inherit;
+    }
 
     #projects {
       background: #0C0C0C; position: relative; z-index: 10;
@@ -520,6 +643,10 @@
       flex: 1; display: flex; flex-direction: column; position: relative; padding-bottom: 2.5rem;
       opacity: 0; transform: translateY(24px);
       transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
+      /* Make each step tappable on mobile */
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .process-step.step-visible { opacity: 1; transform: translateY(0); }
     @media (min-width: 768px) { .process-step { padding-bottom: 0; padding-right: 1rem; align-items: flex-start; opacity: 0; transform: translateY(28px); } }
@@ -584,6 +711,9 @@
     .process-step.step-active .process-cycle-bar { animation: cycleBarGrow var(--cycle-dur, 3.2s) linear forwards; }
     @keyframes cycleBarGrow { from { width: 0%; } to { width: 100%; } }
 
+    /* ══════════════════════════════════════════════
+       CONTACT SECTION — MOBILE EMAIL FIX
+    ══════════════════════════════════════════════ */
     #contact { background: #0C0C0C; position: relative; overflow: hidden; padding: 0; border-top: 1px solid rgba(215,226,234,0.056); }
     #contact-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: none; }
     @media (min-width: 640px) { #contact-canvas { display: block; } }
@@ -601,6 +731,8 @@
       display: flex; align-items: center; gap: 1rem; padding: 1.4rem 0.5rem;
       border-top: 1px solid rgba(215,226,234,0.07); text-decoration: none; border-radius: 8px;
       position: relative; overflow: hidden;
+      /* MOBILE FIX: prevent horizontal overflow */
+      min-width: 0;
     }
     @media (min-width: 640px) {
       .contact-item { transition: background 0.25s, padding-left 0.25s; }
@@ -619,23 +751,45 @@
 
     .contact-item-icon {
       display: flex; align-items: center; justify-content: center;
-      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
+      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+      overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     @media (min-width: 640px) {
       .contact-item-icon { width: 44px; height: 44px; border-radius: 14px; }
-      .contact-item:hover .contact-item-icon { transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.35); }
+      .contact-item:hover .contact-item-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      }
     }
     .contact-item-icon svg { width: 38px; height: 38px; display: block; }
     @media (min-width: 640px) { .contact-item-icon svg { width: 44px; height: 44px; } }
 
-    .contact-item-label { color: #D7E2EA; font-size: clamp(0.7rem, 1.3vw, 0.85rem); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 300; opacity: 0.4; min-width: 90px; flex-shrink: 0; }
-    @media (min-width: 640px) { .contact-item-label { min-width: 120px; } }
-    .contact-item-value {
-      color: #D7E2EA; font-size: clamp(0.9rem, 2vw, 1.35rem); font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.04em; flex: 1; opacity: 0.85;
+    .contact-item-label {
+      color: #D7E2EA; font-size: clamp(0.7rem, 1.3vw, 0.85rem); text-transform: uppercase;
+      letter-spacing: 0.15em; font-weight: 300; opacity: 0.4;
+      /* MOBILE FIX: fixed width on mobile, min-width on desktop */
+      width: 64px; flex-shrink: 0;
     }
-    @media (min-width: 640px) { .contact-item-value { transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1); } }
+    @media (min-width: 640px) { .contact-item-label { width: auto; min-width: 120px; } }
+
+    .contact-item-value {
+      color: #D7E2EA; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      /* MOBILE FIX: allow shrink + truncate cleanly */
+      flex: 1; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      opacity: 0.85;
+      /* MOBILE FIX: smaller font on mobile to fit email */
+      font-size: clamp(0.65rem, 2.5vw, 1.35rem);
+    }
+    @media (min-width: 640px) {
+      .contact-item-value {
+        white-space: nowrap;
+        font-size: clamp(0.9rem, 2vw, 1.35rem);
+        transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      }
+    }
     .contact-item-arrow { color: #D7E2EA; font-size: clamp(1rem, 2vw, 1.4rem); opacity: 0.3; flex-shrink: 0; }
     @media (min-width: 640px) { .contact-item-arrow { transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1); } }
 
@@ -670,7 +824,7 @@
     }
 
     @media (max-width: 639px) {
-      #hero, #portrait-marquee-top, #projects, #process, #contact {
+      #hero, #portrait-marquee-top, #marquee-bottom, #projects, #process, #contact {
         background: transparent !important;
       }
       .project-card { background: rgba(12,12,12,0.85) !important; }
@@ -702,6 +856,7 @@
 
 <div class="main-wrapper" id="root" style="position:relative;z-index:1;">
 
+  <!-- HERO -->
   <section id="hero">
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
@@ -753,6 +908,7 @@
     </div>
   </section>
 
+  <!-- TOP PORTRAIT MARQUEE (9:16) -->
   <section id="portrait-marquee-top">
     <div class="what-we-did-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="what-we-did-h2 glitch-heading">What We Did</h2>
@@ -767,6 +923,7 @@
     </div>
   </section>
 
+  <!-- PROJECTS -->
   <section id="projects">
     <div class="projects-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="projects-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">What We Do</h2>
@@ -864,6 +1021,14 @@
     </div>
   </section>
 
+  <!-- BOTTOM 16:9 VIDEO MARQUEE — desktop only (hidden on mobile via CSS) -->
+  <section id="marquee-bottom">
+    <div id="marquee-row-bottom" class="marquee-row">
+      <div id="marquee-track-bottom" class="marquee-track"></div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
   <section id="process">
     <div class="process-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="process-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">
@@ -947,6 +1112,7 @@
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section id="contact">
     <canvas id="contact-canvas"></canvas>
     <div class="contact-inner">
@@ -1028,6 +1194,7 @@
 (function() {
   const IS_MOBILE = window.innerWidth < 640 || ('ontouchstart' in window);
 
+  // ── SCROLL PROGRESS ──
   const progressBar = document.getElementById('scroll-progress');
   let rafPending = false;
   window.addEventListener('scroll', () => {
@@ -1040,6 +1207,7 @@
     });
   }, { passive: true });
 
+  // ── CURSOR SPOTLIGHT (desktop only) ──
   if (!IS_MOBILE) {
     const spotlight = document.getElementById('cursor-spotlight');
     let spotX = window.innerWidth / 2, spotY = window.innerHeight / 2;
@@ -1052,6 +1220,7 @@
     })();
   }
 
+  // ── MARQUEE ANIMATION STYLES ──
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -1061,33 +1230,44 @@
   `;
   document.head.appendChild(styleEl);
 
+  // ── VIDEO SOURCES ──
   const topVideosA = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid7.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up1.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up2.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up3.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up4.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up5.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up6.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up7.mp4',
   ];
 
   const topVideosB = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/7.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/8.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d1.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d2.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d3.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d5.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d6.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d7.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
   ];
 
+  const bottomVideos = [
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4', href: 'https://youtu.be/WIDUEKf4VJ8?si=rf2WhD_a3Yccis92' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/2.mp4', href: 'https://youtu.be/mJOFf8BzYfU?si=48rFr5wMmiUGitwi' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/3.mp4', href: 'https://youtu.be/7OGztPQMKB0?si=0hpwoKvYWRoew598' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/4.mp4', href: 'https://youtu.be/Hj_MnHnfOB0?si=ahlKFbKyIEYvreNU' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4', href: 'https://youtu.be/ooPJhsXmZ5M?si=ryCKXFKWCloX66uy' },
+  ];
+
+  // ── BUILD 9:16 PORTRAIT MARQUEE ──
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
     for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
         const video = document.createElement('video');
+        video.setAttribute('src', src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
@@ -1100,31 +1280,79 @@
         video.playsInline = true;
         video.className = 'portrait-card';
         rowEl.appendChild(video);
-        const source = document.createElement('source');
-        source.src = src;
-        source.type = 'video/mp4';
-        video.appendChild(source);
-        video.load();
       });
     }
   }
 
+  // ── BUILD 16:9 BOTTOM MARQUEE (desktop only) ──
+  function buildBottomVideoMarquee(rowEl, items, cssClass, durSec) {
+    rowEl.style.setProperty('--dur', durSec + 's');
+    rowEl.classList.add(cssClass);
+    for (let c = 0; c < 2; c++) {
+      items.forEach((item) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'marquee-video-wrap';
+        const video = document.createElement('video');
+        video.setAttribute('src', item.src);
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('loop', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.setAttribute('x5-playsinline', '');
+        video.setAttribute('x5-video-player-type', 'h5');
+        video.setAttribute('preload', 'metadata');
+        video.muted = true;
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
+        const link = document.createElement('a');
+        link.className = 'marquee-video-link';
+        link.href = item.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', 'Watch on YouTube');
+        const playIcon = document.createElement('div');
+        playIcon.className = 'marquee-video-play';
+        playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
+        wrap.appendChild(video);
+        wrap.appendChild(playIcon);
+        wrap.appendChild(link);
+        rowEl.appendChild(wrap);
+      });
+    }
+  }
+
+  // ── SIZING ──
   const cardW = IS_MOBILE ? 192 : (window.innerWidth >= 1024 ? 272 : 232);
+  const vidW  = IS_MOBILE ? 292 : 432;
   const PPS   = IS_MOBILE ? 50 : 65;
-  const topDurA = Math.round(topVideosA.length * cardW / PPS);
-  const topDurB = Math.round(topVideosB.length * cardW / PPS);
+
+  const topDurA = Math.round(topVideosA.length   * cardW / PPS);
+  const topDurB = Math.round(topVideosB.length   * cardW / PPS);
+  const botDur  = Math.round(bottomVideos.length * vidW  / PPS);
 
   const topRowA = document.getElementById('portrait-row-top-a');
   const topRowB = document.getElementById('portrait-row-top-b');
   buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
   buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
+  // Only build bottom marquee on desktop
+  if (!IS_MOBILE) {
+    const bottomTrack = document.getElementById('marquee-track-bottom');
+    buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
+  }
+
+  // ── ROBUST PLAY — retries once after 800ms ──
   function tryPlay(video) {
     video.muted = true;
     const p = video.play();
     if (p && p.catch) {
       p.catch(() => {
-        setTimeout(() => { video.muted = true; video.play().catch(() => {}); }, 800);
+        setTimeout(() => {
+          video.muted = true;
+          video.play().catch(() => {});
+        }, 800);
       });
     }
   }
@@ -1132,10 +1360,17 @@
   function lazyPlayRow(rowEl) {
     rowEl.querySelectorAll('video').forEach((v, i) => {
       const delay = IS_MOBILE ? i * 50 : i * 80;
-      setTimeout(() => { v.muted = true; tryPlay(v); }, delay);
+      setTimeout(() => {
+        if (v.getAttribute('preload') === 'none') {
+          v.setAttribute('preload', 'metadata');
+          v.load();
+        }
+        tryPlay(v);
+      }, delay);
     });
   }
 
+  // ── LAZY PLAY — top portrait marquee ──
   const ioTop = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       lazyPlayRow(topRowA);
@@ -1146,13 +1381,28 @@
   const topSec = document.getElementById('portrait-marquee-top');
   if (topSec) ioTop.observe(topSec);
 
-  document.addEventListener('touchstart', () => {
-    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
-  }, { once: true, passive: true });
-  document.addEventListener('scroll', () => {
-    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
-  }, { once: true, passive: true });
+  // ── LAZY PLAY — bottom 16:9 marquee (desktop only) ──
+  if (!IS_MOBILE) {
+    const ioBottom = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        lazyPlayRow(document.getElementById('marquee-track-bottom'));
+        ioBottom.disconnect();
+      }
+    }, { threshold: 0, rootMargin: '200px' });
+    const bottomSec = document.getElementById('marquee-bottom');
+    if (bottomSec) ioBottom.observe(bottomSec);
+  }
 
+  // ── iOS Safari: kick all paused videos on first user gesture ──
+  function kickPausedVideos() {
+    document.querySelectorAll('video').forEach(v => {
+      if (v.paused) { v.muted = true; tryPlay(v); }
+    });
+  }
+  document.addEventListener('touchstart', kickPausedVideos, { once: true, passive: true });
+  document.addEventListener('scroll',     kickPausedVideos, { once: true, passive: true });
+
+  // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
   fadeEls.forEach(el => {
     const delay = parseFloat(el.dataset.delay || 0);
@@ -1174,6 +1424,7 @@
   }, { threshold: 0, rootMargin: '50px' });
   fadeEls.forEach(el => fadeObserver.observe(el));
 
+  // ── PROCESS TIMELINE ──
   (function() {
     const steps = Array.from(document.querySelectorAll('.process-step'));
     const lineFill = document.getElementById('process-line-fill');
@@ -1189,8 +1440,32 @@
     });
 
     let activeIdx = -1, cycleTimer = null, hasStarted = false;
+    // Track whether the user has manually tapped a step (pauses auto-cycle temporarily)
+    let userPausedUntil = 0;
 
     function isDesktop() { return window.innerWidth >= 768; }
+
+    // Returns the exact pixel fraction (0–1) along the line track
+    // that corresponds to node[idx], measured from the track's own origin.
+    function nodeFraction(idx) {
+      const trackRect = document.getElementById('process-line-track').getBoundingClientRect();
+      const node = steps[idx].querySelector('.process-node');
+      if (!node) return idx / (TOTAL - 1);
+      const nodeRect = node.getBoundingClientRect();
+      if (isDesktop()) {
+        // Horizontal: measure centre-x of node relative to track left / track width
+        const trackW = trackRect.width;
+        if (trackW === 0) return idx / (TOTAL - 1);
+        const nodeCX = nodeRect.left + nodeRect.width / 2;
+        return Math.max(0, Math.min(1, (nodeCX - trackRect.left) / trackW));
+      } else {
+        // Vertical: measure centre-y of node relative to track top / track height
+        const trackH = trackRect.height;
+        if (trackH === 0) return idx / (TOTAL - 1);
+        const nodeCY = nodeRect.top + nodeRect.height / 2;
+        return Math.max(0, Math.min(1, (nodeCY - trackRect.top) / trackH));
+      }
+    }
 
     function setLineFill(fraction) {
       if (isDesktop()) {
@@ -1230,13 +1505,24 @@
           bar.style.animation = '';
         }
       });
-      animateLineTo(idx < 0 ? 0 : idx / (TOTAL - 1), 500);
+      // Use actual node position instead of raw index fraction
+      const frac = idx < 0 ? 0 : nodeFraction(idx);
+      animateLineTo(frac, 500);
     }
 
     function startCycle() {
       if (cycleTimer) clearTimeout(cycleTimer);
       let idx = 0;
-      function advance() { activateStep(idx); idx = (idx + 1) % TOTAL; cycleTimer = setTimeout(advance, CYCLE_DUR); }
+      function advance() {
+        // If user tapped recently, skip this tick and reschedule
+        if (Date.now() < userPausedUntil) {
+          cycleTimer = setTimeout(advance, userPausedUntil - Date.now() + 100);
+          return;
+        }
+        activateStep(idx);
+        idx = (idx + 1) % TOTAL;
+        cycleTimer = setTimeout(advance, CYCLE_DUR);
+      }
       advance();
     }
 
@@ -1255,6 +1541,7 @@
     }, { threshold: 0.15 });
     revealObserver.observe(timeline);
 
+    // ── DESKTOP: hover to manually activate, resume cycle on leave ──
     steps.forEach((step, i) => {
       step.addEventListener('mouseenter', () => {
         if (cycleTimer) { clearTimeout(cycleTimer); cycleTimer = null; }
@@ -1268,9 +1555,35 @@
           }, 1200);
         }
       });
+
+      // ── MOBILE / TOUCH: tap to activate step, pause auto-cycle for a bit ──
+      step.addEventListener('touchstart', (e) => {
+        // Don't call preventDefault — let scroll still work naturally.
+        // Only intercept if the touch starts and ends on this step (tap, not scroll).
+      }, { passive: true });
+
+      step.addEventListener('touchend', (e) => {
+        // Detect a tap: if the touch moved very little, treat as tap
+        const touch = e.changedTouches[0];
+        // We'll use a simple flag approach — activate the step immediately
+        if (cycleTimer) { clearTimeout(cycleTimer); cycleTimer = null; }
+        activateStep(i);
+        // Pause the auto-cycle for 4 seconds so the user can read the expanded step
+        userPausedUntil = Date.now() + 4000;
+        // Resume auto-cycle after 4 seconds, continuing from next step
+        cycleTimer = setTimeout(() => {
+          let idx = (i + 1) % TOTAL;
+          (function advance() {
+            activateStep(idx);
+            idx = (idx + 1) % TOTAL;
+            cycleTimer = setTimeout(advance, CYCLE_DUR);
+          })();
+        }, 4000);
+      }, { passive: true });
     });
   })();
 
+  // ── CARD STACKING ──
   const cardEls = ['card-0','card-1','card-2','card-3'].map(id => document.getElementById(id));
   const stickyWraps = Array.from(document.querySelectorAll('.card-sticky-wrap'));
 
@@ -1319,6 +1632,7 @@
     updateCards();
   }
 
+  // ── MAGNETIC PORTRAIT (desktop only) ──
   if (!IS_MOBILE) {
     const heroSection = document.getElementById('hero');
     const portraitImg = document.getElementById('portrait-img');
@@ -1340,6 +1654,7 @@
     }
   }
 
+  // ── HERO PARTICLES ──
   {
     const pc = document.getElementById('hero-particles-canvas');
     if (pc) {
@@ -1371,6 +1686,7 @@
     }
   }
 
+  // ── KPI COUNTER ──
   (function() {
     const kpiEls = document.querySelectorAll('.kpi-number[data-target]');
     const DURATION = 1800;
@@ -1391,6 +1707,7 @@
     kpiEls.forEach(el => io.observe(el));
   })();
 
+  // ── CONTACT CANVAS (desktop only) ──
   if (!IS_MOBILE) {
     const canvas = document.getElementById('contact-canvas');
     if (canvas) {
@@ -1436,6 +1753,7 @@
     }
   }
 
+  // ── GLOBAL BG CANVAS ──
   {
     const gc = document.getElementById('global-bg-canvas');
     if (gc) {
