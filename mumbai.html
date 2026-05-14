@@ -138,11 +138,20 @@
 
     @media (max-width: 639px) {
       .hero-tagline {
-        text-align: center; padding-right: 0;
-        display: flex; flex-direction: column; align-items: center; gap: 0.05em;
+        text-align: center;
+        padding-right: 0;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 0.05em;
       }
-      .tagline-small { font-size: clamp(1.9rem, 8.5vw, 2.7rem); line-height: 1.1; display: block; }
-      .tagline-accent { font-size: clamp(4rem, 17.5vw, 6.2rem); display: block; }
+      .tagline-small {
+        font-size: clamp(1.9rem, 8.5vw, 2.7rem);
+        line-height: 1.1;
+        display: block;
+      }
+      .tagline-accent {
+        font-size: clamp(4rem, 17.5vw, 6.2rem);
+        display: block;
+      }
     }
 
     @media (min-width: 640px) {
@@ -230,6 +239,7 @@
     @media (min-width: 640px) {
       .process-exclamation-inline {
         height: clamp(2.8rem, 9vw, 11rem); margin-left: 0.18em; transform: translateY(12%);
+        animation: exclamationBounce 2.5s ease-in-out infinite;
       }
     }
 
@@ -309,11 +319,20 @@
     }
 
     .portrait-row-wrap { overflow: hidden; }
-    .portrait-row { display: flex; gap: 0.75rem; will-change: transform; width: max-content; }
 
+    .portrait-row {
+      display: flex; gap: 0.75rem; will-change: transform; width: max-content;
+    }
+
+    /* ── PORTRAIT CARD VIDEO FIX ──
+       Key: background #0C0C0C so there's never a white/grey flash.
+       object-fit: cover ensures the video fills the card.
+       No poster attribute → no thumbnail flash.
+    */
     .portrait-card {
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
-      flex-shrink: 0; display: block; background: #111;
+      flex-shrink: 0; display: block;
+      background: #0C0C0C; /* match page bg — eliminates flash */
     }
     @media (min-width: 640px) {
       .portrait-card { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s; }
@@ -321,6 +340,115 @@
     }
     @media (min-width: 640px) { .portrait-card { width: 220px; height: 390px; } }
     @media (min-width: 1024px) { .portrait-card { width: 260px; height: 462px; } }
+
+    /* ══════════════════════════════════════════════
+       16:9 BOTTOM MARQUEE — HIDDEN ON MOBILE
+    ══════════════════════════════════════════════ */
+    #marquee-bottom {
+      background: #0C0C0C; padding: 3rem 0 4rem; overflow: hidden;
+      display: none;
+    }
+    @media (min-width: 640px) {
+      #marquee-bottom {
+        display: block;
+        padding: 4rem 0;
+      }
+    }
+
+    .marquee-row { overflow: hidden; }
+    .marquee-track {
+      display: flex; gap: 0.75rem; width: max-content;
+      will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    }
+
+    .marquee-video-wrap {
+      position: relative; flex-shrink: 0; border-radius: 1rem; overflow: hidden;
+      width: 280px; height: 157px;
+      background: #0C0C0C; /* match page bg */
+    }
+    @media (min-width: 640px) {
+      .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; }
+    }
+
+    .marquee-video-wrap video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      background: #0C0C0C; /* eliminates flash */
+    }
+
+    .marquee-video-link {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: block;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: rgba(182,0,168,0.15);
+    }
+
+    @media (min-width: 640px) {
+      .marquee-video-wrap {
+        transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+        cursor: pointer;
+      }
+      .marquee-video-wrap:hover {
+        transform: scale(1.04) translateY(-6px);
+        box-shadow: 0 20px 60px rgba(182,0,168,0.245), 0 8px 24px rgba(0,0,0,0.35);
+      }
+      .marquee-video-wrap:hover .marquee-video-play {
+        opacity: 1; transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    .marquee-video-play {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(182,0,168,0.88);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 1;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none; z-index: 4;
+      box-shadow: 0 0 0 6px rgba(182,0,168,0.22), 0 4px 20px rgba(0,0,0,0.5);
+    }
+    @media (min-width: 640px) {
+      .marquee-video-play {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.85);
+      }
+    }
+    .marquee-video-play svg {
+      width: 22px; height: 22px; fill: white; margin-left: 3px;
+    }
+
+    .marquee-video-poster {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 6px;
+      background: linear-gradient(135deg, #18011F 0%, #0C0C0C 60%, #1a0a1a 100%);
+      border-radius: inherit;
+      opacity: 1;
+      transition: opacity 0.4s;
+    }
+    .marquee-video-poster.hidden { opacity: 0; pointer-events: none; }
+    .marquee-video-poster-label {
+      font-family: 'Kanit', sans-serif;
+      font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(215,226,234,0.35);
+    }
+
+    .marquee-video-wrap::after {
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.45) 100%);
+      border-radius: inherit;
+    }
 
     #projects {
       background: #0C0C0C; position: relative; z-index: 10;
@@ -453,109 +581,6 @@
       pointer-events: none; border-radius: inherit; z-index: 2; mix-blend-mode: screen;
     }
 
-    #video-slider {
-      background: #0C0C0C; position: relative; z-index: 10;
-      padding: 5rem 0 5rem;
-      overflow: hidden;
-    }
-    @media (min-width: 640px) { #video-slider { padding: 7rem 0 6rem; } }
-
-    .video-slider-heading-wrap {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0.4rem; margin-bottom: 2.5rem; overflow: visible; width: 100%;
-      padding: 0 1.25rem;
-    }
-    @media (min-width: 640px) { .video-slider-heading-wrap { margin-bottom: 3.5rem; } }
-
-    .video-slider-h2 {
-      font-size: clamp(2.5rem, 12.5vw, 160px); font-weight: 900;
-      text-transform: uppercase; line-height: 1; letter-spacing: -0.03em;
-      text-align: center; overflow: visible; padding-right: 0.04em;
-      color: #D7E2EA; -webkit-text-fill-color: #D7E2EA;
-    }
-    @media (min-width: 640px) { .video-slider-h2 { font-size: clamp(3rem, 12vw, 160px); } }
-
-    .video-slider-exclamation {
-      height: clamp(2.5rem, 10vw, 14rem); width: auto; display: block;
-      flex-shrink: 0; margin-left: -0.6rem;
-      animation: exclamationBounce 2.5s ease-in-out infinite;
-    }
-    @media (min-width: 640px) { .video-slider-exclamation { height: clamp(4rem, 12vw, 14rem); margin-left: -1.2rem; } }
-
-    .video-slider-track-wrap {
-      position: relative;
-      touch-action: pan-y;
-    }
-
-    .video-slider-track-wrap::before,
-    .video-slider-track-wrap::after {
-      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 5; pointer-events: none;
-    }
-    .video-slider-track-wrap::before { left: 0; background: linear-gradient(to right, #0C0C0C 0%, transparent 100%); }
-    .video-slider-track-wrap::after  { right: 0; background: linear-gradient(to left, #0C0C0C 0%, transparent 100%); }
-    @media (min-width: 640px) {
-      .video-slider-track-wrap::before,
-      .video-slider-track-wrap::after { width: 140px; }
-    }
-
-    .video-slider-track {
-      display: flex; gap: 1rem; padding: 1rem 1.25rem;
-      overflow-x: auto; scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none;
-      cursor: grab;
-    }
-    .video-slider-track::-webkit-scrollbar { display: none; }
-    .video-slider-track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
-    @media (min-width: 640px) { .video-slider-track { gap: 1.25rem; padding: 1.5rem 2rem; } }
-    @media (min-width: 1024px) { .video-slider-track { gap: 1.5rem; padding: 1.5rem 3rem; } }
-
-    .video-slide {
-      flex: 0 0 80vw; max-width: 480px; min-width: 260px;
-      border-radius: 20px; overflow: hidden; position: relative;
-      scroll-snap-align: center;
-      border: 1px solid rgba(182,0,168,0.14);
-      background: #111;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-      aspect-ratio: 16/9;
-    }
-    @media (min-width: 640px) {
-      .video-slide {
-        flex: 0 0 55vw; max-width: 600px; border-radius: 24px;
-        transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s, border-color 0.4s;
-      }
-      .video-slide:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 20px 60px rgba(182,0,168,0.2), 0 6px 24px rgba(0,0,0,0.5);
-        border-color: rgba(182,0,168,0.42);
-      }
-    }
-    @media (min-width: 768px) { .video-slide { flex: 0 0 45vw; border-radius: 28px; } }
-    @media (min-width: 1024px) { .video-slide { flex: 0 0 38vw; max-width: 680px; border-radius: 32px; } }
-
-    .video-slide video {
-      width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit;
-    }
-
-    .video-slide::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 60%, rgba(12,12,12,0.35) 100%);
-      pointer-events: none; border-radius: inherit; z-index: 1;
-    }
-
-    .video-slider-dots {
-      display: flex; justify-content: center; gap: 0.45rem; margin-top: 1.5rem; padding: 0 1.25rem;
-    }
-    .slider-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: rgba(215,226,234,0.2);
-      cursor: pointer; transition: background 0.3s, transform 0.3s, width 0.3s;
-      flex-shrink: 0;
-    }
-    .slider-dot.active {
-      background: linear-gradient(90deg, #B600A8, #7621B0);
-      width: 22px; border-radius: 3px; transform: none;
-      box-shadow: 0 0 8px rgba(182,0,168,0.5);
-    }
-
     #process {
       background: #0C0C0C; position: relative; overflow: hidden;
       padding: 6rem 1.25rem 5rem;
@@ -623,6 +648,9 @@
       flex: 1; display: flex; flex-direction: column; position: relative; padding-bottom: 2.5rem;
       opacity: 0; transform: translateY(24px);
       transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .process-step.step-visible { opacity: 1; transform: translateY(0); }
     @media (min-width: 768px) { .process-step { padding-bottom: 0; padding-right: 1rem; align-items: flex-start; opacity: 0; transform: translateY(28px); } }
@@ -704,6 +732,7 @@
       display: flex; align-items: center; gap: 1rem; padding: 1.4rem 0.5rem;
       border-top: 1px solid rgba(215,226,234,0.07); text-decoration: none; border-radius: 8px;
       position: relative; overflow: hidden;
+      min-width: 0;
     }
     @media (min-width: 640px) {
       .contact-item { transition: background 0.25s, padding-left 0.25s; }
@@ -722,23 +751,42 @@
 
     .contact-item-icon {
       display: flex; align-items: center; justify-content: center;
-      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0; overflow: hidden;
+      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+      overflow: hidden;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     @media (min-width: 640px) {
       .contact-item-icon { width: 44px; height: 44px; border-radius: 14px; }
-      .contact-item:hover .contact-item-icon { transform: scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.35); }
+      .contact-item:hover .contact-item-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      }
     }
     .contact-item-icon svg { width: 38px; height: 38px; display: block; }
     @media (min-width: 640px) { .contact-item-icon svg { width: 44px; height: 44px; } }
 
-    .contact-item-label { color: #D7E2EA; font-size: clamp(0.7rem, 1.3vw, 0.85rem); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 300; opacity: 0.4; min-width: 90px; flex-shrink: 0; }
-    @media (min-width: 640px) { .contact-item-label { min-width: 120px; } }
-    .contact-item-value {
-      color: #D7E2EA; font-size: clamp(0.9rem, 2vw, 1.35rem); font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.04em; flex: 1; opacity: 0.85;
+    .contact-item-label {
+      color: #D7E2EA; font-size: clamp(0.7rem, 1.3vw, 0.85rem); text-transform: uppercase;
+      letter-spacing: 0.15em; font-weight: 300; opacity: 0.4;
+      width: 64px; flex-shrink: 0;
     }
-    @media (min-width: 640px) { .contact-item-value { transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1); } }
+    @media (min-width: 640px) { .contact-item-label { width: auto; min-width: 120px; } }
+
+    .contact-item-value {
+      color: #D7E2EA; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      flex: 1; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      opacity: 0.85;
+      font-size: clamp(0.65rem, 2.5vw, 1.35rem);
+    }
+    @media (min-width: 640px) {
+      .contact-item-value {
+        white-space: nowrap;
+        font-size: clamp(0.9rem, 2vw, 1.35rem);
+        transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      }
+    }
     .contact-item-arrow { color: #D7E2EA; font-size: clamp(1rem, 2vw, 1.4rem); opacity: 0.3; flex-shrink: 0; }
     @media (min-width: 640px) { .contact-item-arrow { transition: opacity 0.2s, transform 0.3s cubic-bezier(0.22,1,0.36,1); } }
 
@@ -773,7 +821,7 @@
     }
 
     @media (max-width: 639px) {
-      #hero, #portrait-marquee-top, #projects, #video-slider, #process, #contact {
+      #hero, #portrait-marquee-top, #marquee-bottom, #projects, #process, #contact {
         background: transparent !important;
       }
       .project-card { background: rgba(12,12,12,0.85) !important; }
@@ -805,6 +853,7 @@
 
 <div class="main-wrapper" id="root" style="position:relative;z-index:1;">
 
+  <!-- HERO -->
   <section id="hero">
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
@@ -856,6 +905,7 @@
     </div>
   </section>
 
+  <!-- TOP PORTRAIT MARQUEE (9:16) -->
   <section id="portrait-marquee-top">
     <div class="what-we-did-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="what-we-did-h2 glitch-heading">What We Did</h2>
@@ -870,6 +920,7 @@
     </div>
   </section>
 
+  <!-- PROJECTS -->
   <section id="projects">
     <div class="projects-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="projects-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">What We Do</h2>
@@ -967,29 +1018,14 @@
     </div>
   </section>
 
-  <section id="video-slider">
-    <div class="video-slider-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
-      <h2 class="video-slider-h2 glitch-heading">Our Work</h2>
-      <img src="https://github.com/qwuitty-prog/inkwell_media/blob/main/assets/white_exclamation.png?raw=true" alt="" class="video-slider-exclamation" />
-    </div>
-
-    <div class="video-slider-track-wrap fade-init" data-delay="0.1" data-y="20" data-x="0">
-      <div class="video-slider-track" id="video-slider-track">
-        <div class="video-slide"><video id="sv-0" autoplay muted loop playsinline preload="auto"></video></div>
-        <div class="video-slide"><video id="sv-1" autoplay muted loop playsinline preload="auto"></video></div>
-        <div class="video-slide"><video id="sv-2" autoplay muted loop playsinline preload="auto"></video></div>
-        <div class="video-slide"><video id="sv-3" autoplay muted loop playsinline preload="auto"></video></div>
-      </div>
-    </div>
-
-    <div class="video-slider-dots" id="slider-dots">
-      <div class="slider-dot active" data-idx="0"></div>
-      <div class="slider-dot" data-idx="1"></div>
-      <div class="slider-dot" data-idx="2"></div>
-      <div class="slider-dot" data-idx="3"></div>
+  <!-- BOTTOM 16:9 VIDEO MARQUEE — desktop only -->
+  <section id="marquee-bottom">
+    <div id="marquee-row-bottom" class="marquee-row">
+      <div id="marquee-track-bottom" class="marquee-track"></div>
     </div>
   </section>
 
+  <!-- PROCESS -->
   <section id="process">
     <div class="process-heading-wrap fade-init" data-delay="0" data-y="40" data-x="0">
       <h2 class="process-h2 glitch-heading" style="color:#D7E2EA;-webkit-text-fill-color:#D7E2EA;">
@@ -1073,6 +1109,7 @@
     </div>
   </section>
 
+  <!-- CONTACT -->
   <section id="contact">
     <canvas id="contact-canvas"></canvas>
     <div class="contact-inner">
@@ -1154,6 +1191,7 @@
 (function() {
   const IS_MOBILE = window.innerWidth < 640 || ('ontouchstart' in window);
 
+  // ── SCROLL PROGRESS ──
   const progressBar = document.getElementById('scroll-progress');
   let rafPending = false;
   window.addEventListener('scroll', () => {
@@ -1166,6 +1204,7 @@
     });
   }, { passive: true });
 
+  // ── CURSOR SPOTLIGHT (desktop only) ──
   if (!IS_MOBILE) {
     const spotlight = document.getElementById('cursor-spotlight');
     let spotX = window.innerWidth / 2, spotY = window.innerHeight / 2;
@@ -1178,6 +1217,7 @@
     })();
   }
 
+  // ── MARQUEE ANIMATION STYLES ──
   const styleEl = document.createElement('style');
   styleEl.textContent = `
     @keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -1187,98 +1227,206 @@
   `;
   document.head.appendChild(styleEl);
 
+  // ── VIDEO SOURCES ──
   const topVideosA = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/vid7.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up1.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up2.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up3.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up4.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up5.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up6.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up7.mp4',
   ];
 
   const topVideosB = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/7.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/8.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d1.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d2.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d3.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d5.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d6.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d7.mp4',
+    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
   ];
 
+  const bottomVideos = [
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4', href: 'https://youtu.be/WIDUEKf4VJ8?si=rf2WhD_a3Yccis92' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/2.mp4', href: 'https://youtu.be/mJOFf8BzYfU?si=48rFr5wMmiUGitwi' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/3.mp4', href: 'https://youtu.be/7OGztPQMKB0?si=0hpwoKvYWRoew598' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/4.mp4', href: 'https://youtu.be/Hj_MnHnfOB0?si=ahlKFbKyIEYvreNU' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4', href: 'https://youtu.be/RJfp7paUSKY?si=ZlD-Wg67W_QN95wc' },
+  ];
+
+  // ────────────────────────────────────────────────────────────────
+  // CORE VIDEO FIX — createAutoplayVideo()
+  //
+  // Root cause of the "thumbnail flash":
+  //   1. Browser decodes first video keyframe and paints it as a
+  //      static poster before autoplay begins (common on iOS/Android).
+  //   2. The video element has a transparent/grey background so the
+  //      decoded frame shows as a frozen thumbnail.
+  //
+  // Fix strategy:
+  //   A) Black background on video + container (matches page bg).
+  //   B) Set muted + playsInline as BOTH attributes AND JS properties
+  //      BEFORE assigning src — some mobile browsers gate autoplay
+  //      on these being set before load starts.
+  //   C) Use `preload="auto"` so the browser aggressively buffers
+  //      frames before the play() call — eliminates the decode delay.
+  //   D) Listen for `canplay` / `loadeddata` and call play() imperatively
+  //      instead of relying solely on the `autoplay` attribute.
+  //   E) On iOS Safari, set video.currentTime = 0.001 after canplay
+  //      fires to force a frame paint before the play promise resolves,
+  //      preventing the frozen-first-frame artifact.
+  // ────────────────────────────────────────────────────────────────
+  function createAutoplayVideo(src) {
+    const video = document.createElement('video');
+
+    // Step 1: set all required attributes BEFORE src
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('x5-playsinline', '');
+    video.setAttribute('x5-video-player-type', 'h5');
+    video.setAttribute('loop', '');
+    video.setAttribute('preload', 'auto');  // 'auto' not 'metadata' — loads frames eagerly
+
+    // Step 2: set JS properties (some browsers only check properties, not attributes)
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.defaultMuted = true;
+
+    // Step 3: black background so there's never a transparent/grey flash
+    video.style.background = '#0C0C0C';
+
+    // Step 4: NOW assign src (load starts with correct flags already set)
+    video.src = src;
+
+    // Step 5: play imperatively on canplay — don't rely on autoplay attr alone
+    let played = false;
+    function attemptPlay() {
+      if (played) return;
+      played = true;
+      video.muted = true; // re-affirm before play() — required by some browsers
+      const p = video.play();
+      if (p && p.catch) {
+        p.catch(() => {
+          // If play() was rejected (e.g. not yet interacted on strict browsers),
+          // retry on next user gesture
+          played = false;
+        });
+      }
+    }
+
+    video.addEventListener('canplay', attemptPlay, { once: false });
+    video.addEventListener('loadeddata', attemptPlay, { once: false });
+
+    // iOS Safari extra: after canplay, nudge currentTime to force frame render
+    // This prevents the frozen-first-frame / blank-then-jump artifact
+    video.addEventListener('canplay', () => {
+      if (video.currentTime === 0) {
+        try { video.currentTime = 0.001; } catch(e) {}
+      }
+    }, { once: true });
+
+    return video;
+  }
+
+  // ── BUILD 9:16 PORTRAIT MARQUEE ──
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
+
+    // Build 2 copies for seamless looping
     for (let c = 0; c < 2; c++) {
       srcs.forEach(src => {
-        const video = document.createElement('video');
-        video.setAttribute('autoplay', '');
-        video.setAttribute('muted', '');
-        video.setAttribute('loop', '');
-        video.setAttribute('playsinline', '');
-        video.setAttribute('webkit-playsinline', '');
-        video.setAttribute('preload', 'metadata');
-        video.muted = true;
-        video.autoplay = true;
-        video.loop = true;
-        video.playsInline = true;
+        const video = createAutoplayVideo(src);
         video.className = 'portrait-card';
         rowEl.appendChild(video);
-        const source = document.createElement('source');
-        source.src = src;
-        source.type = 'video/mp4';
-        video.appendChild(source);
-        video.load();
       });
     }
   }
 
+  // ── BUILD 16:9 BOTTOM MARQUEE (desktop only) ──
+  function buildBottomVideoMarquee(rowEl, items, cssClass, durSec) {
+    rowEl.style.setProperty('--dur', durSec + 's');
+    rowEl.classList.add(cssClass);
+
+    for (let c = 0; c < 2; c++) {
+      items.forEach((item) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'marquee-video-wrap';
+
+        const video = createAutoplayVideo(item.src);
+
+        const link = document.createElement('a');
+        link.className = 'marquee-video-link';
+        link.href = item.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', 'Watch on YouTube');
+
+        const playIcon = document.createElement('div');
+        playIcon.className = 'marquee-video-play';
+        playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
+
+        wrap.appendChild(video);
+        wrap.appendChild(playIcon);
+        wrap.appendChild(link);
+        rowEl.appendChild(wrap);
+      });
+    }
+  }
+
+  // ── SIZING ──
   const cardW = IS_MOBILE ? 192 : (window.innerWidth >= 1024 ? 272 : 232);
+  const vidW  = IS_MOBILE ? 292 : 432;
   const PPS   = IS_MOBILE ? 50 : 65;
-  const topDurA = Math.round(topVideosA.length * cardW / PPS);
-  const topDurB = Math.round(topVideosB.length * cardW / PPS);
+
+  const topDurA = Math.round(topVideosA.length   * cardW / PPS);
+  const topDurB = Math.round(topVideosB.length   * cardW / PPS);
+  const botDur  = Math.round(bottomVideos.length * vidW  / PPS);
 
   const topRowA = document.getElementById('portrait-row-top-a');
   const topRowB = document.getElementById('portrait-row-top-b');
+
+  // Build rows immediately so videos start buffering right away
   buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
   buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
-  function tryPlay(video) {
-    video.muted = true;
-    const p = video.play();
-    if (p && p.catch) {
-      p.catch(() => {
-        setTimeout(() => { video.muted = true; video.play().catch(() => {}); }, 800);
-      });
-    }
+  if (!IS_MOBILE) {
+    const bottomTrack = document.getElementById('marquee-track-bottom');
+    buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
   }
 
-  function lazyPlayRow(rowEl) {
-    rowEl.querySelectorAll('video').forEach((v, i) => {
-      const delay = IS_MOBILE ? i * 50 : i * 80;
-      setTimeout(() => { v.muted = true; tryPlay(v); }, delay);
+  // ── GLOBAL KICK: ensure all videos play on any user interaction ──
+  // This covers strict browsers that block autoplay until gesture
+  function kickAllVideos() {
+    document.querySelectorAll('video').forEach(v => {
+      if (v.paused) {
+        v.muted = true;
+        const p = v.play();
+        if (p && p.catch) p.catch(() => {});
+      }
     });
   }
 
-  const ioTop = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      lazyPlayRow(topRowA);
-      lazyPlayRow(topRowB);
-      ioTop.disconnect();
-    }
-  }, { threshold: 0.05 });
-  const topSec = document.getElementById('portrait-marquee-top');
-  if (topSec) ioTop.observe(topSec);
+  // Kick on first touch/scroll (iOS Safari requirement)
+  document.addEventListener('touchstart', kickAllVideos, { once: true, passive: true });
+  document.addEventListener('scroll',     kickAllVideos, { once: true, passive: true });
+  document.addEventListener('touchend',   kickAllVideos, { once: true, passive: true });
 
-  document.addEventListener('touchstart', () => {
-    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
-  }, { once: true, passive: true });
-  document.addEventListener('scroll', () => {
-    document.querySelectorAll('video').forEach(v => { if (v.paused) { v.muted = true; tryPlay(v); } });
-  }, { once: true, passive: true });
+  // Also kick after a short delay in case the page loads silently
+  setTimeout(kickAllVideos, 500);
+  setTimeout(kickAllVideos, 1500);
 
+  // ── VISIBILITY API: resume videos when tab becomes visible again ──
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) kickAllVideos();
+  });
+
+  // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
   fadeEls.forEach(el => {
     const delay = parseFloat(el.dataset.delay || 0);
@@ -1300,6 +1448,7 @@
   }, { threshold: 0, rootMargin: '50px' });
   fadeEls.forEach(el => fadeObserver.observe(el));
 
+  // ── PROCESS TIMELINE ──
   (function() {
     const steps = Array.from(document.querySelectorAll('.process-step'));
     const lineFill = document.getElementById('process-line-fill');
@@ -1315,8 +1464,27 @@
     });
 
     let activeIdx = -1, cycleTimer = null, hasStarted = false;
+    let userPausedUntil = 0;
 
     function isDesktop() { return window.innerWidth >= 768; }
+
+    function nodeFraction(idx) {
+      const trackRect = document.getElementById('process-line-track').getBoundingClientRect();
+      const node = steps[idx].querySelector('.process-node');
+      if (!node) return idx / (TOTAL - 1);
+      const nodeRect = node.getBoundingClientRect();
+      if (isDesktop()) {
+        const trackW = trackRect.width;
+        if (trackW === 0) return idx / (TOTAL - 1);
+        const nodeCX = nodeRect.left + nodeRect.width / 2;
+        return Math.max(0, Math.min(1, (nodeCX - trackRect.left) / trackW));
+      } else {
+        const trackH = trackRect.height;
+        if (trackH === 0) return idx / (TOTAL - 1);
+        const nodeCY = nodeRect.top + nodeRect.height / 2;
+        return Math.max(0, Math.min(1, (nodeCY - trackRect.top) / trackH));
+      }
+    }
 
     function setLineFill(fraction) {
       if (isDesktop()) {
@@ -1356,13 +1524,22 @@
           bar.style.animation = '';
         }
       });
-      animateLineTo(idx < 0 ? 0 : idx / (TOTAL - 1), 500);
+      const frac = idx < 0 ? 0 : nodeFraction(idx);
+      animateLineTo(frac, 500);
     }
 
     function startCycle() {
       if (cycleTimer) clearTimeout(cycleTimer);
       let idx = 0;
-      function advance() { activateStep(idx); idx = (idx + 1) % TOTAL; cycleTimer = setTimeout(advance, CYCLE_DUR); }
+      function advance() {
+        if (Date.now() < userPausedUntil) {
+          cycleTimer = setTimeout(advance, userPausedUntil - Date.now() + 100);
+          return;
+        }
+        activateStep(idx);
+        idx = (idx + 1) % TOTAL;
+        cycleTimer = setTimeout(advance, CYCLE_DUR);
+      }
       advance();
     }
 
@@ -1394,9 +1571,26 @@
           }, 1200);
         }
       });
+
+      step.addEventListener('touchstart', () => {}, { passive: true });
+
+      step.addEventListener('touchend', () => {
+        if (cycleTimer) { clearTimeout(cycleTimer); cycleTimer = null; }
+        activateStep(i);
+        userPausedUntil = Date.now() + 4000;
+        cycleTimer = setTimeout(() => {
+          let idx = (i + 1) % TOTAL;
+          (function advance() {
+            activateStep(idx);
+            idx = (idx + 1) % TOTAL;
+            cycleTimer = setTimeout(advance, CYCLE_DUR);
+          })();
+        }, 4000);
+      }, { passive: true });
     });
   })();
 
+  // ── CARD STACKING ──
   const cardEls = ['card-0','card-1','card-2','card-3'].map(id => document.getElementById(id));
   const stickyWraps = Array.from(document.querySelectorAll('.card-sticky-wrap'));
 
@@ -1445,6 +1639,7 @@
     updateCards();
   }
 
+  // ── MAGNETIC PORTRAIT (desktop only) ──
   if (!IS_MOBILE) {
     const heroSection = document.getElementById('hero');
     const portraitImg = document.getElementById('portrait-img');
@@ -1466,6 +1661,7 @@
     }
   }
 
+  // ── HERO PARTICLES ──
   {
     const pc = document.getElementById('hero-particles-canvas');
     if (pc) {
@@ -1497,6 +1693,7 @@
     }
   }
 
+  // ── KPI COUNTER ──
   (function() {
     const kpiEls = document.querySelectorAll('.kpi-number[data-target]');
     const DURATION = 1800;
@@ -1517,6 +1714,7 @@
     kpiEls.forEach(el => io.observe(el));
   })();
 
+  // ── CONTACT CANVAS (desktop only) ──
   if (!IS_MOBILE) {
     const canvas = document.getElementById('contact-canvas');
     if (canvas) {
@@ -1562,6 +1760,7 @@
     }
   }
 
+  // ── GLOBAL BG CANVAS ──
   {
     const gc = document.getElementById('global-bg-canvas');
     if (gc) {
@@ -1606,94 +1805,6 @@
         requestAnimationFrame(draw);
       }
       draw();
-    }
-  }
-
-  {
-    const SLIDER_SRCS = [
-      'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/1.mp4',
-      'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/2.mp4',
-      'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/3.mp4',
-      'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/4.mp4',
-    ];
-
-    function loadSliderVideo(v, src) {
-      v.muted = true; v.defaultMuted = true;
-      v.setAttribute('muted',''); v.setAttribute('playsinline','');
-      v.setAttribute('webkit-playsinline','');
-      v.src = src; v.load();
-      function attempt() {
-        v.muted = true;
-        const p = v.play();
-        if (p && p.catch) p.catch(() => setTimeout(() => { v.muted = true; v.play().catch(()=>{}); }, 600));
-      }
-      v.addEventListener('canplay', attempt, { once: true });
-      v.addEventListener('loadeddata', attempt, { once: true });
-    }
-
-    const sliderSec = document.getElementById('video-slider');
-    const ioSlider = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        SLIDER_SRCS.forEach((src, i) => {
-          const v = document.getElementById('sv-' + i);
-          if (v) setTimeout(() => loadSliderVideo(v, src), i * 150);
-        });
-        ioSlider.disconnect();
-      }
-    }, { threshold: 0, rootMargin: '300px' });
-    if (sliderSec) ioSlider.observe(sliderSec);
-
-    const track = document.getElementById('video-slider-track');
-    const dots = Array.from(document.querySelectorAll('#slider-dots .slider-dot'));
-
-    function updateDots() {
-      if (!track || !dots.length) return;
-      const slides = track.querySelectorAll('.video-slide');
-      const center = track.scrollLeft + track.offsetWidth / 2;
-      let closest = 0, minDist = Infinity;
-      slides.forEach((slide, i) => {
-        const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
-        if (dist < minDist) { minDist = dist; closest = i; }
-      });
-      dots.forEach((d, i) => d.classList.toggle('active', i === closest));
-    }
-
-    if (track) {
-      track.addEventListener('scroll', updateDots, { passive: true });
-
-      dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-          const idx = parseInt(dot.dataset.idx);
-          const slides = track.querySelectorAll('.video-slide');
-          if (slides[idx]) {
-            const targetLeft = slides[idx].offsetLeft - (track.offsetWidth - slides[idx].offsetWidth) / 2;
-            track.scrollTo({ left: targetLeft, behavior: 'smooth' });
-          }
-        });
-      });
-
-      let isDragging = false, startX = 0, startScroll = 0;
-      track.addEventListener('mousedown', (e) => {
-        isDragging = true; startX = e.pageX; startScroll = track.scrollLeft;
-        track.classList.add('is-dragging');
-      });
-      window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        track.scrollLeft = startScroll - (e.pageX - startX);
-      });
-      window.addEventListener('mouseup', () => {
-        if (!isDragging) return;
-        isDragging = false; track.classList.remove('is-dragging');
-        const slides = track.querySelectorAll('.video-slide');
-        const center = track.scrollLeft + track.offsetWidth / 2;
-        let closest = 0, minDist = Infinity;
-        slides.forEach((slide, i) => {
-          const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
-          if (dist < minDist) { minDist = dist; closest = i; }
-        });
-        const targetLeft = slides[closest].offsetLeft - (track.offsetWidth - slides[closest].offsetWidth) / 2;
-        track.scrollTo({ left: targetLeft, behavior: 'smooth' });
-      });
     }
   }
 
