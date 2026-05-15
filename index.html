@@ -7,6 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Preconnect to Cloudinary CDN for faster video delivery -->
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+  <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+  <!-- Preload first 3 upper videos (visible on page load) -->
+  <link rel="preload" as="video" href="https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/up_1_egcpt4.mp4" />
+  <link rel="preload" as="video" href="https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up2_nmgsnc.mp4" />
+  <link rel="preload" as="video" href="https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up3_x8ngeq.mp4" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root { background: #0C0C0C; font-family: 'Kanit', sans-serif; }
@@ -324,6 +334,7 @@
       display: flex; gap: 0.75rem; will-change: transform; width: max-content;
     }
 
+    /* Portrait video cards */
     .portrait-card {
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
       flex-shrink: 0; display: block; background: #111;
@@ -340,7 +351,6 @@
     ══════════════════════════════════════════════ */
     #marquee-bottom {
       background: #0C0C0C; padding: 3rem 0 4rem; overflow: hidden;
-      /* MOBILE FIX: hide entirely on phone */
       display: none;
     }
     @media (min-width: 640px) {
@@ -643,6 +653,9 @@
       flex: 1; display: flex; flex-direction: column; position: relative; padding-bottom: 2.5rem;
       opacity: 0; transform: translateY(24px);
       transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .process-step.step-visible { opacity: 1; transform: translateY(0); }
     @media (min-width: 768px) { .process-step { padding-bottom: 0; padding-right: 1rem; align-items: flex-start; opacity: 0; transform: translateY(28px); } }
@@ -707,9 +720,6 @@
     .process-step.step-active .process-cycle-bar { animation: cycleBarGrow var(--cycle-dur, 3.2s) linear forwards; }
     @keyframes cycleBarGrow { from { width: 0%; } to { width: 100%; } }
 
-    /* ══════════════════════════════════════════════
-       CONTACT SECTION — MOBILE EMAIL FIX
-    ══════════════════════════════════════════════ */
     #contact { background: #0C0C0C; position: relative; overflow: hidden; padding: 0; border-top: 1px solid rgba(215,226,234,0.056); }
     #contact-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: none; }
     @media (min-width: 640px) { #contact-canvas { display: block; } }
@@ -727,7 +737,6 @@
       display: flex; align-items: center; gap: 1rem; padding: 1.4rem 0.5rem;
       border-top: 1px solid rgba(215,226,234,0.07); text-decoration: none; border-radius: 8px;
       position: relative; overflow: hidden;
-      /* MOBILE FIX: prevent horizontal overflow */
       min-width: 0;
     }
     @media (min-width: 640px) {
@@ -764,7 +773,6 @@
     .contact-item-label {
       color: #D7E2EA; font-size: clamp(0.7rem, 1.3vw, 0.85rem); text-transform: uppercase;
       letter-spacing: 0.15em; font-weight: 300; opacity: 0.4;
-      /* MOBILE FIX: fixed width on mobile, min-width on desktop */
       width: 64px; flex-shrink: 0;
     }
     @media (min-width: 640px) { .contact-item-label { width: auto; min-width: 120px; } }
@@ -772,11 +780,9 @@
     .contact-item-value {
       color: #D7E2EA; font-weight: 500;
       text-transform: uppercase; letter-spacing: 0.04em;
-      /* MOBILE FIX: allow shrink + truncate cleanly */
       flex: 1; min-width: 0;
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       opacity: 0.85;
-      /* MOBILE FIX: smaller font on mobile to fit email */
       font-size: clamp(0.65rem, 2.5vw, 1.35rem);
     }
     @media (min-width: 640px) {
@@ -1017,7 +1023,7 @@
     </div>
   </section>
 
-  <!-- BOTTOM 16:9 VIDEO MARQUEE — desktop only (hidden on mobile via CSS) -->
+  <!-- BOTTOM 16:9 VIDEO MARQUEE — desktop only -->
   <section id="marquee-bottom">
     <div id="marquee-row-bottom" class="marquee-row">
       <div id="marquee-track-bottom" class="marquee-track"></div>
@@ -1226,26 +1232,27 @@
   `;
   document.head.appendChild(styleEl);
 
-  // ── VIDEO SOURCES ──
+  // ── CLOUDINARY VIDEO SOURCES ──
+  // Using Cloudinary with f_auto,q_auto,w_540 for optimized delivery
   const topVideosA = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up7.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/up_1_egcpt4.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up2_nmgsnc.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up3_x8ngeq.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up4_wcgsq6.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up5_aktyaq.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up6_rhlz7t.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/up7_caiiht.mp4',
   ];
 
   const topVideosB = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d7.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/d1_nv5gyu.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/d2_nbhppy.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/d3_zvaam6.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/d4_dxrtze.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841918/d5_qvih1n.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841921/d6_zy2ez2.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/d7_gwcs4h.mp4',
+    'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/d4_dxrtze.mp4',
   ];
 
   const bottomVideos = [
@@ -1253,23 +1260,31 @@
     { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/2.mp4', href: 'https://youtu.be/mJOFf8BzYfU?si=48rFr5wMmiUGitwi' },
     { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/3.mp4', href: 'https://youtu.be/7OGztPQMKB0?si=0hpwoKvYWRoew598' },
     { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/4.mp4', href: 'https://youtu.be/Hj_MnHnfOB0?si=ahlKFbKyIEYvreNU' },
-    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4', href: 'https://youtu.be/ooPJhsXmZ5M?si=ryCKXFKWCloX66uy' },
+    { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4', href: 'https://youtu.be/RJfp7paUSKY?si=ZlD-Wg67W_QN95wc' },
   ];
 
-  // ── BUILD 9:16 PORTRAIT MARQUEE ──
+  // ── BUILD 9:16 PORTRAIT MARQUEE — optimised for fast load ──
+  // Strategy:
+  //   • First 3 videos: preload="auto" so browser fetches immediately
+  //   • Remaining videos: preload="metadata" loaded on first play attempt
+  //   • All videos created eagerly (not lazy) so the marquee isn't empty
   function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
     for (let c = 0; c < 2; c++) {
-      srcs.forEach(src => {
+      srcs.forEach((src, idx) => {
         const video = document.createElement('video');
+        // First 3 of the first copy get eager preload; rest use metadata
+        const isEager = (c === 0 && idx < 3);
         video.setAttribute('src', src);
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('loop', '');
         video.setAttribute('playsinline', '');
         video.setAttribute('webkit-playsinline', '');
-        video.setAttribute('preload', 'metadata');
+        video.setAttribute('preload', isEager ? 'auto' : 'metadata');
+        // fetchpriority hint for the browser
+        if (isEager) video.setAttribute('fetchpriority', 'high');
         video.muted = true;
         video.autoplay = true;
         video.loop = true;
@@ -1333,14 +1348,14 @@
   buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
   buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
-  // Only build bottom marquee on desktop — section is hidden on mobile anyway,
-  // but skip the DOM work + network requests entirely for a performance win
+  // Only build bottom marquee on desktop
   if (!IS_MOBILE) {
     const bottomTrack = document.getElementById('marquee-track-bottom');
     buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
   }
 
-  // ── ROBUST PLAY — retries once after 800ms ──
+  // ── PLAY — immediate, no stagger delay ──
+  // Videos with preload="auto" will already be buffering; just call play()
   function tryPlay(video) {
     video.muted = true;
     const p = video.play();
@@ -1349,55 +1364,57 @@
         setTimeout(() => {
           video.muted = true;
           video.play().catch(() => {});
-        }, 800);
+        }, 600);
       });
     }
   }
 
-  function lazyPlayRow(rowEl) {
-    rowEl.querySelectorAll('video').forEach((v, i) => {
-      const delay = IS_MOBILE ? i * 50 : i * 80;
-      setTimeout(() => {
-        if (v.getAttribute('preload') === 'none') {
-          v.setAttribute('preload', 'metadata');
-          v.load();
-        }
-        tryPlay(v);
-      }, delay);
+  function playRow(rowEl) {
+    rowEl.querySelectorAll('video').forEach((v) => {
+      tryPlay(v);
     });
   }
 
-  // ── LAZY PLAY — top portrait marquee ──
-  const ioTop = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      lazyPlayRow(topRowA);
-      lazyPlayRow(topRowB);
-      ioTop.disconnect();
-    }
-  }, { threshold: 0.05 });
-  const topSec = document.getElementById('portrait-marquee-top');
-  if (topSec) ioTop.observe(topSec);
+  // ── PLAY top rows immediately on DOMContentLoaded ──
+  // Don't wait for intersection — the marquee is near the top of the page
+  // and users see it almost immediately after scroll.
+  function startTopVideos() {
+    playRow(topRowA);
+    playRow(topRowB);
+  }
+
+  // Start playing as early as possible
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startTopVideos);
+  } else {
+    startTopVideos();
+  }
+
+  // Also trigger on first scroll/touch for browsers that block autoplay
+  // until user gesture (iOS Safari)
+  let userGestureFired = false;
+  function onUserGesture() {
+    if (userGestureFired) return;
+    userGestureFired = true;
+    document.querySelectorAll('video').forEach(v => {
+      if (v.paused) { v.muted = true; tryPlay(v); }
+    });
+  }
+  document.addEventListener('touchstart', onUserGesture, { once: true, passive: true });
+  document.addEventListener('click',      onUserGesture, { once: true, passive: true });
+  document.addEventListener('scroll',     onUserGesture, { once: true, passive: true });
 
   // ── LAZY PLAY — bottom 16:9 marquee (desktop only) ──
   if (!IS_MOBILE) {
     const ioBottom = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        lazyPlayRow(document.getElementById('marquee-track-bottom'));
+        playRow(document.getElementById('marquee-track-bottom'));
         ioBottom.disconnect();
       }
     }, { threshold: 0, rootMargin: '200px' });
     const bottomSec = document.getElementById('marquee-bottom');
     if (bottomSec) ioBottom.observe(bottomSec);
   }
-
-  // ── iOS Safari: kick all paused videos on first user gesture ──
-  function kickPausedVideos() {
-    document.querySelectorAll('video').forEach(v => {
-      if (v.paused) { v.muted = true; tryPlay(v); }
-    });
-  }
-  document.addEventListener('touchstart', kickPausedVideos, { once: true, passive: true });
-  document.addEventListener('scroll',     kickPausedVideos, { once: true, passive: true });
 
   // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
@@ -1437,8 +1454,27 @@
     });
 
     let activeIdx = -1, cycleTimer = null, hasStarted = false;
+    let userPausedUntil = 0;
 
     function isDesktop() { return window.innerWidth >= 768; }
+
+    function nodeFraction(idx) {
+      const trackRect = document.getElementById('process-line-track').getBoundingClientRect();
+      const node = steps[idx].querySelector('.process-node');
+      if (!node) return idx / (TOTAL - 1);
+      const nodeRect = node.getBoundingClientRect();
+      if (isDesktop()) {
+        const trackW = trackRect.width;
+        if (trackW === 0) return idx / (TOTAL - 1);
+        const nodeCX = nodeRect.left + nodeRect.width / 2;
+        return Math.max(0, Math.min(1, (nodeCX - trackRect.left) / trackW));
+      } else {
+        const trackH = trackRect.height;
+        if (trackH === 0) return idx / (TOTAL - 1);
+        const nodeCY = nodeRect.top + nodeRect.height / 2;
+        return Math.max(0, Math.min(1, (nodeCY - trackRect.top) / trackH));
+      }
+    }
 
     function setLineFill(fraction) {
       if (isDesktop()) {
@@ -1478,13 +1514,22 @@
           bar.style.animation = '';
         }
       });
-      animateLineTo(idx < 0 ? 0 : idx / (TOTAL - 1), 500);
+      const frac = idx < 0 ? 0 : nodeFraction(idx);
+      animateLineTo(frac, 500);
     }
 
     function startCycle() {
       if (cycleTimer) clearTimeout(cycleTimer);
       let idx = 0;
-      function advance() { activateStep(idx); idx = (idx + 1) % TOTAL; cycleTimer = setTimeout(advance, CYCLE_DUR); }
+      function advance() {
+        if (Date.now() < userPausedUntil) {
+          cycleTimer = setTimeout(advance, userPausedUntil - Date.now() + 100);
+          return;
+        }
+        activateStep(idx);
+        idx = (idx + 1) % TOTAL;
+        cycleTimer = setTimeout(advance, CYCLE_DUR);
+      }
       advance();
     }
 
@@ -1516,6 +1561,20 @@
           }, 1200);
         }
       });
+
+      step.addEventListener('touchend', (e) => {
+        if (cycleTimer) { clearTimeout(cycleTimer); cycleTimer = null; }
+        activateStep(i);
+        userPausedUntil = Date.now() + 4000;
+        cycleTimer = setTimeout(() => {
+          let idx = (i + 1) % TOTAL;
+          (function advance() {
+            activateStep(idx);
+            idx = (idx + 1) % TOTAL;
+            cycleTimer = setTimeout(advance, CYCLE_DUR);
+          })();
+        }, 4000);
+      }, { passive: true });
     });
   })();
 
