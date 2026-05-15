@@ -7,6 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Preconnect to Cloudinary CDN for faster video delivery -->
+  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+  <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+  <!-- Preload first 3 upper videos (visible on page load) -->
+  <link rel="preload" as="video" href="https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/up_1_egcpt4.mp4" />
+  <link rel="preload" as="video" href="https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up2_nmgsnc.mp4" />
+  <link rel="preload" as="video" href="https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up3_x8ngeq.mp4" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root { background: #0C0C0C; font-family: 'Kanit', sans-serif; }
@@ -324,15 +334,10 @@
       display: flex; gap: 0.75rem; will-change: transform; width: max-content;
     }
 
-    /* ── PORTRAIT CARD VIDEO FIX ──
-       Key: background #0C0C0C so there's never a white/grey flash.
-       object-fit: cover ensures the video fills the card.
-       No poster attribute → no thumbnail flash.
-    */
+    /* Portrait video cards */
     .portrait-card {
       width: 180px; height: 320px; border-radius: 1.25rem; object-fit: cover;
-      flex-shrink: 0; display: block;
-      background: #0C0C0C; /* match page bg — eliminates flash */
+      flex-shrink: 0; display: block; background: #111;
     }
     @media (min-width: 640px) {
       .portrait-card { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s; }
@@ -340,6 +345,59 @@
     }
     @media (min-width: 640px) { .portrait-card { width: 220px; height: 390px; } }
     @media (min-width: 1024px) { .portrait-card { width: 260px; height: 462px; } }
+
+    /* Portrait card link wrapper */
+    .portrait-card-link {
+      position: relative;
+      display: inline-block;
+      flex-shrink: 0;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      text-decoration: none;
+      -webkit-tap-highlight-color: rgba(182,0,168,0.15);
+    }
+    .portrait-card-link video.portrait-card {
+      display: block;
+      width: 180px; height: 320px;
+    }
+    @media (min-width: 640px) {
+      .portrait-card-link video.portrait-card { width: 220px; height: 390px; }
+      .portrait-card-link { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s; }
+      .portrait-card-link:hover { transform: scale(1.06) translateY(-8px); box-shadow: 0 24px 60px rgba(182,0,168,0.28); z-index: 2; position: relative; }
+    }
+    @media (min-width: 1024px) {
+      .portrait-card-link video.portrait-card { width: 260px; height: 462px; }
+    }
+
+    /* Play overlay on portrait card links */
+    .portrait-card-play {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(182,0,168,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 3;
+      box-shadow: 0 0 0 3px rgba(182,0,168,0.22), 0 2px 12px rgba(0,0,0,0.5);
+      opacity: 0.7;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .portrait-card-play svg {
+      width: 16px; height: 16px; fill: white; margin-left: 2px;
+    }
+    @media (min-width: 640px) {
+      .portrait-card-play {
+        width: 44px; height: 44px; bottom: 12px; right: 12px; opacity: 0;
+        transform: scale(0.8);
+      }
+      .portrait-card-play svg { width: 20px; height: 20px; }
+      .portrait-card-link:hover .portrait-card-play { opacity: 1; transform: scale(1); }
+    }
 
     /* ══════════════════════════════════════════════
        16:9 BOTTOM MARQUEE — HIDDEN ON MOBILE
@@ -364,7 +422,7 @@
     .marquee-video-wrap {
       position: relative; flex-shrink: 0; border-radius: 1rem; overflow: hidden;
       width: 280px; height: 157px;
-      background: #0C0C0C; /* match page bg */
+      background: #1a1a1a;
     }
     @media (min-width: 640px) {
       .marquee-video-wrap { width: 420px; height: 236px; border-radius: 1.25rem; }
@@ -378,7 +436,7 @@
       object-fit: cover;
       display: block;
       pointer-events: none;
-      background: #0C0C0C; /* eliminates flash */
+      background: #111;
     }
 
     .marquee-video-link {
@@ -880,7 +938,7 @@
 
         <div class="hero-kpis">
           <div class="hero-kpi fade-init" data-delay="0.4" data-y="15" data-x="0">
-            <span class="kpi-number" data-target="100" data-suffix="+">0</span>
+            <span class="kpi-number" data-target="1000" data-suffix="+">0</span>
             <div class="kpi-divider"></div>
             <span class="kpi-label">Videos</span>
           </div>
@@ -1227,26 +1285,28 @@
   `;
   document.head.appendChild(styleEl);
 
-  // ── VIDEO SOURCES ──
+  // ── CLOUDINARY VIDEO SOURCES with YouTube links ──
+  // topVideosA: up1–up7 with their YouTube links
   const topVideosA = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/new_videos/up7.mp4',
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/up_1_egcpt4.mp4',  href: 'https://youtu.be/uWZXMMFE1Uo?si=ZAgjHOHM83P5m08g' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up2_nmgsnc.mp4',  href: 'https://youtu.be/_1cN__vNoLo?si=QA3JY0NNG0vHMHE3' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up3_x8ngeq.mp4',  href: 'https://youtu.be/_1cN__vNoLo?si=QA3JY0NNG0vHMHE3' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up4_wcgsq6.mp4',  href: 'https://youtu.be/3QFz2QgpviU?si=N1bsTDqPewNp-h6C' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up5_aktyaq.mp4',  href: 'https://youtu.be/AzjhYe8pmkM?si=JAjrY8-4liscg_du' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841920/up6_rhlz7t.mp4',  href: 'https://youtu.be/Q_2sFWeqYdg?si=njNmaTUUTwDnsCZx' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/up7_caiiht.mp4',  href: 'https://youtu.be/1oSFxC00rxM?si=-1atk4DehllKwrgb' },
   ];
 
+  // topVideosB: d1–d7 with their YouTube links
   const topVideosB = [
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d1.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d2.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d3.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d5.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d6.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d7.mp4',
-    'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/916%20lower%20videos/d4.mp4',
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/d1_nv5gyu.mp4',   href: 'https://youtu.be/2PdpMfpFbIs?si=WV2fCQMJeZKnSm2a' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/d2_nbhppy.mp4',   href: 'https://youtu.be/X-Skzcu-A8A?si=eHk9_HJFwG89zU0F' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/d3_zvaam6.mp4',   href: 'https://youtu.be/5G_Og45y3qU?si=sL_wTES3x6qHyJby' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/d4_dxrtze.mp4',   href: 'https://youtu.be/tQdNckMe4-M?si=LdAZP6qvSnvmsEr0' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841918/d5_qvih1n.mp4',   href: 'https://youtu.be/K04yPV1hiaI?si=QKoNix9dfneQNKmn' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841921/d6_zy2ez2.mp4',   href: 'https://youtu.be/HIfqLG8xsGY?si=18gAFcpgIOP6N8bS' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841916/d7_gwcs4h.mp4',   href: 'https://youtu.be/HIfqLG8xsGY?si=18gAFcpgIOP6N8bS' },
+    { src: 'https://res.cloudinary.com/dyjafr3do/video/upload/f_auto,q_auto,w_540/v1778841917/d4_dxrtze.mp4',   href: 'https://youtu.be/tQdNckMe4-M?si=LdAZP6qvSnvmsEr0' },
   ];
 
   const bottomVideos = [
@@ -1257,93 +1317,46 @@
     { src: 'https://raw.githubusercontent.com/qwuitty-prog/inkwell_media/main/assets/16%3A9%20Videos/5.mp4', href: 'https://youtu.be/RJfp7paUSKY?si=ZlD-Wg67W_QN95wc' },
   ];
 
-  // ────────────────────────────────────────────────────────────────
-  // CORE VIDEO FIX — createAutoplayVideo()
-  //
-  // Root cause of the "thumbnail flash":
-  //   1. Browser decodes first video keyframe and paints it as a
-  //      static poster before autoplay begins (common on iOS/Android).
-  //   2. The video element has a transparent/grey background so the
-  //      decoded frame shows as a frozen thumbnail.
-  //
-  // Fix strategy:
-  //   A) Black background on video + container (matches page bg).
-  //   B) Set muted + playsInline as BOTH attributes AND JS properties
-  //      BEFORE assigning src — some mobile browsers gate autoplay
-  //      on these being set before load starts.
-  //   C) Use `preload="auto"` so the browser aggressively buffers
-  //      frames before the play() call — eliminates the decode delay.
-  //   D) Listen for `canplay` / `loadeddata` and call play() imperatively
-  //      instead of relying solely on the `autoplay` attribute.
-  //   E) On iOS Safari, set video.currentTime = 0.001 after canplay
-  //      fires to force a frame paint before the play promise resolves,
-  //      preventing the frozen-first-frame artifact.
-  // ────────────────────────────────────────────────────────────────
-  function createAutoplayVideo(src) {
-    const video = document.createElement('video');
-
-    // Step 1: set all required attributes BEFORE src
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    video.setAttribute('x5-playsinline', '');
-    video.setAttribute('x5-video-player-type', 'h5');
-    video.setAttribute('loop', '');
-    video.setAttribute('preload', 'auto');  // 'auto' not 'metadata' — loads frames eagerly
-
-    // Step 2: set JS properties (some browsers only check properties, not attributes)
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    video.defaultMuted = true;
-
-    // Step 3: black background so there's never a transparent/grey flash
-    video.style.background = '#0C0C0C';
-
-    // Step 4: NOW assign src (load starts with correct flags already set)
-    video.src = src;
-
-    // Step 5: play imperatively on canplay — don't rely on autoplay attr alone
-    let played = false;
-    function attemptPlay() {
-      if (played) return;
-      played = true;
-      video.muted = true; // re-affirm before play() — required by some browsers
-      const p = video.play();
-      if (p && p.catch) {
-        p.catch(() => {
-          // If play() was rejected (e.g. not yet interacted on strict browsers),
-          // retry on next user gesture
-          played = false;
-        });
-      }
-    }
-
-    video.addEventListener('canplay', attemptPlay, { once: false });
-    video.addEventListener('loadeddata', attemptPlay, { once: false });
-
-    // iOS Safari extra: after canplay, nudge currentTime to force frame render
-    // This prevents the frozen-first-frame / blank-then-jump artifact
-    video.addEventListener('canplay', () => {
-      if (video.currentTime === 0) {
-        try { video.currentTime = 0.001; } catch(e) {}
-      }
-    }, { once: true });
-
-    return video;
-  }
-
-  // ── BUILD 9:16 PORTRAIT MARQUEE ──
-  function buildVideoMarquee(rowEl, srcs, cssClass, durSec) {
+  // ── BUILD 9:16 PORTRAIT MARQUEE with clickable links ──
+  // Each video card is now wrapped in an <a> tag that opens the YouTube link
+  function buildVideoMarquee(rowEl, items, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
-
-    // Build 2 copies for seamless looping
     for (let c = 0; c < 2; c++) {
-      srcs.forEach(src => {
-        const video = createAutoplayVideo(src);
+      items.forEach((item, idx) => {
+        // Create the anchor wrapper
+        const link = document.createElement('a');
+        link.className = 'portrait-card-link';
+        link.href = item.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.setAttribute('aria-label', 'Watch on YouTube');
+
+        // Create the video element
+        const video = document.createElement('video');
+        const isEager = (c === 0 && idx < 3);
+        video.setAttribute('src', item.src);
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('loop', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.setAttribute('preload', isEager ? 'auto' : 'metadata');
+        if (isEager) video.setAttribute('fetchpriority', 'high');
+        video.muted = true;
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
         video.className = 'portrait-card';
-        rowEl.appendChild(video);
+
+        // Play icon overlay
+        const playIcon = document.createElement('div');
+        playIcon.className = 'portrait-card-play';
+        playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
+
+        link.appendChild(video);
+        link.appendChild(playIcon);
+        rowEl.appendChild(link);
       });
     }
   }
@@ -1352,28 +1365,36 @@
   function buildBottomVideoMarquee(rowEl, items, cssClass, durSec) {
     rowEl.style.setProperty('--dur', durSec + 's');
     rowEl.classList.add(cssClass);
-
     for (let c = 0; c < 2; c++) {
       items.forEach((item) => {
         const wrap = document.createElement('div');
         wrap.className = 'marquee-video-wrap';
-
-        const video = createAutoplayVideo(item.src);
-
-        const link = document.createElement('a');
-        link.className = 'marquee-video-link';
-        link.href = item.href;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.setAttribute('aria-label', 'Watch on YouTube');
-
+        const video = document.createElement('video');
+        video.setAttribute('src', item.src);
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('loop', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.setAttribute('x5-playsinline', '');
+        video.setAttribute('x5-video-player-type', 'h5');
+        video.setAttribute('preload', 'metadata');
+        video.muted = true;
+        video.autoplay = true;
+        video.loop = true;
+        video.playsInline = true;
+        const aLink = document.createElement('a');
+        aLink.className = 'marquee-video-link';
+        aLink.href = item.href;
+        aLink.target = '_blank';
+        aLink.rel = 'noopener noreferrer';
+        aLink.setAttribute('aria-label', 'Watch on YouTube');
         const playIcon = document.createElement('div');
         playIcon.className = 'marquee-video-play';
         playIcon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
-
         wrap.appendChild(video);
         wrap.appendChild(playIcon);
-        wrap.appendChild(link);
+        wrap.appendChild(aLink);
         rowEl.appendChild(wrap);
       });
     }
@@ -1390,41 +1411,71 @@
 
   const topRowA = document.getElementById('portrait-row-top-a');
   const topRowB = document.getElementById('portrait-row-top-b');
-
-  // Build rows immediately so videos start buffering right away
   buildVideoMarquee(topRowA, topVideosA, 'marquee-loop-left',  topDurA);
   buildVideoMarquee(topRowB, topVideosB, 'marquee-loop-right', topDurB);
 
+  // Only build bottom marquee on desktop
   if (!IS_MOBILE) {
     const bottomTrack = document.getElementById('marquee-track-bottom');
     buildBottomVideoMarquee(bottomTrack, bottomVideos, 'marquee-loop-left', botDur);
   }
 
-  // ── GLOBAL KICK: ensure all videos play on any user interaction ──
-  // This covers strict browsers that block autoplay until gesture
-  function kickAllVideos() {
-    document.querySelectorAll('video').forEach(v => {
-      if (v.paused) {
-        v.muted = true;
-        const p = v.play();
-        if (p && p.catch) p.catch(() => {});
-      }
+  // ── PLAY — immediate, no stagger delay ──
+  function tryPlay(video) {
+    video.muted = true;
+    const p = video.play();
+    if (p && p.catch) {
+      p.catch(() => {
+        setTimeout(() => {
+          video.muted = true;
+          video.play().catch(() => {});
+        }, 600);
+      });
+    }
+  }
+
+  function playRow(rowEl) {
+    rowEl.querySelectorAll('video').forEach((v) => {
+      tryPlay(v);
     });
   }
 
-  // Kick on first touch/scroll (iOS Safari requirement)
-  document.addEventListener('touchstart', kickAllVideos, { once: true, passive: true });
-  document.addEventListener('scroll',     kickAllVideos, { once: true, passive: true });
-  document.addEventListener('touchend',   kickAllVideos, { once: true, passive: true });
+  // ── PLAY top rows immediately on DOMContentLoaded ──
+  function startTopVideos() {
+    playRow(topRowA);
+    playRow(topRowB);
+  }
 
-  // Also kick after a short delay in case the page loads silently
-  setTimeout(kickAllVideos, 500);
-  setTimeout(kickAllVideos, 1500);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startTopVideos);
+  } else {
+    startTopVideos();
+  }
 
-  // ── VISIBILITY API: resume videos when tab becomes visible again ──
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) kickAllVideos();
-  });
+  // Also trigger on first scroll/touch for iOS Safari
+  let userGestureFired = false;
+  function onUserGesture() {
+    if (userGestureFired) return;
+    userGestureFired = true;
+    document.querySelectorAll('video').forEach(v => {
+      if (v.paused) { v.muted = true; tryPlay(v); }
+    });
+  }
+  document.addEventListener('touchstart', onUserGesture, { once: true, passive: true });
+  document.addEventListener('click',      onUserGesture, { once: true, passive: true });
+  document.addEventListener('scroll',     onUserGesture, { once: true, passive: true });
+
+  // ── LAZY PLAY — bottom 16:9 marquee (desktop only) ──
+  if (!IS_MOBILE) {
+    const ioBottom = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        playRow(document.getElementById('marquee-track-bottom'));
+        ioBottom.disconnect();
+      }
+    }, { threshold: 0, rootMargin: '200px' });
+    const bottomSec = document.getElementById('marquee-bottom');
+    if (bottomSec) ioBottom.observe(bottomSec);
+  }
 
   // ── FADE-IN ──
   const fadeEls = document.querySelectorAll('.fade-init');
@@ -1572,9 +1623,7 @@
         }
       });
 
-      step.addEventListener('touchstart', () => {}, { passive: true });
-
-      step.addEventListener('touchend', () => {
+      step.addEventListener('touchend', (e) => {
         if (cycleTimer) { clearTimeout(cycleTimer); cycleTimer = null; }
         activateStep(i);
         userPausedUntil = Date.now() + 4000;
