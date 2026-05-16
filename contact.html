@@ -37,23 +37,24 @@
       position: absolute; left: 0; right: 0;
       display: flex; align-items: center; justify-content: center;
       pointer-events: none; user-select: none;
-      z-index: 2; top: 14%;
+      z-index: 2;
+      /* FIX: smaller font on mobile, moved down a touch so it's not crowding top */
+      top: 8%;
       font-family: 'Anton', sans-serif;
-      font-size: clamp(52px, 22vw, 380px);
+      /* FIX: tighter clamp on mobile — was 36px min, now 24px so it's less congested */
+      font-size: clamp(24px, 11vw, 280px);
       font-weight: 900; color: white;
       line-height: 1; text-transform: uppercase;
       letter-spacing: -0.02em; white-space: nowrap;
     }
 
-    #brand {
-      position: absolute;
-      top: max(1.2rem, env(safe-area-inset-top, 1.2rem));
-      left: 1rem; z-index: 60;
-      font-size: 0.7rem; font-weight: 700;
-      text-transform: uppercase; color: white;
-      opacity: 0.9; letter-spacing: 0.18em;
+    @media (min-width: 640px) {
+      #ghost-text {
+        /* Desktop: keep larger size and position */
+        font-size: clamp(80px, 14vw, 280px);
+        top: 12%;
+      }
     }
-    @media (min-width: 640px) { #brand { left: 2rem; font-size: 0.75rem; } }
 
     #carousel { position: absolute; inset: 0; z-index: 3; }
 
@@ -76,62 +77,28 @@
       user-select: none; -webkit-user-drag: none; pointer-events: none;
     }
 
-    /* ── Bottom bar ── */
-    #bottom-bar {
+    /* Nav buttons */
+    #nav-bar {
       position: absolute;
-      bottom: max(1.1rem, env(safe-area-inset-bottom, 1.1rem));
+      bottom: max(3.5rem, env(safe-area-inset-bottom, 3.5rem));
       left: 0; right: 0;
       z-index: 60;
-      /* Mobile: centred column */
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.65rem;
-      padding: 0 1.25rem;
+      justify-content: center;
+      gap: 1rem;
     }
     @media (min-width: 640px) {
-      #bottom-bar {
-        flex-direction: row;
-        align-items: flex-end;
-        bottom: 4.5rem;
-        padding: 0 3rem 0 6rem;
-        gap: 0;
+      #nav-bar {
+        left: 3rem;
+        right: auto;
+        justify-content: flex-start;
+        bottom: 3.5rem;
       }
     }
 
-    #text-block {
-      text-align: center;
-      order: 2;
-    }
-    @media (min-width: 640px) {
-      #text-block { text-align: left; order: 1; flex: 1; }
-    }
-
-    #text-block .title {
-      font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-size: clamp(0.82rem, 4vw, 22px);
-      color: white; opacity: 0.95;
-      margin-bottom: 0.2rem;
-    }
-
-    #text-block .desc {
-      display: none;
-      font-size: 0.875rem; color: white;
-      opacity: 0.82; line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-    @media (min-width: 640px) { #text-block .desc { display: block; } }
-
-    /* nav row: prev • dots • next */
-    #nav-row {
-      display: flex; align-items: center; gap: 0.55rem;
-      order: 1;
-    }
-    @media (min-width: 640px) { #nav-row { order: 2; } }
-
     .nav-btn {
-      width: 2.5rem; height: 2.5rem;
+      width: 3.8rem; height: 3.8rem;
       border-radius: 50%;
       background: transparent;
       border: 2px solid white;
@@ -141,36 +108,37 @@
       flex-shrink: 0;
       -webkit-tap-highlight-color: transparent;
     }
-    @media (min-width: 640px) { .nav-btn { width: 4rem; height: 4rem; } }
+    @media (min-width: 640px) { .nav-btn { width: 5.5rem; height: 5.5rem; border-width: 2.5px; } }
     .nav-btn:hover  { transform: scale(1.08); background-color: rgba(255,255,255,0.12); }
     .nav-btn:active { transform: scale(0.94); }
     .nav-btn svg {
-      width: 18px; height: 18px;
+      width: 24px; height: 24px;
       stroke: white; stroke-width: 2.4;
       fill: none; stroke-linecap: round; stroke-linejoin: round;
     }
-    @media (min-width: 640px) { .nav-btn svg { width: 26px; height: 26px; } }
+    @media (min-width: 640px) { .nav-btn svg { width: 36px; height: 36px; } }
 
-    /* ── Dot slider ── */
+    /* Dot slider */
     #dot-slider {
-      display: flex; align-items: center; gap: 5px;
+      display: flex; align-items: center; gap: 6px;
     }
-    @media (min-width: 640px) { #dot-slider { display: none; } }
+    @media (min-width: 640px) {
+      #dot-slider { display: none; }
+    }
 
     .dot {
-      height: 6px; width: 6px; border-radius: 50%;
+      height: 7px; width: 7px; border-radius: 50%;
       background: rgba(255,255,255,0.38);
       transition: background 300ms, width 300ms ease, border-radius 300ms;
       cursor: pointer;
       flex-shrink: 0;
     }
     .dot.active {
-      width: 20px; border-radius: 3px;
+      width: 24px; border-radius: 3.5px;
       background: white;
     }
 
-    /* ── Discover ── */
-    /* Mobile: top-right corner, compact */
+    /* Discover — bottom right */
     #discover {
       position: absolute; z-index: 60;
       display: flex; align-items: center; gap: 5px;
@@ -179,15 +147,14 @@
       letter-spacing: -0.02em; line-height: 1;
       text-transform: uppercase; text-decoration: none;
       transition: opacity 200ms ease;
-      top: max(1.1rem, env(safe-area-inset-top, 1.1rem));
-      right: 1rem;
-      font-size: clamp(12px, 3.8vw, 17px);
+      bottom: max(2.2rem, env(safe-area-inset-bottom, 2.2rem));
+      right: 1.2rem;
+      font-size: clamp(14px, 4vw, 18px);
     }
     @media (min-width: 640px) {
       #discover {
-        top: auto;
-        bottom: 4.5rem; right: 2.5rem;
-        font-size: clamp(20px, 4vw, 56px);
+        bottom: 3.5rem; right: 3rem;
+        font-size: clamp(22px, 3.5vw, 52px);
         gap: 0.5rem;
       }
     }
@@ -195,17 +162,16 @@
     #discover svg {
       stroke: white; stroke-width: 2.4;
       fill: none; stroke-linecap: round; stroke-linejoin: round;
-      width: 13px; height: 13px; flex-shrink: 0;
+      width: 14px; height: 14px; flex-shrink: 0;
     }
-    @media (min-width: 640px) { #discover svg { width: 2rem; height: 2rem; } }
+    @media (min-width: 640px) { #discover svg { width: 2.2rem; height: 2.2rem; } }
   </style>
 </head>
 <body>
 <div id="app">
 
   <div id="grain"></div>
-  <div id="ghost-text">3D SHAPE</div>
-  <div id="brand">TOONHUB</div>
+  <div id="ghost-text">CODERS<span style="margin-left:0.12em">VERSE</span></div>
 
   <div id="carousel">
     <div class="c-item" id="item-0">
@@ -222,25 +188,20 @@
     </div>
   </div>
 
-  <div id="bottom-bar">
-    <div id="text-block">
-      <p class="title">TOONHUB FIGURINES</p>
-      <p class="desc">The artwork is stunning, shipped fully prepared. The finish is a vision, the 3D craft is flawless. Many thanks! Wishing you the win. Order now.</p>
+  <!-- Nav: prev • dots • next -->
+  <div id="nav-bar">
+    <button class="nav-btn" id="btn-prev" aria-label="Previous">
+      <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <div id="dot-slider">
+      <div class="dot active" data-i="0"></div>
+      <div class="dot" data-i="1"></div>
+      <div class="dot" data-i="2"></div>
+      <div class="dot" data-i="3"></div>
     </div>
-    <div id="nav-row">
-      <button class="nav-btn" id="btn-prev" aria-label="Previous">
-        <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      <div id="dot-slider">
-        <div class="dot active" data-i="0"></div>
-        <div class="dot" data-i="1"></div>
-        <div class="dot" data-i="2"></div>
-        <div class="dot" data-i="3"></div>
-      </div>
-      <button class="nav-btn" id="btn-next" aria-label="Next">
-        <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
-    </div>
+    <button class="nav-btn" id="btn-next" aria-label="Next">
+      <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
   </div>
 
   <a href="#" id="discover">
@@ -257,17 +218,17 @@
     { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/4.4457fbce.png', bg: '#6EB5FF' },
   ];
 
-  IMAGES.forEach(({ src }) => { const img = new Image(); img.src = src; });
+  IMAGES.forEach(function(img) { var i = new Image(); i.src = img.src; });
 
-  const grainSVG = "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.08'/></svg>";
+  var grainSVG = "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.08'/></svg>";
   document.getElementById('grain').style.backgroundImage = 'url("data:image/svg+xml,' + encodeURIComponent(grainSVG) + '")';
 
-  let activeIndex = 0;
-  let isAnimating = false;
-  const isMobile = () => window.innerWidth < 640;
+  var activeIndex = 0;
+  var isAnimating = false;
+  var isMobile = function() { return window.innerWidth < 640; };
 
   function getZMap(idx) {
-    const z = {};
+    var z = {};
     z[idx]           = 20;
     z[(idx + 3) % 4] = 10;
     z[(idx + 1) % 4] = 10;
@@ -276,39 +237,40 @@
   }
 
   function getRoleStyle(i) {
-    const mob    = isMobile();
-    const center = activeIndex;
-    const left   = (activeIndex + 3) % 4;
-    const right  = (activeIndex + 1) % 4;
+    var mob    = isMobile();
+    var center = activeIndex;
+    var left   = (activeIndex + 3) % 4;
+    var right  = (activeIndex + 1) % 4;
 
     if (i === center) return {
-      transform: 'translateX(-50%) scale(' + (mob ? 1.18 : 1.68) + ')',
+      transform: 'translateX(-50%) scale(' + (mob ? 1.15 : 1.68) + ')',
       filter: 'none', opacity: '1',
       left: '50%',
-      height: mob ? '55%' : '92%',
-      bottom: mob ? '20%' : '0'
+      /* FIX desktop: reduce height slightly + increase bottom so top of character is in view */
+      height: mob ? '75%' : '80%',
+      bottom: mob ? '20%' : '8%'
     };
     if (i === left) return {
       transform: 'translateX(-50%) scale(1)',
       filter: 'blur(2px)', opacity: '0.7',
-      left: mob ? '16%' : '30%',
-      height: mob ? '18%' : '28%',
-      bottom: mob ? '28%' : '12%'
+      left: mob ? '15%' : '30%',
+      height: mob ? '27%' : '25%',
+      /* FIX desktop: raise side characters slightly too */
+      bottom: mob ? '22%' : '14%'
     };
     if (i === right) return {
       transform: 'translateX(-50%) scale(1)',
       filter: 'blur(2px)', opacity: '0.7',
-      left: mob ? '84%' : '70%',
-      height: mob ? '18%' : '28%',
-      bottom: mob ? '28%' : '12%'
+      left: mob ? '85%' : '70%',
+      height: mob ? '27%' : '25%',
+      bottom: mob ? '22%' : '14%'
     };
-    // back
     return {
       transform: 'translateX(-50%) scale(1)',
-      filter: 'blur(4px)', opacity: '0.5',
+      filter: 'blur(4px)', opacity: '0.45',
       left: '50%',
-      height: mob ? '13%' : '22%',
-      bottom: mob ? '28%' : '12%'
+      height: mob ? '15%' : '18%',
+      bottom: mob ? '14%' : '14%'
     };
   }
 
@@ -322,13 +284,13 @@
     document.getElementById('app').style.backgroundColor = IMAGES[activeIndex].bg;
     updateDots();
 
-    const newZ  = getZMap(activeIndex);
-    const prevZ = prevIndex !== undefined ? getZMap(prevIndex) : newZ;
+    var newZ  = getZMap(activeIndex);
+    var prevZ = prevIndex !== undefined ? getZMap(prevIndex) : newZ;
 
-    for (let i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       (function(idx) {
-        const el     = document.getElementById('item-' + idx);
-        const styles = getRoleStyle(idx);
+        var el     = document.getElementById('item-' + idx);
+        var styles = getRoleStyle(idx);
 
         el.style.transition = 'none';
         el.style.zIndex = String(Math.min(newZ[idx], prevZ[idx]));
@@ -350,7 +312,7 @@
   function navigate(dir) {
     if (isAnimating) return;
     isAnimating = true;
-    const prev = activeIndex;
+    var prev = activeIndex;
     activeIndex = dir === 'next' ? (activeIndex + 1) % 4 : (activeIndex + 3) % 4;
     render(prev);
     setTimeout(function() { isAnimating = false; }, 650);
@@ -359,7 +321,7 @@
   function goTo(idx) {
     if (isAnimating || idx === activeIndex) return;
     isAnimating = true;
-    const prev = activeIndex;
+    var prev = activeIndex;
     activeIndex = idx;
     render(prev);
     setTimeout(function() { isAnimating = false; }, 650);
@@ -378,28 +340,24 @@
     if (e.key === 'ArrowRight') navigate('next');
   });
 
-  /* ── Touch swipe ── */
-  var touchStartX = 0;
-  var touchStartY = 0;
+  /* Touch swipe */
+  var txStart = 0, tyStart = 0;
+  var app = document.getElementById('app');
 
-  document.getElementById('app').addEventListener('touchstart', function(e) {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
+  app.addEventListener('touchstart', function(e) {
+    txStart = e.touches[0].clientX;
+    tyStart = e.touches[0].clientY;
   }, { passive: true });
 
-  document.getElementById('app').addEventListener('touchend', function(e) {
-    var dx  = e.changedTouches[0].clientX - touchStartX;
-    var dy  = Math.abs(e.changedTouches[0].clientY - touchStartY);
+  app.addEventListener('touchend', function(e) {
+    var dx  = e.changedTouches[0].clientX - txStart;
+    var dy  = Math.abs(e.changedTouches[0].clientY - tyStart);
     var adx = Math.abs(dx);
-    // Horizontal swipe: at least 45px and more horizontal than vertical
-    if (adx > 45 && adx > dy * 1.3) {
-      navigate(dx < 0 ? 'next' : 'prev');
-    }
+    if (adx > 45 && adx > dy * 1.3) navigate(dx < 0 ? 'next' : 'prev');
   }, { passive: true });
 
   window.addEventListener('resize', function() { render(); });
 
-  // Initial paint — no transition
   document.querySelectorAll('.c-item').forEach(function(el) { el.style.transition = 'none'; });
   render();
   requestAnimationFrame(function() {
