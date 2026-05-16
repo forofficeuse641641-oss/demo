@@ -22,8 +22,11 @@
       width: 100%;
       height: 100dvh;
       overflow: hidden;
-      transition: background-color 650ms cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transition: background-color 650ms cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 400ms ease;
     }
+    #app.ready { opacity: 1; }
 
     #grain {
       position: absolute; inset: 0;
@@ -45,7 +48,7 @@
       font-size: clamp(24px, 11vw, 280px);
       font-weight: 900; color: white;
       line-height: 1; text-transform: uppercase;
-      letter-spacing: -0.02em; white-space: nowrap;
+      letter-spacing: 0.06em; white-space: nowrap;
     }
 
     @media (min-width: 640px) {
@@ -80,7 +83,7 @@
     /* Nav buttons */
     #nav-bar {
       position: absolute;
-      bottom: max(2rem, env(safe-area-inset-bottom, 2rem));
+      bottom: max(3.5rem, env(safe-area-inset-bottom, 3.5rem));
       left: 0; right: 0;
       z-index: 60;
       display: flex;
@@ -247,23 +250,23 @@
       filter: 'none', opacity: '1',
       left: '50%',
       /* FIX desktop: reduce height slightly + increase bottom so top of character is in view */
-      height: mob ? '65%' : '80%',
-      bottom: mob ? '11%' : '8%'
+      height: mob ? '75%' : '80%',
+      bottom: mob ? '20%' : '8%'
     };
     if (i === left) return {
       transform: 'translateX(-50%) scale(1)',
       filter: 'blur(2px)', opacity: '0.7',
       left: mob ? '15%' : '30%',
-      height: mob ? '22%' : '25%',
+      height: mob ? '27%' : '25%',
       /* FIX desktop: raise side characters slightly too */
-      bottom: mob ? '14%' : '14%'
+      bottom: mob ? '22%' : '14%'
     };
     if (i === right) return {
       transform: 'translateX(-50%) scale(1)',
       filter: 'blur(2px)', opacity: '0.7',
       left: mob ? '85%' : '70%',
-      height: mob ? '22%' : '25%',
-      bottom: mob ? '14%' : '14%'
+      height: mob ? '27%' : '25%',
+      bottom: mob ? '22%' : '14%'
     };
     return {
       transform: 'translateX(-50%) scale(1)',
@@ -363,6 +366,7 @@
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {
       document.querySelectorAll('.c-item').forEach(function(el) { el.style.transition = ''; });
+      document.getElementById('app').classList.add('ready');
     });
   });
 </script>
