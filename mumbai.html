@@ -37,12 +37,23 @@
       position: absolute; left: 0; right: 0;
       display: flex; align-items: center; justify-content: center;
       pointer-events: none; user-select: none;
-      z-index: 2; top: 20%;
+      z-index: 2;
+      /* FIX: smaller font on mobile, moved down a touch so it's not crowding top */
+      top: 8%;
       font-family: 'Anton', sans-serif;
-      font-size: clamp(36px, 14vw, 280px);
+      /* FIX: tighter clamp on mobile — was 36px min, now 24px so it's less congested */
+      font-size: clamp(24px, 11vw, 280px);
       font-weight: 900; color: white;
       line-height: 1; text-transform: uppercase;
       letter-spacing: -0.02em; white-space: nowrap;
+    }
+
+    @media (min-width: 640px) {
+      #ghost-text {
+        /* Desktop: keep larger size and position */
+        font-size: clamp(80px, 14vw, 280px);
+        top: 12%;
+      }
     }
 
     #carousel { position: absolute; inset: 0; z-index: 3; }
@@ -69,7 +80,7 @@
     /* Nav buttons */
     #nav-bar {
       position: absolute;
-      bottom: max(2rem, env(safe-area-inset-bottom, 2rem));
+      bottom: max(3.5rem, env(safe-area-inset-bottom, 3.5rem));
       left: 0; right: 0;
       z-index: 60;
       display: flex;
@@ -235,29 +246,31 @@
       transform: 'translateX(-50%) scale(' + (mob ? 1.15 : 1.68) + ')',
       filter: 'none', opacity: '1',
       left: '50%',
-      height: mob ? '65%' : '92%',
-      bottom: mob ? '11%' : '0'
+      /* FIX desktop: reduce height slightly + increase bottom so top of character is in view */
+      height: mob ? '65%' : '80%',
+      bottom: mob ? '20%' : '8%'
     };
     if (i === left) return {
       transform: 'translateX(-50%) scale(1)',
       filter: 'blur(2px)', opacity: '0.7',
       left: mob ? '15%' : '30%',
-      height: mob ? '22%' : '28%',
-      bottom: mob ? '14%' : '10%'
+      height: mob ? '22%' : '25%',
+      /* FIX desktop: raise side characters slightly too */
+      bottom: mob ? '22%' : '14%'
     };
     if (i === right) return {
       transform: 'translateX(-50%) scale(1)',
       filter: 'blur(2px)', opacity: '0.7',
       left: mob ? '85%' : '70%',
-      height: mob ? '22%' : '28%',
-      bottom: mob ? '14%' : '10%'
+      height: mob ? '22%' : '25%',
+      bottom: mob ? '22%' : '14%'
     };
     return {
       transform: 'translateX(-50%) scale(1)',
       filter: 'blur(4px)', opacity: '0.45',
       left: '50%',
-      height: mob ? '15%' : '20%',
-      bottom: mob ? '14%' : '10%'
+      height: mob ? '15%' : '18%',
+      bottom: mob ? '14%' : '14%'
     };
   }
 
