@@ -23,11 +23,20 @@
       -webkit-transform: translateZ(0);
     }
 
-    .bg-layer { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; }
+    .bg-layer {
+      position: absolute; inset: 0; z-index: 0;
+      opacity: 0; transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      isolation: isolate;
+      contain: layout style;
+    }
     .bg-layer.active { will-change: opacity; opacity: 1; }
     .bg-base { position: absolute; inset: 0; }
-    .blob { position: absolute; border-radius: 50%; filter: blur(80px); will-change: transform; }
-    .streak { position: absolute; will-change: transform, opacity; pointer-events: none; }
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(80px);
+      will-change: transform;
+    }
+    .streak { position: absolute; will-change: transform; pointer-events: none; }
     .bg-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.6; }
 
     #bg-0 .bg-base { background: radial-gradient(ellipse 120% 80% at 55% 100%, #7a2200 0%, transparent 60%), radial-gradient(ellipse 80% 90% at 20% 60%, #c44a00 0%, transparent 55%), radial-gradient(ellipse 100% 60% at 80% 20%, #ff6a2a22 0%, transparent 50%), linear-gradient(165deg, #1a0800 0%, #0d0400 100%); }
@@ -60,13 +69,13 @@
     #bg-2 .blob-a { width:65vw;height:65vw;max-width:800px;max-height:800px;background:radial-gradient(circle,#ff6ec7 0%,#aa0066 40%,transparent 70%);top:50%;left:50%;margin-top:-32.5vw;margin-left:-32.5vw;opacity:0.55;transform-origin:32.5vw 32.5vw;animation:vortex-orbit-a 9s linear infinite; }
     #bg-2 .blob-b { width:55vw;height:55vw;max-width:660px;max-height:660px;background:radial-gradient(circle,#ffaad4 0%,#880044 45%,transparent 70%);top:50%;left:50%;margin-top:-27.5vw;margin-left:-27.5vw;opacity:0.45;transform-origin:27.5vw 27.5vw;animation:vortex-orbit-b 13s linear infinite reverse; }
     #bg-2 .blob-c { width:30vw;height:30vw;max-width:380px;max-height:380px;background:radial-gradient(circle,#ffe0f0 0%,#ff66bb 35%,transparent 65%);top:28%;left:38%;opacity:0.38;animation:vortex-core 3.2s ease-in-out infinite; }
-    #bg-2 .streak-1 { width:100%;height:100%;top:0;left:0;background:conic-gradient(from 0deg at 50% 55%,transparent 0deg,rgba(255,80,170,0.1) 18deg,rgba(255,120,190,0.06) 30deg,transparent 48deg);animation:conic-sweep 6s linear infinite; }
-    #bg-2 .streak-2 { width:100%;height:100%;top:0;left:0;background:conic-gradient(from 90deg at 50% 55%,transparent 0deg,rgba(255,150,210,0.07) 22deg,transparent 44deg);animation:conic-sweep 9s linear infinite reverse; }
-    #bg-2 .streak-3 { width:100%;height:100%;top:0;left:0;background:conic-gradient(from 270deg at 50% 55%,transparent 0deg,rgba(255,60,160,0.12) 12deg,transparent 28deg);animation:conic-sweep 7s linear infinite; }
+    #bg-2 .streak-1 { width:100%;height:100%;top:0;left:0;background:conic-gradient(from 0deg at 50% 55%,transparent 0deg,rgba(255,80,170,0.1) 18deg,rgba(255,120,190,0.06) 30deg,transparent 48deg);animation:conic-sweep 6s linear infinite;contain:layout style; }
+    #bg-2 .streak-2 { width:100%;height:100%;top:0;left:0;background:conic-gradient(from 90deg at 50% 55%,transparent 0deg,rgba(255,150,210,0.07) 22deg,transparent 44deg);animation:conic-sweep 9s linear infinite reverse;contain:layout style; }
+    #bg-2 .streak-3 { width:100%;height:100%;top:0;left:0;background:conic-gradient(from 270deg at 50% 55%,transparent 0deg,rgba(255,60,160,0.12) 12deg,transparent 28deg);animation:conic-sweep 7s linear infinite;contain:layout style; }
     #bg-2 .streak-4 { width:2px;height:55%;top:5%;left:22%;transform:rotate(-28deg);background:linear-gradient(to bottom,transparent,#ff88cc88,transparent);animation:holo-streak 3.4s ease-in-out infinite; }
     @keyframes vortex-orbit-a { from{transform:rotate(0deg) translate(12%,-10%) rotate(0deg)}to{transform:rotate(360deg) translate(12%,-10%) rotate(-360deg)} }
     @keyframes vortex-orbit-b { from{transform:rotate(0deg) translate(-14%,11%) rotate(0deg)}to{transform:rotate(360deg) translate(-14%,11%) rotate(-360deg)} }
-    @keyframes vortex-core { 0%,100%{transform:scale(1) rotate(0deg);opacity:0.38}50%{transform:scale(1.6) rotate(180deg);opacity:0.65} }
+    @keyframes vortex-core { 0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.6) rotate(180deg)} }
     @keyframes conic-sweep { from{transform:rotate(0deg)}to{transform:rotate(360deg)} }
     @keyframes holo-streak { 0%,100%{opacity:0;transform:scaleY(0.4) translateY(-20%)}45%,55%{opacity:1;transform:scaleY(1) translateY(0%)} }
 
@@ -78,9 +87,9 @@
     #bg-3 .streak-2 { width:70%;height:2px;border-radius:100%;background:linear-gradient(to right,transparent,#aaddff88,#88ccffaa,transparent);top:44%;right:3%;animation:aurora-curtain 7s ease-in-out infinite 1.8s; }
     #bg-3 .streak-3 { width:55%;height:3px;border-radius:100%;background:linear-gradient(to right,transparent,#66bbff99,transparent);top:58%;left:15%;animation:aurora-curtain 6s ease-in-out infinite 0.9s; }
     #bg-3 .streak-4 { width:80%;height:2px;border-radius:100%;background:linear-gradient(to right,transparent,#cceeFF66,#aaddff88,transparent);top:36%;left:3%;animation:aurora-curtain 9s ease-in-out infinite 3s; }
-    @keyframes aurora-band-a { 0%{transform:translateX(-50%) scaleX(1) translateY(0);opacity:0.38}33%{transform:translateX(-53%) scaleX(1.1) translateY(-5%);opacity:0.52}66%{transform:translateX(-47%) scaleX(0.94) translateY(4%);opacity:0.3}100%{transform:translateX(-50%) scaleX(1.06) translateY(-2%);opacity:0.44} }
-    @keyframes aurora-band-b { 0%{transform:translateX(-50%) scaleX(1) translateY(0);opacity:0.32}50%{transform:translateX(-56%) scaleX(1.15) translateY(6%);opacity:0.48}100%{transform:translateX(-44%) scaleX(0.9) translateY(-4%);opacity:0.24} }
-    @keyframes aurora-band-c { 0%{transform:translateX(-50%) scaleX(1) translateY(0);opacity:0.28}40%{transform:translateX(-45%) scaleX(1.08) translateY(-5%);opacity:0.4}100%{transform:translateX(-55%) scaleX(0.96) translateY(5%);opacity:0.32} }
+    @keyframes aurora-band-a { 0%{transform:translateX(-50%) scaleX(1) translateY(0)}33%{transform:translateX(-53%) scaleX(1.1) translateY(-5%)}66%{transform:translateX(-47%) scaleX(0.94) translateY(4%)}100%{transform:translateX(-50%) scaleX(1.06) translateY(-2%)} }
+    @keyframes aurora-band-b { 0%{transform:translateX(-50%) scaleX(1) translateY(0)}50%{transform:translateX(-56%) scaleX(1.15) translateY(6%)}100%{transform:translateX(-44%) scaleX(0.9) translateY(-4%)} }
+    @keyframes aurora-band-c { 0%{transform:translateX(-50%) scaleX(1) translateY(0)}40%{transform:translateX(-45%) scaleX(1.08) translateY(-5%)}100%{transform:translateX(-55%) scaleX(0.96) translateY(5%)} }
     @keyframes aurora-curtain { 0%{transform:translateX(-130%) scaleY(0.6);opacity:0}12%{opacity:1}88%{opacity:0.7}100%{transform:translateX(190%) scaleY(1.4);opacity:0} }
 
     #app.anim-paused .blob,
@@ -88,40 +97,28 @@
     #app.anim-paused .bg-canvas { animation-play-state: paused !important; }
 
     @media (max-width: 639px) {
-      .blob, .streak { animation: none !important; }
+      .blob { animation: none !important; }
       .bg-canvas { display: none !important; }
     }
 
-    /* HERO */
     #vid-overlay { position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.00) 35%,rgba(0,0,0,0.60) 100%);pointer-events:none; }
     #grain { position:absolute;inset:0;pointer-events:none;z-index:52;background-size:200px 200px;background-repeat:repeat;opacity:0.38; }
     #ghost-text { position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:center;pointer-events:none;user-select:none;z-index:3;top:20%;font-family:'Anton',sans-serif;font-size:clamp(36px,14vw,280px);font-weight:900;color:white;line-height:1;text-transform:uppercase;letter-spacing:-0.02em;white-space:nowrap;opacity:0.11; }
     #brand { position:absolute;top:max(1.5rem,env(safe-area-inset-top,1.5rem));left:1.5rem;z-index:60;font-family:'Anton',sans-serif;font-size:clamp(16px,3.5vw,28px);letter-spacing:0.04em;color:#fff;text-transform:uppercase; }
     @media (min-width:640px) { #brand { left:3rem;top:2rem; } }
 
-    #carousel { position:absolute;inset:0;z-index:4; }
+    #carousel { position:absolute;inset:0;z-index:4;isolation:isolate;contain:layout style; }
 
-    /* FIX 1: Never use visibility:hidden on carousel items — it causes a flash
-       because visibility switches instantaneously while opacity transitions.
-       Use opacity:0 + pointer-events:none only. The item is still "rendered"
-       by the GPU, just transparent — no blink on transition.
-       FIX 2: Isolate each item in its own compositing layer with contain:layout style
-       and use translateZ(0) on the img. This prevents filter/transform changes on
-       sibling items from triggering rasterisation of this item's content. */
     .c-item {
       position: absolute;
       left: 50%;
       bottom: 0;
       height: 100%;
       aspect-ratio: 0.6 / 1;
-      /* Promote to own compositor layer — isolates from sibling repaints */
       transform: translateZ(0);
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
       isolation: isolate;
-      /* Use will-change only on transform+opacity — NOT filter.
-         Listing filter here forces its own layer which re-rasterizes on every
-         filter change on the active item (causing the bottom blink). */
       will-change: transform, opacity;
       transition:
         transform  500ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -137,16 +134,12 @@
       user-select: none;
       -webkit-user-drag: none;
       pointer-events: none;
-      /* Promote image to its own GPU layer so bottom-edge antialiasing
-         is stable — prevents the sub-pixel "blink" at the bottom */
       transform: translateZ(0);
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      /* Prevent sub-pixel rendering shifts at the image boundary */
       image-rendering: -webkit-optimize-contrast;
     }
 
-    /* NAV */
     #nav-bar { position:absolute;bottom:max(2rem,env(safe-area-inset-bottom,2rem));left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:center;gap:1rem; }
     @media (min-width:640px) { #nav-bar { left:3rem;right:auto;justify-content:flex-start;bottom:3.5rem; } }
     .nav-btn { width:3.8rem;height:3.8rem;border-radius:50%;background:transparent;border:2px solid white;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 150ms ease,background-color 150ms ease;flex-shrink:0;-webkit-tap-highlight-color:transparent; }
@@ -160,7 +153,6 @@
     .dot { height:7px;width:7px;border-radius:50%;background:rgba(255,255,255,0.38);transition:background 300ms,width 300ms ease,border-radius 300ms;cursor:pointer;flex-shrink:0; }
     .dot.active { width:24px;border-radius:3.5px;background:white; }
 
-    /* WHAT WE DO */
     #what-we-do { position:relative;width:100%;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:3rem 1.5rem 2rem;overflow:hidden;content-visibility:auto; }
     @media (min-width:640px) { #what-we-do { padding:5rem 1.5rem 3rem; } }
     #what-we-do::before { content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(900px,100%);height:100%;background:none;pointer-events:none; }
@@ -189,7 +181,6 @@
     .srv-dot.active { width:28px;border-radius:4px;background:white;box-shadow:0 0 8px 2px rgba(255,255,255,0.6);animation:dot-pulse 1.8s ease-in-out infinite; }
     @keyframes dot-pulse { 0%,100%{box-shadow:0 0 6px 2px rgba(255,255,255,0.5)}50%{box-shadow:0 0 18px 5px rgba(255,255,255,0.85);opacity:0.85} }
 
-    /* ── WORK SHOWCASE ── */
     #work-showcase { position:relative;width:100%;background:#0a0a0a;padding:4rem 0 2.5rem;overflow-x:clip;overflow-y:visible;content-visibility:auto; }
     #work-showcase::before { content:'';position:absolute;inset:0;background:none;pointer-events:none;z-index:0; }
     .showcase-header { text-align:center;margin-bottom:2.5rem;padding:0 1.5rem; }
@@ -227,7 +218,7 @@
     .sw-g6 { background:linear-gradient(145deg,#07001a,#2a005a,#6600cc); }
     .sw-g7 { background:linear-gradient(145deg,#001a14,#003d28,#008855); }
     #sw-counter { text-align:center;margin-top:1rem;font-size:12px;letter-spacing:0.2em;color:rgba(255,255,255,0.28);font-family:'Anton',sans-serif; }
-    #sw-hint { text-align:center;margin-top:0.3rem;margin-bottom:0;font-size:11px;color:rgba(255,255,255,0.18); }
+    #sw-hint { text-align:center;margin-top:0.5rem;margin-bottom:0;font-size:clamp(13px,3.5vw,16px);letter-spacing:0.08em;color:rgba(255,255,255,0.45);font-family:'Anton',sans-serif;text-transform:uppercase; }
 
     #sw-scene { display:flex; }
     #sw-counter, #sw-hint { display:flex; justify-content:center; }
@@ -355,7 +346,6 @@
     .cflow-bg-6 { background: linear-gradient(145deg,#07001a,#2a005a,#6600cc); }
     .cflow-bg-7 { background: linear-gradient(145deg,#001a14,#003d28,#008855); }
 
-    /* GET IN TOUCH */
     #get-in-touch { position:relative;width:100%;background:#0a0a0a;padding:4.5rem 1.5rem 5.5rem;overflow:hidden;content-visibility:auto; }
     #get-in-touch::before { content:'';position:absolute;inset:0;background:none;pointer-events:none; }
     .git-inner { position:relative;max-width:680px;margin:0 auto;z-index:1; }
@@ -507,7 +497,7 @@
     </div>
   </div>
   <p id="sw-counter"></p>
-  <p id="sw-hint">Swipe or drag to explore</p>
+  <p id="sw-hint">Swipe to explore &rarr;</p>
 
   <!-- Desktop: Swiper coverflow carousel -->
   <div id="desktop-coverflow">
@@ -734,7 +724,6 @@ function getRoleStyle(itemIndex) {
   var roleIdx = ((itemIndex - activeIndex) % 4 + 4) % 4;
 
   if (roleIdx === 0) {
-    // Active / front character
     var sc = mob ? 0.72 : 1.05;
     var ty = mob ? '0%' : '-4%';
     return {
@@ -743,11 +732,9 @@ function getRoleStyle(itemIndex) {
       opacity: '1',
       zIndex: 20,
       pointerEvents: 'none'
-      // NO visibility manipulation — stay rendered always
     };
   }
   if (roleIdx === 1) {
-    // Right side character
     var rightShift = mob ? (vw * 0.35) : (vw * 0.20);
     var sc1 = mob ? 0.25 : 0.30;
     var ty1 = mob ? '0%' : '-12%';
@@ -760,8 +747,6 @@ function getRoleStyle(itemIndex) {
     };
   }
   if (roleIdx === 2) {
-    // Hidden / back character — use opacity:0, NOT visibility:hidden
-    // Keeping it on the GPU layer prevents the re-composite flash on transition
     return {
       transform: 'translateX(-50%) translateY(-10%) scale(0.2) translateZ(0)',
       filter: 'blur(4px)',
@@ -770,7 +755,6 @@ function getRoleStyle(itemIndex) {
       pointerEvents: 'none'
     };
   }
-  // Left side character (roleIdx === 3)
   var leftShift = mob ? -(vw * 0.35) : -(vw * 0.20);
   var sc3 = mob ? 0.25 : 0.30;
   var ty3 = mob ? '0%' : '-12%';
@@ -800,7 +784,6 @@ function render(withoutTransition) {
   switchBackground(activeIndex);
   updateDots();
 
-  // Set z-indexes first synchronously so stacking order is correct before transform
   for (var i = 0; i < 4; i++) {
     var s = getRoleStyle(i);
     carouselItems[i].style.zIndex = String(s.zIndex);
@@ -817,9 +800,6 @@ function render(withoutTransition) {
       el.style.transform = s.transform;
       el.style.opacity   = s.opacity;
       el.style.filter    = s.filter;
-      // NEVER touch el.style.visibility — items stay visible (rendered) at all times.
-      // The GPU layer is always present; only opacity changes. This eliminates the
-      // "disappear on swipe" flash caused by visibility toggling mid-transition.
     }
   });
 }
@@ -878,7 +858,6 @@ window.addEventListener('resize', function() {
   }, 150);
 });
 
-// Initial render — no transition, then re-enable
 render(true);
 requestAnimationFrame(function() {
   requestAnimationFrame(function() {
@@ -972,18 +951,22 @@ window.addEventListener('resize', function() {
   }, 150);
 });
 
-/* ── MOBILE STACKED CARD SWIPER ── */
+/* ── MOBILE STACKED CARD SWIPER (forward-only: 1 → 8, both swipe directions) ── */
 (function() {
   var stack = document.getElementById('sw-stack');
   var cards = Array.from(stack.querySelectorAll('.sw-card'));
   var total = cards.length, current = 0, VISIBLE = 4;
-  var dragging = false, startX = 0, deltaX = 0, SWIPE_THRESHOLD = 55, animating = false;
+  var dragging = false, startX = 0, startY = 0, deltaX = 0, deltaY = 0;
+  var SWIPE_THRESHOLD = 40, animating = false;
+  var isHorizDrag = null; // null=undecided, true=horizontal, false=vertical
+
   function getStyle(pos, drag) {
     var dx = drag || 0;
     if (pos === 0) { var rot = dx * 0.06, lift = Math.abs(dx) * 0.04; return { transform: 'translate(' + dx + 'px,' + (-lift) + 'px) rotate(' + rot + 'deg)', opacity: 1, zIndex: total }; }
     var offsetX = pos * 11, offsetY = pos * 8, scale = 1 - pos * 0.04, rot = pos * 2.5;
     return { transform: 'translate(' + offsetX + 'px,' + offsetY + 'px) scale(' + scale + ') rotate(' + rot + 'deg)', opacity: pos < VISIBLE ? Math.max(0, 1 - pos * 0.2) : 0, zIndex: total - pos };
   }
+
   function applyRender(animDrag) {
     cards.forEach(function(card, i) {
       var relIdx = ((i - current) % total + total) % total, s = getStyle(relIdx, relIdx === 0 ? animDrag : undefined);
@@ -994,15 +977,19 @@ window.addEventListener('resize', function() {
     var counter = document.getElementById('sw-counter');
     if (counter) counter.textContent = (current % total + 1) + ' / ' + total;
   }
-  function advance(dir) {
+
+  /* always advances forward by 1 — fly direction matches drag direction */
+  function advance(flyRight) {
     if (animating) return; animating = true;
     var topIdx = current % total, topCard = cards[topIdx];
     cards.forEach(function(c, i) { if (i !== topIdx) c.style.transition = 'none'; });
     topCard.style.transition = 'transform 480ms cubic-bezier(0.4,0,0.2,1),opacity 380ms ease';
-    topCard.style.transform = dir > 0 ? 'translate(135%,-50px) rotate(24deg)' : 'translate(-135%,-50px) rotate(-24deg)';
+    topCard.style.transform = flyRight
+      ? 'translate(135%,-50px) rotate(24deg)'
+      : 'translate(-135%,-50px) rotate(-24deg)';
     topCard.style.opacity = '0';
     setTimeout(function() {
-      current = (current + dir + total) % total;
+      current = (current + 1) % total;
       cards.forEach(function(c) { c.style.transition = 'none'; }); applyRender(0);
       requestAnimationFrame(function() {
         requestAnimationFrame(function() {
@@ -1012,19 +999,66 @@ window.addEventListener('resize', function() {
       });
     }, 480);
   }
-  stack.addEventListener('mousedown', function(e) { if (animating) return; dragging = true; startX = e.clientX; deltaX = 0; cards.forEach(function(c) { c.style.transition = 'none'; }); });
-  window.addEventListener('mousemove', function(e) { if (!dragging) return; deltaX = e.clientX - startX; applyRender(deltaX); });
+
+  /* ── MOUSE ── */
+  stack.addEventListener('mousedown', function(e) {
+    if (animating) return;
+    dragging = true; startX = e.clientX; startY = e.clientY;
+    deltaX = 0; deltaY = 0; isHorizDrag = null;
+    cards.forEach(function(c) { c.style.transition = 'none'; });
+  });
+  window.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    deltaX = e.clientX - startX;
+    deltaY = e.clientY - startY;
+    if (isHorizDrag === null && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
+      isHorizDrag = Math.abs(deltaX) >= Math.abs(deltaY);
+    }
+    if (isHorizDrag) applyRender(deltaX);
+  });
   window.addEventListener('mouseup', function() {
     if (!dragging) return; dragging = false;
-    if (Math.abs(deltaX) > SWIPE_THRESHOLD) { advance(deltaX < 0 ? 1 : -1); }
-    else { cards.forEach(function(c) { c.style.transition = 'transform 520ms cubic-bezier(0.4,0,0.2,1),opacity 520ms cubic-bezier(0.4,0,0.2,1),box-shadow 520ms ease'; }); applyRender(0); }
+    if (isHorizDrag && Math.abs(deltaX) > SWIPE_THRESHOLD) {
+      advance(deltaX > 0); /* right drag also goes forward */
+    } else {
+      cards.forEach(function(c) { c.style.transition = 'transform 520ms cubic-bezier(0.4,0,0.2,1),opacity 520ms cubic-bezier(0.4,0,0.2,1),box-shadow 520ms ease'; });
+      applyRender(0);
+    }
+    isHorizDrag = null;
   });
-  stack.addEventListener('touchstart', function(e) { if (animating) return; startX = e.touches[0].clientX; deltaX = 0; cards.forEach(function(c) { c.style.transition = 'none'; }); }, { passive: true });
-  stack.addEventListener('touchmove', function(e) { deltaX = e.touches[0].clientX - startX; applyRender(deltaX); }, { passive: true });
+
+  /* ── TOUCH ── */
+  stack.addEventListener('touchstart', function(e) {
+    if (animating) return;
+    startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+    deltaX = 0; deltaY = 0; isHorizDrag = null;
+    cards.forEach(function(c) { c.style.transition = 'none'; });
+  }, { passive: true });
+
+  stack.addEventListener('touchmove', function(e) {
+    deltaX = e.touches[0].clientX - startX;
+    deltaY = e.touches[0].clientY - startY;
+    /* Decide axis on first significant move */
+    if (isHorizDrag === null && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
+      isHorizDrag = Math.abs(deltaX) >= Math.abs(deltaY);
+    }
+    /* Only consume the event and preview drag when clearly horizontal */
+    if (isHorizDrag) {
+      e.preventDefault(); /* stops page scroll while horizontal swiping */
+      applyRender(deltaX);
+    }
+  }, { passive: false }); /* must be non-passive to call preventDefault */
+
   stack.addEventListener('touchend', function() {
-    if (Math.abs(deltaX) > SWIPE_THRESHOLD) { advance(deltaX < 0 ? 1 : -1); }
-    else { cards.forEach(function(c) { c.style.transition = 'transform 520ms cubic-bezier(0.4,0,0.2,1),opacity 520ms cubic-bezier(0.4,0,0.2,1),box-shadow 520ms ease'; }); applyRender(0); }
+    if (isHorizDrag && Math.abs(deltaX) > SWIPE_THRESHOLD) {
+      advance(deltaX > 0);
+    } else {
+      cards.forEach(function(c) { c.style.transition = 'transform 520ms cubic-bezier(0.4,0,0.2,1),opacity 520ms cubic-bezier(0.4,0,0.2,1),box-shadow 520ms ease'; });
+      applyRender(0);
+    }
+    isHorizDrag = null;
   });
+
   cards.forEach(function(c) { c.style.transition = 'none'; }); applyRender(0);
   requestAnimationFrame(function() { requestAnimationFrame(function() { cards.forEach(function(c) { c.style.transition = 'transform 520ms cubic-bezier(0.4,0,0.2,1),opacity 520ms cubic-bezier(0.4,0,0.2,1),box-shadow 520ms ease'; }); }); });
 })();
