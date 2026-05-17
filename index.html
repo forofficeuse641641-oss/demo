@@ -573,7 +573,7 @@
       position: relative;
       width: 100%;
       max-width: 1100px;
-      height: clamp(340px, 55vw, 520px);
+      height: clamp(380px, 58vw, 560px);
       margin: 0 auto;
       z-index: 1;
     }
@@ -591,7 +591,8 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-end;
-      padding: clamp(1.2rem, 3vw, 2.2rem);
+      padding: clamp(1.4rem, 3vw, 2rem) clamp(1.4rem, 3vw, 2rem) clamp(1.6rem, 3vw, 2.2rem);
+      gap: 0;
       cursor: pointer;
       overflow: hidden;
       transition:
@@ -633,46 +634,47 @@
 
     .card-icon {
       position: absolute;
-      top: clamp(1rem, 2.5vw, 1.8rem);
-      right: clamp(1rem, 2.5vw, 1.8rem);
-      width: clamp(36px, 6vw, 54px);
-      height: clamp(36px, 6vw, 54px);
+      top: clamp(1.2rem, 2.5vw, 1.6rem);
+      right: clamp(1.2rem, 2.5vw, 1.6rem);
+      width: clamp(38px, 5.5vw, 52px);
+      height: clamp(38px, 5.5vw, 52px);
       border-radius: 14px;
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.18);
       display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
     }
     .card-icon svg {
-      width: 52%; height: 52%;
+      width: 48%; height: 48%;
       stroke: white; stroke-width: 1.8;
       fill: none; stroke-linecap: round; stroke-linejoin: round;
     }
 
     .card-tag {
-      font-size: clamp(9px, 1.5vw, 11px);
+      font-size: clamp(9px, 1.2vw, 11px);
       font-weight: 600;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 0.4rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.5rem;
     }
 
     .card-title {
       font-family: 'Anton', sans-serif;
-      font-size: clamp(20px, 4vw, 42px);
-      line-height: 1;
+      font-size: clamp(22px, 3.5vw, 40px);
+      line-height: 0.96;
       letter-spacing: -0.01em;
       text-transform: uppercase;
       color: white;
-      margin-bottom: 0.55rem;
+      margin-bottom: 0.75rem;
     }
 
     .card-desc {
-      font-size: clamp(11px, 1.6vw, 13px);
-      color: rgba(255,255,255,0.55);
-      line-height: 1.55;
-      max-width: 240px;
-      margin-bottom: 1.1rem;
+      font-size: clamp(11px, 1.4vw, 13px);
+      color: rgba(255,255,255,0.52);
+      line-height: 1.6;
+      max-width: 100%;
+      margin-bottom: 1.25rem;
     }
 
     .card-link {
@@ -706,9 +708,19 @@
       width: 8px; height: 8px; border-radius: 50%;
       background: rgba(255,255,255,0.22);
       cursor: pointer;
+      position: relative;
       transition: background 300ms, width 300ms, border-radius 300ms;
     }
-    .srv-dot.active { width: 28px; border-radius: 4px; background: white; }
+    .srv-dot.active {
+      width: 28px; border-radius: 4px; background: white;
+      box-shadow: 0 0 8px 2px rgba(255,255,255,0.6);
+      animation: dot-pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes dot-pulse {
+      0%, 100% { box-shadow: 0 0 6px 2px rgba(255,255,255,0.5); opacity: 1; }
+      50%       { box-shadow: 0 0 18px 5px rgba(255,255,255,0.85); opacity: 0.85; }
+    }
 
     /* ─── FOOTER ──────────────────────────────────────── */
     #cta-strip {
@@ -1314,14 +1326,14 @@ function getSrvCardStyle(cardIdx) {
   if (diff === 1) return {
     left:(centerX+sideOff-sideW/2)+'px', top:(centerY-sideH/2)+'px',
     width:sideW+'px', height:sideH+'px',
-    zIndex:5, transform:'scale(0.95)', filter:'blur(1.5px)', opacity:'0.7',
-    background:'rgba(18,15,38,0.45)'
+    zIndex:5, transform:'scale(0.97)', filter:'none', opacity:'0.82',
+    background:'rgba(18,15,38,0.52)'
   };
   return {
     left:(centerX-sideOff-sideW/2)+'px', top:(centerY-sideH/2)+'px',
     width:sideW+'px', height:sideH+'px',
-    zIndex:5, transform:'scale(0.95)', filter:'blur(1.5px)', opacity:'0.7',
-    background:'rgba(18,15,38,0.45)'
+    zIndex:5, transform:'scale(0.97)', filter:'none', opacity:'0.82',
+    background:'rgba(18,15,38,0.52)'
   };
 }
 
