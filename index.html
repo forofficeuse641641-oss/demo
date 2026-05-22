@@ -143,7 +143,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;-webkit-tap-highlight-col
 .srv-dot.active{width:28px;border-radius:4px;background:white;box-shadow:0 0 8px 2px rgba(255,255,255,0.6);animation:dot-pulse 1.8s ease-in-out infinite;}
 @keyframes dot-pulse{0%,100%{box-shadow:0 0 6px 2px rgba(255,255,255,0.5)}50%{box-shadow:0 0 18px 5px rgba(255,255,255,0.85);opacity:0.85}}
 
-/* OUR WORK */
+/* OUR WORK / CLIENT FEEDBACKS */
 #work-showcase{position:relative;width:100%;background:transparent;padding:4rem 0 2.5rem;overflow:visible;content-visibility:auto;z-index:1;}
 .showcase-header{text-align:center;margin-bottom:2.5rem;padding:0 2rem;overflow:visible;}
 .showcase-header .section-title{letter-spacing:0.01em;padding:0 0.3em;}
@@ -208,7 +208,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;-webkit-tap-highlight-col
 .cflow-bg-7{background:linear-gradient(145deg,#001a14,#003d28,#008855);}
 
 /* ── PROJECTS SECTION ── */
-#projects{position:relative;height:600vh;background:#0a0a0a;z-index:1;}
+#projects{position:relative;height:600vh;z-index:1;}
 .projects-pinned{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;z-index:20;pointer-events:none;text-align:center;}
 .projects-pinned>div{pointer-events:auto;}
 .proj-eyebrow{display:flex;align-items:center;gap:0.75rem;justify-content:center;margin-bottom:1rem;}
@@ -232,51 +232,51 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;-webkit-tap-highlight-col
 .exp-card-overlay span{padding:0.5rem 1.25rem;border-radius:9999px;background:rgba(255,255,255,0.06);border:1px solid #89AACC;font-size:0.82rem;color:#fff;font-family:'Instrument Serif',serif;font-style:italic;}
 @media(max-width:900px){.exp-card{width:230px;}.exp-card.side-left{left:12px;}.exp-card.side-right{right:12px;}}
 
-/* CONTACT */
-#contact{background:#0a0a0a;padding-top:5rem;padding-bottom:2rem;overflow:hidden;position:relative;z-index:1;}
-.marquee-wrap{overflow:hidden;margin-bottom:5rem;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);padding:1.5rem 0;}
-.marquee-track{display:flex;width:max-content;animation:marquee-scroll 30s linear infinite;}
-.marquee-item{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(1.75rem,4vw,2.75rem);color:rgba(245,245,245,0.15);padding:0 2rem;white-space:nowrap;}
-.contact-inner{position:relative;z-index:10;max-width:1200px;margin:0 auto;padding:0 2rem;text-align:center;}
-.contact-cta-label{font-size:0.7rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.3em;margin-bottom:2rem;font-family:'Inter',sans-serif;}
-.contact-heading{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(3rem,8vw,6rem);color:#fff;line-height:1;margin-bottom:3rem;}
-.contact-email-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:1rem 2.5rem;border-radius:9999px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#fff;font-size:0.9rem;cursor:pointer;text-decoration:none;transition:all 0.25s ease;font-family:'Inter',sans-serif;}
-.contact-email-btn:hover{border-color:#89AACC;box-shadow:0 0 0 1px #89AACC,0 0 20px rgba(137,170,204,0.15);transform:scale(1.02);}
-.footer-bar{display:flex;align-items:center;justify-content:space-between;padding:2rem 0 0;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(255,255,255,0.08);margin-top:5rem;}
-.footer-socials{display:flex;gap:1.5rem;}
-.footer-social-link{font-size:0.8rem;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s ease;}
-.footer-social-link:hover{color:#fff;}
-.footer-available{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.4);}
-.footer-dot{width:0.45rem;height:0.45rem;border-radius:50%;background:#4ade80;animation:pulse-dot 2s ease-in-out infinite;}
-@media(max-width:768px){.footer-bar{justify-content:center;text-align:center;}}
-
-/* GET IN TOUCH */
-#get-in-touch{position:relative;width:100%;background:transparent;padding:4.5rem 1.5rem 5.5rem;overflow:hidden;content-visibility:auto;z-index:1;}
-.git-inner{position:relative;max-width:680px;margin:0 auto;z-index:1;}
-.git-header{text-align:center;margin-bottom:2.5rem;}
+/* GET IN TOUCH — redesigned */
+#get-in-touch{position:relative;width:100%;background:transparent;padding:5rem 1.5rem 6rem;overflow:hidden;content-visibility:auto;z-index:1;}
+.git-inner{position:relative;max-width:700px;margin:0 auto;z-index:1;}
+.git-header{text-align:center;margin-bottom:3rem;}
 .git-eyebrow{font-family:'Anton',sans-serif;font-size:clamp(11px,2vw,13px);letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.9rem;}
 .git-title{font-family:'Anton',sans-serif;font-size:clamp(36px,8vw,96px);line-height:0.92;letter-spacing:-0.02em;text-transform:uppercase;color:white;overflow:visible;padding-right:0.08em;}
 .git-title em{font-style:normal;background:linear-gradient(135deg,#38bdf8,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .git-sub{font-size:clamp(13px,2vw,15px);color:rgba(255,255,255,0.38);margin-top:1rem;line-height:1.6;}
-.git-form{display:flex;flex-direction:column;gap:1.2rem;}
-.form-row{display:grid;gap:1.2rem;}
+
+/* Glass form card */
+.git-form-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:28px;padding:clamp(1.8rem,4vw,3rem) clamp(1.5rem,4vw,2.8rem);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;}
+.git-form-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);}
+.git-form-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(129,140,248,0.06),transparent);pointer-events:none;}
+
+.git-form{display:flex;flex-direction:column;gap:1.4rem;}
+.form-row{display:grid;gap:1.4rem;}
 @media(min-width:640px){.form-row{grid-template-columns:1fr 1fr;}}
-.form-field{display:flex;flex-direction:column;gap:0.4rem;}
-.form-label{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.38);}
-.form-input,.form-select,.form-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:white;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color 220ms,background 220ms,box-shadow 220ms;-webkit-appearance:none;appearance:none;}
-.form-input,.form-select{padding:0.8rem 1rem;height:48px;}
-.form-textarea{padding:0.85rem 1rem;height:120px;resize:none;line-height:1.6;}
-.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.22);}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.07);box-shadow:0 0 0 3px rgba(129,140,248,0.12);}
+.form-field{display:flex;flex-direction:column;gap:0.45rem;}
+.form-label{font-size:10px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+.form-input,.form-select,.form-textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:14px;color:white;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color 220ms,background 220ms,box-shadow 220ms;-webkit-appearance:none;appearance:none;}
+.form-input,.form-select{padding:0.85rem 1.1rem;height:50px;}
+.form-textarea{padding:0.9rem 1.1rem;height:130px;resize:none;line-height:1.65;}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.2);}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(129,140,248,0.5);background:rgba(255,255,255,0.08);box-shadow:0 0 0 3px rgba(129,140,248,0.1);}
 .form-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;cursor:pointer;}
 .form-select option{background:#1a1a2e;color:white;}
-.git-submit{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-top:0.5rem;width:100%;padding:1rem 2rem;border-radius:100px;background:white;border:none;color:#0a0a0a;font-family:'Anton',sans-serif;font-size:clamp(14px,2.5vw,17px);letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:transform 180ms ease,box-shadow 180ms ease;}
-.git-submit:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,255,255,0.18);}
+
+.git-submit{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-top:0.4rem;width:100%;padding:1.05rem 2rem;border-radius:100px;background:white;border:none;color:#0a0a0a;font-family:'Anton',sans-serif;font-size:clamp(14px,2.5vw,17px);letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:transform 180ms ease,box-shadow 180ms ease;}
+.git-submit:hover{transform:translateY(-3px);box-shadow:0 14px 44px rgba(255,255,255,0.2);}
 .git-submit:active{transform:scale(0.97);}
-.git-submit svg{width:18px;height:18px;stroke:#0a0a0a;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-.git-note{text-align:center;margin-top:1rem;font-size:12px;color:rgba(255,255,255,0.22);letter-spacing:0.04em;}
+.git-submit svg{width:17px;height:17px;stroke:#0a0a0a;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.git-note{text-align:center;margin-top:1.1rem;font-size:12px;color:rgba(255,255,255,0.2);letter-spacing:0.04em;}
+
+/* footer strip inside git section */
+.git-footer-strip{margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.git-footer-brand{font-family:'Anton',sans-serif;font-size:clamp(14px,2.5vw,18px);letter-spacing:0.06em;color:rgba(255,255,255,0.7);text-transform:uppercase;}
+.git-footer-socials{display:flex;gap:1.5rem;}
+.git-footer-link{font-size:0.8rem;color:rgba(255,255,255,0.35);text-decoration:none;transition:color 0.2s ease;letter-spacing:0.02em;}
+.git-footer-link:hover{color:#fff;}
+.git-footer-right{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:rgba(255,255,255,0.35);}
+.git-footer-dot{width:0.42rem;height:0.42rem;border-radius:50%;background:#4ade80;animation:pulse-dot 2s ease-in-out infinite;}
+@media(max-width:640px){.git-footer-strip{flex-direction:column;align-items:center;text-align:center;}}
+
 .git-decor{position:absolute;pointer-events:none;z-index:0;}
-.git-decor-ring{border-radius:50%;border:1px solid rgba(255,255,255,0.05);}
+.git-decor-ring{border-radius:50%;border:1px solid rgba(255,255,255,0.04);}
 </style>
 </head>
 <body>
@@ -375,23 +375,23 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;-webkit-tap-highlight-col
   </div>
 </section>
 
-<!-- OUR WORK -->
+<!-- CLIENT FEEDBACKS -->
 <section id="work-showcase">
   <div class="showcase-header">
-    <p class="section-eyebrow">Portfolio</p>
-    <h2 class="section-title">OUR <em>WORK</em></h2>
-    <p class="section-sub">A glimpse of what we've built for clients across the globe.</p>
+    <p class="section-eyebrow">Testimonials</p>
+    <h2 class="section-title">CLIENT <em>FEEDBACKS</em></h2>
+    <p class="section-sub">Real words from real clients who trusted us to build their digital presence.</p>
   </div>
   <div id="sw-scene">
     <div id="sw-stack">
-      <div class="sw-card sw-g0"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&q=80" alt="Nexus Co." loading="lazy"/><span class="sw-card-label">Static Website</span><p class="sw-card-name">Nexus Co.</p><p class="sw-card-caption">A bold agency site with zero load time and maximum impact.</p></div></div>
-      <div class="sw-card sw-g1"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&q=80" alt="GrowFast" loading="lazy"/><span class="sw-card-label">Landing Page</span><p class="sw-card-name">GrowFast</p><p class="sw-card-caption">High-converting SaaS page that tripled sign-ups in a week.</p></div></div>
-      <div class="sw-card sw-g2"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80" alt="Velora Store" loading="lazy"/><span class="sw-card-label">E-Commerce</span><p class="sw-card-name">Velora Store</p><p class="sw-card-caption">Luxury fashion storefront with seamless checkout and live inventory.</p></div></div>
-      <div class="sw-card sw-g3"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80" alt="DevHub" loading="lazy"/><span class="sw-card-label">Dynamic Web App</span><p class="sw-card-name">DevHub</p><p class="sw-card-caption">Real-time collaboration platform with auth and dashboards.</p></div></div>
-      <div class="sw-card sw-g4"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="Pulse Gym" loading="lazy"/><span class="sw-card-label">Website Redesign</span><p class="sw-card-name">Pulse Gym</p><p class="sw-card-caption">High-energy redesign that packed their booking calendar solid.</p></div></div>
-      <div class="sw-card sw-g5"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Aurum Finance" loading="lazy"/><span class="sw-card-label">Landing Page</span><p class="sw-card-name">Aurum Finance</p><p class="sw-card-caption">Clean, trust-building fintech page for investor outreach.</p></div></div>
-      <div class="sw-card sw-g6"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80" alt="Folio X" loading="lazy"/><span class="sw-card-label">Static Website</span><p class="sw-card-name">Folio X</p><p class="sw-card-caption">Minimal portfolio that landed a designer their first brand deal.</p></div></div>
-      <div class="sw-card sw-g7"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" alt="Orion Tech" loading="lazy"/><span class="sw-card-label">E-Commerce</span><p class="sw-card-name">Orion Tech</p><p class="sw-card-caption">Electronics marketplace with smart filters and lightning-fast search.</p></div></div>
+      <div class="sw-card sw-g0"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Ravi M." loading="lazy"/><span class="sw-card-label">Static Website</span><p class="sw-card-name">Ravi M.</p><p class="sw-card-caption">"The site went live in days and blew our expectations. Best investment we've made."</p></div></div>
+      <div class="sw-card sw-g1"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="Priya S." loading="lazy"/><span class="sw-card-label">Landing Page</span><p class="sw-card-name">Priya S.</p><p class="sw-card-caption">"Our leads tripled in the first week. The design just converts — no question about it."</p></div></div>
+      <div class="sw-card sw-g2"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&q=80" alt="Arjun T." loading="lazy"/><span class="sw-card-label">E-Commerce</span><p class="sw-card-name">Arjun T.</p><p class="sw-card-caption">"Professional, fast, and creative. They understood our brand better than we expected."</p></div></div>
+      <div class="sw-card sw-g3"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80" alt="Neha K." loading="lazy"/><span class="sw-card-label">Dynamic Web App</span><p class="sw-card-name">Neha K.</p><p class="sw-card-caption">"Complex features, zero drama. The team delivered exactly what we envisioned."</p></div></div>
+      <div class="sw-card sw-g4"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80" alt="Suresh P." loading="lazy"/><span class="sw-card-label">Website Redesign</span><p class="sw-card-name">Suresh P.</p><p class="sw-card-caption">"The redesign brought our old brand back to life. Bookings went through the roof."</p></div></div>
+      <div class="sw-card sw-g5"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80" alt="Meera D." loading="lazy"/><span class="sw-card-label">Landing Page</span><p class="sw-card-name">Meera D.</p><p class="sw-card-caption">"Clean, credible, and conversion-ready. Our investors were impressed on day one."</p></div></div>
+      <div class="sw-card sw-g6"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" alt="Karan V." loading="lazy"/><span class="sw-card-label">Portfolio Site</span><p class="sw-card-name">Karan V.</p><p class="sw-card-caption">"Got my first brand deal within a month of launching. This portfolio changed everything."</p></div></div>
+      <div class="sw-card sw-g7"><div class="sw-card-face"><img class="sw-card-img" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" alt="Ananya R." loading="lazy"/><span class="sw-card-label">E-Commerce</span><p class="sw-card-name">Ananya R.</p><p class="sw-card-caption">"Our store runs smoother than ever. Customers love the experience and keep coming back."</p></div></div>
     </div>
   </div>
   <p id="sw-counter"></p>
@@ -400,14 +400,14 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;-webkit-tap-highlight-col
     <div id="coverflow-clip">
       <div class="swiper coverflow-swiper" id="coverflow-swiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide cflow-bg-0" data-glow="rgba(196,72,0,0.55)"><img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=700&q=80" alt="Nexus Co." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Static Website</span><p class="cflow-name">Nexus Co.</p><p class="cflow-caption">A bold agency site with zero load time and maximum impact.</p></div></div>
-          <div class="swiper-slide cflow-bg-1" data-glow="rgba(0,153,51,0.5)"><img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&q=80" alt="GrowFast" loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Landing Page</span><p class="cflow-name">GrowFast</p><p class="cflow-caption">High-converting SaaS page that tripled sign-ups in a week.</p></div></div>
-          <div class="swiper-slide cflow-bg-2" data-glow="rgba(170,0,102,0.55)"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=700&q=80" alt="Velora Store" loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">E-Commerce</span><p class="cflow-name">Velora Store</p><p class="cflow-caption">Luxury fashion storefront with seamless checkout and live inventory.</p></div></div>
-          <div class="swiper-slide cflow-bg-3" data-glow="rgba(0,80,204,0.55)"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=700&q=80" alt="DevHub" loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Dynamic Web App</span><p class="cflow-name">DevHub</p><p class="cflow-caption">Real-time collaboration platform with auth and dashboards.</p></div></div>
-          <div class="swiper-slide cflow-bg-4" data-glow="rgba(204,34,0,0.55)"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=700&q=80" alt="Pulse Gym" loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Website Redesign</span><p class="cflow-name">Pulse Gym</p><p class="cflow-caption">High-energy redesign that packed their booking calendar solid.</p></div></div>
-          <div class="swiper-slide cflow-bg-5" data-glow="rgba(140,140,0,0.5)"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=700&q=80" alt="Aurum Finance" loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Landing Page</span><p class="cflow-name">Aurum Finance</p><p class="cflow-caption">Clean, trust-building fintech page for investor outreach.</p></div></div>
-          <div class="swiper-slide cflow-bg-6" data-glow="rgba(102,0,204,0.55)"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=700&q=80" alt="Folio X" loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Static Website</span><p class="cflow-name">Folio X</p><p class="cflow-caption">Minimal portfolio that landed a designer their first brand deal.</p></div></div>
-          <div class="swiper-slide cflow-bg-7" data-glow="rgba(0,136,85,0.5)"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=80" alt="Orion Tech" loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">E-Commerce</span><p class="cflow-name">Orion Tech</p><p class="cflow-caption">Electronics marketplace with smart filters and lightning-fast search.</p></div></div>
+          <div class="swiper-slide cflow-bg-0" data-glow="rgba(196,72,0,0.55)"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80" alt="Ravi M." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Static Website</span><p class="cflow-name">Ravi M.</p><p class="cflow-caption">"The site went live in days and blew our expectations. Best investment we've made."</p></div></div>
+          <div class="swiper-slide cflow-bg-1" data-glow="rgba(0,153,51,0.5)"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=700&q=80" alt="Priya S." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Landing Page</span><p class="cflow-name">Priya S.</p><p class="cflow-caption">"Our leads tripled in the first week. The design just converts — no question about it."</p></div></div>
+          <div class="swiper-slide cflow-bg-2" data-glow="rgba(170,0,102,0.55)"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=700&q=80" alt="Arjun T." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">E-Commerce</span><p class="cflow-name">Arjun T.</p><p class="cflow-caption">"Professional, fast, and creative. They understood our brand better than we expected."</p></div></div>
+          <div class="swiper-slide cflow-bg-3" data-glow="rgba(0,80,204,0.55)"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=700&q=80" alt="Neha K." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Dynamic Web App</span><p class="cflow-name">Neha K.</p><p class="cflow-caption">"Complex features, zero drama. The team delivered exactly what we envisioned."</p></div></div>
+          <div class="swiper-slide cflow-bg-4" data-glow="rgba(204,34,0,0.55)"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=700&q=80" alt="Suresh P." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Website Redesign</span><p class="cflow-name">Suresh P.</p><p class="cflow-caption">"The redesign brought our old brand back to life. Bookings went through the roof."</p></div></div>
+          <div class="swiper-slide cflow-bg-5" data-glow="rgba(140,140,0,0.5)"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=700&q=80" alt="Meera D." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Landing Page</span><p class="cflow-name">Meera D.</p><p class="cflow-caption">"Clean, credible, and conversion-ready. Our investors were impressed on day one."</p></div></div>
+          <div class="swiper-slide cflow-bg-6" data-glow="rgba(102,0,204,0.55)"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=700&q=80" alt="Karan V." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">Portfolio Site</span><p class="cflow-name">Karan V.</p><p class="cflow-caption">"Got my first brand deal within a month of launching. This portfolio changed everything."</p></div></div>
+          <div class="swiper-slide cflow-bg-7" data-glow="rgba(0,136,85,0.5)"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=700&q=80" alt="Ananya R." loading="lazy"/><div class="cflow-slide-info"><span class="cflow-label">E-Commerce</span><p class="cflow-name">Ananya R.</p><p class="cflow-caption">"Our store runs smoother than ever. Customers love the experience and keep coming back."</p></div></div>
         </div>
         <div class="swiper-pagination"></div>
       </div>
@@ -470,38 +470,6 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;-webkit-tap-highlight-col
   </a>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-      <span class="marquee-item">BUILDING THE FUTURE</span><span class="marquee-item">BUILDING THE FUTURE</span>
-    </div>
-  </div>
-  <div class="contact-inner">
-    <p class="contact-cta-label">Get in touch</p>
-    <h2 class="contact-heading">Let's work<br>together.</h2>
-    <a class="contact-email-btn" href="mailto:hello@codersverse.com">hello@codersverse.com ↗</a>
-    <div class="footer-bar">
-      <div class="footer-socials">
-        <a class="footer-social-link" href="#">Twitter</a>
-        <a class="footer-social-link" href="#">LinkedIn</a>
-        <a class="footer-social-link" href="#">Dribbble</a>
-        <a class="footer-social-link" href="#">GitHub</a>
-      </div>
-      <div class="footer-available"><div class="footer-dot"></div>Available for projects</div>
-    </div>
-  </div>
-</section>
-
 <!-- GET IN TOUCH FORM -->
 <section id="get-in-touch">
   <div class="git-decor git-decor-ring" style="width:500px;height:500px;top:-200px;right:-200px;"></div>
@@ -512,27 +480,39 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;-webkit-tap-highlight-col
       <h2 class="git-title">GET IN <em>TOUCH</em></h2>
       <p class="git-sub">Tell us about your project and we'll get back to you on WhatsApp within 24 hours.</p>
     </div>
-    <form class="git-form" id="git-form" onsubmit="handleSubmit(event)">
-      <div class="form-row">
-        <div class="form-field"><label class="form-label" for="git-name">Your Name</label><input class="form-input" id="git-name" type="text" placeholder="John Doe" required/></div>
-        <div class="form-field"><label class="form-label" for="git-email">Your Email</label><input class="form-input" id="git-email" type="email" placeholder="you@example.com" required/></div>
+    <div class="git-form-card">
+      <form class="git-form" id="git-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-field"><label class="form-label" for="git-name">Your Name</label><input class="form-input" id="git-name" type="text" placeholder="John Doe" required/></div>
+          <div class="form-field"><label class="form-label" for="git-email">Your Email</label><input class="form-input" id="git-email" type="email" placeholder="you@example.com" required/></div>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="git-type">Project Type</label>
+          <select class="form-select" id="git-type" required>
+            <option value="" disabled selected>Select a service…</option>
+            <option value="static">Website — Static</option>
+            <option value="dynamic">Website — Dynamic</option>
+            <option value="redesign">Website Redesign</option>
+            <option value="landing">Landing Page</option>
+            <option value="ecommerce">E-Commerce</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+        <div class="form-field"><label class="form-label" for="git-brief">Tell Us Briefly About Your Project</label><textarea class="form-textarea" id="git-brief" placeholder="Give us a short overview — what you need, your goals, any references you love…" required></textarea></div>
+        <button class="git-submit" type="submit">Send Message<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        <p class="git-note">We respond via WhatsApp — no spam, ever.</p>
+      </form>
+    </div>
+    <div class="git-footer-strip">
+      <div class="git-footer-brand">Coders Verse</div>
+      <div class="git-footer-socials">
+        <a class="git-footer-link" href="#">Twitter</a>
+        <a class="git-footer-link" href="#">LinkedIn</a>
+        <a class="git-footer-link" href="#">Dribbble</a>
+        <a class="git-footer-link" href="#">GitHub</a>
       </div>
-      <div class="form-field">
-        <label class="form-label" for="git-type">Project Type</label>
-        <select class="form-select" id="git-type" required>
-          <option value="" disabled selected>Select a service…</option>
-          <option value="static">Website — Static</option>
-          <option value="dynamic">Website — Dynamic</option>
-          <option value="redesign">Website Redesign</option>
-          <option value="landing">Landing Page</option>
-          <option value="ecommerce">E-Commerce</option>
-          <option value="others">Others</option>
-        </select>
-      </div>
-      <div class="form-field"><label class="form-label" for="git-brief">Tell Us Briefly About Your Project</label><textarea class="form-textarea" id="git-brief" placeholder="Give us a short overview — what you need, your goals, any references you love…" required></textarea></div>
-      <button class="git-submit" type="submit">Send Message<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-      <p class="git-note">We respond via WhatsApp — no spam, ever.</p>
-    </form>
+      <div class="git-footer-right"><div class="git-footer-dot"></div>Available for projects</div>
+    </div>
   </div>
 </section>
 
